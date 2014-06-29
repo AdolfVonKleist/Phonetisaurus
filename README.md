@@ -1,9 +1,18 @@
-README.txt
+README.md
 
 AUTHOR: Josef Robert Novak
 CONTACT:
   jorono@yandex-team.ru
   josef.robert.novak@gmail.com
+
+----------
+See the gh-pages for details
+
+http://josefnovak.github.io/Phonetisaurus
+
+2014-06-10
+Added a toy decoder to illustrate direct decoding with a 
+joint sequence RNNLM.  Slow but it works.
 
 2014-04-13
 Added some simple bindings and test scripts for RNNLM.  
