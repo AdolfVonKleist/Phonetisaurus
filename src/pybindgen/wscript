@@ -1,0 +1,19 @@
+## -*- python -*-
+
+def build(bld):
+    
+    obj = bld.new_task_gen('py')
+    obj.source = obj.path.ant_glob('*.py')
+    obj.source.append('version.py')
+    obj.install_path = '${PYTHONDIR}/pybindgen'
+    obj.prio = 50
+
+    obj = bld.new_task_gen('py')
+    obj.source = obj.path.ant_glob('typehandlers/*.py')
+    obj.install_path = '${PYTHONDIR}/pybindgen/typehandlers'
+    obj.prio = 50
+
+    obj = bld.new_task_gen('py')
+    obj.source = obj.path.ant_glob('typehandlers/ctypeparser/*.py')
+    obj.install_path = '${PYTHONDIR}/pybindgen/typehandlers/ctypeparser'
+    obj.prio = 50
