@@ -21,3 +21,9 @@ src/rnnlm.direct$
 *.pyc
 phonetisaurus.egg-info/
 rnnlm.egg-info/
+*.fst
+*.o
+*.so
+bin/
+lib/
+*-binding.cc
