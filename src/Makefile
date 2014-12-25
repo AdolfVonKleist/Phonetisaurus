@@ -74,6 +74,7 @@ OBJS=util.o ARPA2WFST.o rnnlmlib.o FstPathFinder.o LatticePruner.o \
 
 all: mkdirs phonetisaurus-align phonetisaurus-arpa2wfst-omega \
 	rnnlm-binding phonetisaurus-binding
+#	rnnlm-binding phonetisaurus-binding
 
 mkdirs: 
 	mkdir -p $(BINDIR) $(LIBDIR) $(PYLIB) $(RNNPY)
@@ -101,7 +102,7 @@ $(RNNPY)/RnnLM.so: $(RNNSONAME) RnnLMPy-binding.o util.o
 	touch $(RNNPY)/__init__.py
 
 $(LIBDIR)/librnnlm.so: RnnLMPy-binding.o util.o
-	$(CC) -Wl,-soname,librnnlm.so.0 util.o -shared -lfst RnnLMPy-binding.o \
+	$(CC) -Wl,-soname,librnnlm.so.0 -shared -lfst RnnLMPy-binding.o \
 	rnnlmlib.o -I. -o $(LIBDIR)/librnnlm.so -O3 -fPIC -funroll-loops -ffast-math -lm util.o
 	cd $(LIBDIR); ln -s librnnlm.so librnnlm.so.0; cd -;
 

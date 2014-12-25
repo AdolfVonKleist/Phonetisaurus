@@ -1601,7 +1601,7 @@ void CRnnLM::trainNet()
 
             if (word!=-1) logp+=log10(neu2[vocab[word].class_index+vocab_size].ac * neu2[word].ac);
     	    
-    	    if ((logp!=logp) || (isinf(logp))) {
+    	    if ((logp!=logp) || (isinf((int)logp))) {
     	        printf("\nNumerical error %d %f %f\n", word, neu2[word].ac, neu2[vocab[word].class_index+vocab_size].ac);
     	        exit(1);
     	    }
