@@ -146,10 +146,10 @@ Phonetisaurus-binding.cc: phonetisaurus-module.py
 
 #Installation
 install: all
-	install -c $(BINDIR)/phonetisaurus-align $(INSTALLBIN)/phonetisaurus-align
-	install -c $(BINDIR)/phonetisaurus-arpa2wfst-omega $(INSTALLBIN)/phonetisaurus-arpa2wfst-omega
-	install -c $(LIBDIR)/$(G2PSONAME) $(INSTALLLIB)/$(G2PSONAME)
-	install -c $(LIBDIR)/$(RNNSONAME) $(INSTALLLIB)/$(RNNSONAME)
+	install -c $(BINDIR)/phonetisaurus-align $(INSTALLBIN)/
+	install -c $(BINDIR)/phonetisaurus-arpa2wfst-omega $(INSTALLBIN)/
+	install -c $(G2PSONAME) $(INSTALLLIB)/
+	install -c $(RNNSONAME) $(INSTALLLIB)/
 
 clean: clean-bindings
 	$(RM) $(OUT) $(TMP) *.o

@@ -164,26 +164,32 @@ def print_nbest (scores, index=1) :
     print "#################"
     print ""
 
+def LoadWordList (infile) :
+    words = []
+    with open (infile, "r") as ifp :
+        for word in ifp :
+            words.append (word.strip ())
+    return words
 
 if __name__ == "__main__" :
     import sys, argparse, math
 
-    example = "USAGE: {0} --word test --nbest 5 --model ru_RU_general".\
+    example = "USAGE: {0} --word TEST --model app-id".\
               format (sys.argv[0])
     parser  = argparse.ArgumentParser (description = example)
-    parser.add_argument ("--word",    "-w", help="Input word for evaluation.", 
-                         required=True)
+    group   = parser.add_mutually_exclusive_group (required=True)
+    group.add_argument ("--word",    "-w", help="Input word for evaluation.")
+    group.add_argument ("--word_list", "-wl", help="Input word list for eval.")
+    
     parser.add_argument ("--models",   "-m", 
                          help="Models to try the server with.", 
                          required=True, action="append")
     parser.add_argument ("--nbest",   "-n", help="N-best for G2P", 
-                         default=5, type=int)
+                         default=1, type=int)
     parser.add_argument ("--prune",   "-p", help="Pruning threshold for G2P", 
                          default=10., type=float)
     parser.add_argument ("--band",    "-b", help="Band threshold for G2P", 
                          default=500, type=int)
-    parser.add_argument ("--lambdas", "-l", help="Interpolation weights for rescoring.", 
-                         default=".25,.25,.25,.25")
     parser.add_argument ("--ip_address", "-ip", help="Server IP address.", 
                          default="localhost")
     parser.add_argument ("--port", "-pt", help="Server port.", 
@@ -196,11 +202,13 @@ if __name__ == "__main__" :
         for k,v in args.__dict__.iteritems ():
             print k, "=", v
 
-    lambdas = [ float(l) for l in args.lambdas.split(",") ]
-
     client  = NGramClient (host=args.ip_address, socket=args.port)
 
+    words = [args.word] if args.word else LoadWordList (args.word_list)
+
     for model in args.models :
-        response  = client.G2PRequest ([args.word], model, args.nbest, args.band, args.prune)
-        print response [model][0][0]["pron"]
+        response  = client.G2PRequest (words, model, args.nbest, args.band, args.prune)
+        for index, word in enumerate (response [model]) :
+            for pron in word :
+                print "{0}\t{1}".format (words [index], pron ["pron"])
     

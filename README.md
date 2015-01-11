@@ -1,14 +1,95 @@
 README.md
+=========
 
 AUTHOR: Josef Robert Novak
+
 CONTACT:
-  jorono@yandex-team.ru
   josef.robert.novak@gmail.com
 
-----------
-See the gh-pages for details
+NOTE:
+-----
+The installation instructions below have been tested on
+Ubuntu 14.04.  Changes will probably be required still for
+compilation on OSX.
 
-http://josefnovak.github.io/Phonetisaurus
+DEPENDENCIES
+------------
+### python 2.7+: ###
+
+ - python headers and twisted infrastructure:
+
+        $ sudo apt-get install python-dev python-twisted
+
+
+### Modules: ###
+ - OpenFst (v1.4+):
+
+        $ wget http://openfst.org/twiki/pub/FST/FstDownload/openfst-1.4.1.tar.gz
+        $ tar -xvzf openfst-1.4.1.tar.gz
+	$ cd openfst-1.4.1
+        $ ./configure --enable-compact-fsts --enable-const-fsts \
+           --enable-far --enable-lookahead-fsts --enable-pdt --ngram-fsts
+        $ sudo make install
+
+ - OpenGrm (1.2+):
+
+        $ wget http://openfst.cs.nyu.edu/twiki/pub/GRM/NGramDownload/opengrm-ngram-1.2.1.tar.gz
+	$ tar -xvzf opengrm-ngram-1.2.1.tar.gz
+	$ cd opengrm-ngram-1.2.1
+        $ ./configure
+        $ sudo make install
+
+
+INSTALL
+-------
+After installing the dependencies it should be sufficient to build the module.
+```
+$ cd src
+$ make -j 4
+$ sudo make install
+$ cd ..
+$ sudo python setup.py install
+```
+
+TEST
+----
+Test the installation with the example CMU dict model.
+```
+$ cd script/
+$ wget https://www.dropbox.com/s/vlmlfq52rpbkniv/cmu-eg.me-kn.8g.arpa.gz?dl=0 -O test.arpa.gz
+$ gunzip test.arpa.gz
+$ phonetisaurus-arpa2wfst-omega --lm=test.arpa --ofile=test.fst
+
+# Start the twisted service.  NOTE: run with '-noy' to run in foreground.
+$ twistd -y g2pservice.tac
+
+# Actually run the client
+# NOTE: '-m app-id' should be a model available
+#       to the server.  This is configured with the
+#       'phonetisaurus-config.json' config file.
+$ ./g2p-client.py -m app-id -w TEST
+TEST T EH S T
+$ ./g2p-client.py -m app-id -w TEST -n 3
+TEST T EH S T
+TEST T AH S T
+TEST T IH S T
+
+# Run with a word list
+$ ./g2p-client.py -m app-id -wl wordlist -n 2
+TEST              T EH S T
+TEST              T AH S T
+BRING             B R IH NG
+BRING             B ER IH NG
+EVALUATE          IH V AE L Y UW EY T
+EVALUATE          IY V AE L Y UW EY T
+
+# Shutdown the twisted server
+$ kill -9 `cat twistd.pid`
+```
+
+
+LEGACY STUFF:
+---------
 
 2014-06-10
 Added a toy decoder to illustrate direct decoding with a 
