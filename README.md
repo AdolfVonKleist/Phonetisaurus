@@ -26,16 +26,16 @@ DEPENDENCIES
 
         $ wget http://openfst.org/twiki/pub/FST/FstDownload/openfst-1.4.1.tar.gz
         $ tar -xvzf openfst-1.4.1.tar.gz
-	$ cd openfst-1.4.1
+        $ cd openfst-1.4.1
         $ ./configure --enable-compact-fsts --enable-const-fsts \
-           --enable-far --enable-lookahead-fsts --enable-pdt --ngram-fsts
+            --enable-far --enable-lookahead-fsts --enable-pdt --ngram-fsts
         $ sudo make install
 
  - OpenGrm (1.2+):
 
         $ wget http://openfst.cs.nyu.edu/twiki/pub/GRM/NGramDownload/opengrm-ngram-1.2.1.tar.gz
-	$ tar -xvzf opengrm-ngram-1.2.1.tar.gz
-	$ cd opengrm-ngram-1.2.1
+        $ tar -xvzf opengrm-ngram-1.2.1.tar.gz
+        $ cd opengrm-ngram-1.2.1
         $ ./configure
         $ sudo make install
 
