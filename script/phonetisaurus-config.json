@@ -1,0 +1,13 @@
+{
+    "main" :
+    { 
+	"port": 8111,
+	"ip_address": "localhost"
+    },
+
+    "app-id" :
+    {
+	"path": "test.fst",
+	"type": "g2pfst"
+    }
+}

@@ -41,25 +41,27 @@ class NGramClient ( ) :
      for the NGramServer.  This is some real bare-bones
      stuff right here.
     """
+    
     def __init__ (self, host='localhost', socket=8000) :
         self.host   = host
         self.socket = socket
         self.conn  = self._setup ( )
 
     def _setup (self) :
-        conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        conn = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
         conn.connect((self.host, self.socket))
         return conn
 
     def _teardown (self) :
         self.conn.close()
 
-    def G2PRequest (self, words, nbest=1, band=500, prune=10.) :
+    def G2PRequest (self, words, mname, nbest=1, band=500, prune=10.) :
         """
          An example request builder for the G2P server.
         """
         request_dict = {
-            'g2p' : 
+            "model": mname,
+            'params' : 
             {
                 'words' : words, 
                 'nbest' : nbest,
@@ -69,13 +71,24 @@ class NGramClient ( ) :
         }
                  
         request  = json.dumps (request_dict)
+        req_size = struct.pack ("!L", len (request))
+        
+        result   = self.conn.send (req_size)
         result   = self.conn.send (request)
         data     = self.conn.recv (4)
         size     = struct.unpack ("!L", data)[0]
-        data     = self.conn.recv (size)
-        response = json.loads (data)
-
-        return response
+        data     = ""
+        # Keep going until we hit the target
+        while len (data) < size :
+            data += self.conn.recv (size - len (data))
+            
+        try :
+            response = json.loads (data)
+            return response
+        except :
+            print "Expected len:", size
+            print "Got len:", len (data)
+            raise ValueError ("Incorrect JSON.")
 
     def ARPARequest (self, sents) :
         """
@@ -155,16 +168,28 @@ def print_nbest (scores, index=1) :
 if __name__ == "__main__" :
     import sys, argparse, math
 
-    example = "USAGE: {0} --word TESTING --nbest 5 --lambdas '.7,.25,.05'".format(sys.argv[0])
+    example = "USAGE: {0} --word test --nbest 5 --model ru_RU_general".\
+              format (sys.argv[0])
     parser  = argparse.ArgumentParser (description = example)
-    parser.add_argument ("--word",    "-w", help="Input word for evaluation.", required=True)
-    parser.add_argument ("-models",   "-m", help="Models to try the server with.", default="g2p,arpa,rnnlm")
-    parser.add_argument ("--nbest",   "-n", help="N-best for G2P", default=5, type=int)
-    parser.add_argument ("--prune",   "-p", help="Pruning threshold for G2P", default=10., type=float)
-    parser.add_argument ("--band",    "-b", help="Band threshold for G2P", default=500, type=int)
+    parser.add_argument ("--word",    "-w", help="Input word for evaluation.", 
+                         required=True)
+    parser.add_argument ("--models",   "-m", 
+                         help="Models to try the server with.", 
+                         required=True, action="append")
+    parser.add_argument ("--nbest",   "-n", help="N-best for G2P", 
+                         default=5, type=int)
+    parser.add_argument ("--prune",   "-p", help="Pruning threshold for G2P", 
+                         default=10., type=float)
+    parser.add_argument ("--band",    "-b", help="Band threshold for G2P", 
+                         default=500, type=int)
     parser.add_argument ("--lambdas", "-l", help="Interpolation weights for rescoring.", 
                          default=".25,.25,.25,.25")
-    parser.add_argument ("--verbose", "-v", help="Verbose mode.", default=False, action="store_true")
+    parser.add_argument ("--ip_address", "-ip", help="Server IP address.", 
+                         default="localhost")
+    parser.add_argument ("--port", "-pt", help="Server port.", 
+                         default=8111, type=int)
+    parser.add_argument ("--verbose", "-v", help="Verbose mode.", 
+                         default=False, action="store_true")
     args = parser.parse_args ()
 
     if args.verbose :
@@ -173,34 +198,9 @@ if __name__ == "__main__" :
 
     lambdas = [ float(l) for l in args.lambdas.split(",") ]
 
-    client  = NGramClient ()
+    client  = NGramClient (host=args.ip_address, socket=args.port)
 
-    print "Raw G2P:"
-    response  = client.G2PRequest ([args.word], args.nbest, args.band, args.prune)
-    print json.dumps(response, 
-                     separators=(',', ':'), 
-                     sort_keys=True,
-                     indent=2)
-    rescores  = []
-
-    def DoOneARPA (joint) :
-        print joint
-        arpar = client.ARPARequest ([joint])
-        print -arpar['arpa'][0]['total'] * math.log(10)
-        for chunk in  arpar['arpa'][0]['scores']:
-            print "{0}\t{1:.4f}\t{2}".format (chunk[0], -chunk[1]*math.log(10), chunk[2])        
-
-    def DoOneRnnLM (joint) :
-        print joint
-        arpar = client.RnnLMRequest ([joint])
-        print -arpar['rnnlm'][0]['total'] * math.log(10)
-        for chunk in  arpar['rnnlm'][0]['scores']:
-            print "{0}\t{1:.4f}".format (chunk[0], -chunk[1]*math.log(10))        
-
-    #DoOneARPA (response['g2p'][0][0]['joint'])
-    print "\nPhoneme-only ARPA:"
-    DoOneARPA  (response['g2p'][0][0]['pron'])
-
-    print "\nG2P RnnLM:"
-    DoOneRnnLM (response['g2p'][0][0]['joint'])
-
+    for model in args.models :
+        response  = client.G2PRequest ([args.word], model, args.nbest, args.band, args.prune)
+        print response [model][0][0]["pron"]
+    

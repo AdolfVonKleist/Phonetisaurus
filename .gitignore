@@ -27,3 +27,4 @@ rnnlm.egg-info/
 bin/
 lib/
 *-binding.cc
+nohup.out
