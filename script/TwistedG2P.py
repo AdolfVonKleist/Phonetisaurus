@@ -118,25 +118,28 @@ class NgramServer (Protocol):
             Nothing: Calls requestReceived () 
         """
         if self.req_size == None :
-            self.req_size = struct.unpack ("!L", data [0:4]) [0] - 4
-            if len (self.__data) + len (data) - 4 < self.req_size :
+            self.req_size = struct.unpack ("!L", data [0:4]) [0]
+            if len (self.__data) + len (data) < self.req_size :
                 self.__data += data [4:]
             else :
                 self.__data += data [4:]
                 self.requestReceived (self.__data)
+                self.__data = ""
+                self.req_size = None
         else :
             if len (self.__data) + len (data) < self.req_size :
                 self.__data += data
             else :
                 self.__data += data
                 self.requestReceived (self.__data)
+                self.__data = ""
+                self.req_size = None
 
     def requestReceived (self, data) :
         """
          Compute the probability of the requested sentence
          using the requested G2P model.
         """
-        
         request  = json.loads (data)
         response = {"Errors": []}
         # Check that the user requested a model
