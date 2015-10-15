@@ -2,6 +2,8 @@
 =========
 
 Phonetisaurus G2P
+#### !WARNING: In Flux! ####
+A lot of things are changing.
 
 CONTACT: phonetisaurus@gmail.com
 
