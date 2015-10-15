@@ -22,7 +22,5 @@ rnnlm.egg-info/
 *.fst
 *.o
 *.so
-bin/
-lib/
 *-binding.cc
 nohup.out
