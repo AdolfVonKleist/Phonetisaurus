@@ -39,12 +39,12 @@ CC=g++
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-LIBS=-lfst -ldl -lm -Wall -Wno-sign-compare
+LIBS=-lfst -ldl -lm -Wall -Wno-sign-compare -Wno-unused-local-typedefs
 endif
 
 ifeq ($(UNAME), Linux)
 LIBS=-lfst -ldl -lm -lrt
-CC=g++ -std=c++0x -Wall -Wno-sign-compare
+CC=g++ -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
 endif
 
 
@@ -84,12 +84,12 @@ rnnlm: $(BINDIR)/rnnlm
 #General stuff
 $(BINDIR)/phonetisaurus-align: $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o $(LIBDIR)/FstPathFinder.o
-	$(CC) $(EXTRA) $(LIBS) -I$(ROOT) $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
+	$(CC) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) -I$(ROOT) $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o $(LIBDIR)/FstPathFinder.o bin/phonetisaurus-align.cc \
 	-o $(BINDIR)/phonetisaurus-align $(LIBS)
 
 $(BINDIR)/phonetisaurus-arpa2wfst: $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o
-	$(CC) $(EXTRA) $(LIBS) $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o \
+	$(CC) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o \
 	-I$(ROOT) bin/phonetisaurus-arpa2wfst.cc -L$(OPENFST_LDFLAGS) \
 	-o $(BINDIR)/phonetisaurus-arpa2wfst $(LIBS)
 
@@ -132,5 +132,6 @@ test:
 
 #Cleanup
 clean: 
-	$(RM) $(OUT) $(TMP)
+	$(RM) $(OUT) $(TMP) .autoconf/config.log \
+	.autoconf/config.status .autoconf/autom4te.cache/
 

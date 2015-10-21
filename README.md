@@ -8,18 +8,31 @@ A lot of things are changing.
 CONTACT: phonetisaurus@gmail.com
 
 ### Dependencies: ###
-  * OpenFst
+  * OpenFst (Prefer >= 1.4)
 
-### Build [Linux]: ###
+### Basic Build [Linux]: ###
+Use the existing setup.  This should be fine for more linux installations.
 ```
- # $ ./configure [coming soon!]
  $ cd src/
- $ make -j all
+ $ ./configure
+ $ make
+```
+
+Use a special location for OpenFst, parallel build with 2 cores
+```
+ $ ./configure --with-openfst-libs=/home/ubuntu/openfst-1.4.1/lib \
+          --with-openfst-includes=/home/ubuntu/openfst-1.4.1/include
+ $ make -j 2 all
 ```
 
 ### Install [Linux]: ###
 ```
  $ sudo make install
+```
+
+### Uninstall [Linux]: ###
+```
+ $ sudo make uninstall
 ```
 
 ### Usage: ###

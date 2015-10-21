@@ -110,8 +110,8 @@ AS_IF([test -n "`grep 'CyclicMinimizer(const ExpandedFst<A>& fst):' \
 Did you apply the Kaldi OpenFst patch?  Might be problematic when using with Kaldi.])])
 
 
-AC_CONFIG_FILES([Makefile:autoconf/Makefile.in])
+AC_CONFIG_FILES([Makefile:.autoconf/Makefile.in])
 AC_OUTPUT
 
-mv config.log autoconf/config.log
-mv config.status autoconf/config.status
+mv config.log .autoconf/config.log
+mv config.status .autoconf/config.status

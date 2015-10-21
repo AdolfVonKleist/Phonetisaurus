@@ -4610,7 +4610,7 @@ Did you apply the Kaldi OpenFst patch?  Might be problematic when using with Kal
 fi
 
 
-ac_config_files="$ac_config_files Makefile:autoconf/Makefile.in"
+ac_config_files="$ac_config_files Makefile:.autoconf/Makefile.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -5317,7 +5317,7 @@ cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
 for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
-    "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile:autoconf/Makefile.in" ;;
+    "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile:.autoconf/Makefile.in" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -5768,5 +5768,5 @@ $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
 
-mv config.log autoconf/config.log
-mv config.status autoconf/config.status
+mv config.log .autoconf/config.log
+mv config.status .autoconf/config.status
