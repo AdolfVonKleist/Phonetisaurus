@@ -24,3 +24,8 @@ rnnlm.egg-info/
 *.so
 *-binding.cc
 nohup.out
+src/autoconf/autom4te.cache
+src/autoconf/config.log
+src/autoconf/config.status
+src/autoconf/configure
+src/Makefile
