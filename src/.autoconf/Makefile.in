@@ -39,11 +39,20 @@ CC=g++
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-LIBS=-lfst -ldl -lm -Wall -Wno-sign-compare -Wno-unused-local-typedefs
+ #Check if we have actual GCC or a 'fake'.  If we have the real thing,
+ # then compile with OpenMP support
+ REALGCC=$(shell g++ --version 2>&1 | grep -i LLVM)
+ ifeq ($(REALGCC), )
+  LIBS += -fopenmp
+ else
+  CFLAGS ?= -DFAKEGCC
+ endif
+ LIBS += -lfst -lm -ldl 
+ CC=g++ -std=c++0x -Wall -Wno-sign-compare
 endif
 
 ifeq ($(UNAME), Linux)
-LIBS=-lfst -ldl -lm -lrt
+LIBS=-lfst -ldl -lm -lrt -fopenmp
 CC=g++ -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
 endif
 
@@ -52,7 +61,7 @@ OUT =: $(OBJS) $(BINDIR)/phonetisaurus-align $(BINDIR)/phonetisaurus-arpa2wfst \
 	$(BINDIR)/phonetisaurus-g2prnn $(BINDIR)/rnnlm
 
 CFLAGS ?= -O2     
-THIRD_PARTIES_INCLUDE ?= -I3rdparty/sparsehash -I3rdparty/utfcpp \
+THIRD_PARTIES_INCLUDE ?= -I3rdparty/utfcpp \
 	-I3rdparty/rnnlm -I$(OPENFST_CXXFLAGS)
 
 EXTRA := $(CFLAGS) $(THIRD_PARTIES_INCLUDE) $(CXXFLAGS) $(CPPFLAGS)
@@ -97,7 +106,7 @@ $(BINDIR)/phonetisaurus-g2prnn: $(LIBDIR)/rnnlmlib.o bin/phonetisaurus-g2prnn.cc
 	include/RnnLMDecoder.h include/LegacyRnnLMDecodable.h $(LIBDIR)/util.o
 	$(CC) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -I3rdparty/rnnlm -I3rdparty/utfcpp \
 	-funroll-loops -I$(ROOT) -ffast-math $(LIBDIR)/util.o $(LIBDIR)/rnnlmlib.o \
-	bin/phonetisaurus-g2prnn.cc -fopenmp -o bin/phonetisaurus-g2prnn $(LIBS)
+	bin/phonetisaurus-g2prnn.cc -o bin/phonetisaurus-g2prnn $(LIBS)
 
 #RNNLM library
 bin/rnnlm: $(BINDIR)/rnnlm.cc $(LIBDIR)/rnnlmlib.o
@@ -132,6 +141,6 @@ test:
 
 #Cleanup
 clean: 
-	$(RM) $(OUT) $(TMP) .autoconf/config.log \
+	$(RM) -r $(OUT) $(TMP) .autoconf/config.log \
 	.autoconf/config.status .autoconf/autom4te.cache/
 

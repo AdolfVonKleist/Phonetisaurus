@@ -253,7 +253,7 @@ DEFINE_bool(   restrict,     true,  "Restrict links to M-1, 1-N during initializ
 int main( int argc, char* argv[] ){
   string usage = "phonetisaurus-align dictionary aligner.\n\n Usage: ";
   set_new_handler (FailedNewHandler);
-  PhonetisaurusSetFlags (usage.c_str(), &argc, &argv, false );
+  PhonetisaurusSetFlags (usage.c_str(), &argc, &argv, false);
   M2MFstAligner aligner;
   if( FLAGS_load_model==true ){
     aligner = *(new M2MFstAligner( FLAGS_model_file, FLAGS_penalize, FLAGS_penalize_em, FLAGS_restrict ));

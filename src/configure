@@ -4527,10 +4527,18 @@ fi
 
 
 #First check OpenFst is actually there
-if test ! -e "$with_openfst_libs""/libfst.so"; then :
+if test -e "$with_openfst_libs""/libfst.so"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found basic OpenFst installation." >&5
+$as_echo "Found basic OpenFst installation." >&6; }
+else
+  if test -e "$with_openfst_libs""/libfst.dylib"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found basic OSX OpenFst installation." >&5
+$as_echo "Found basic OSX OpenFst installation." >&6; }
+else
   as_fn_error $? "OpenFst libs not found: \
---with-openfst-libs=$with_openfst_libs \
- Did you specify --with-openfst-libs?" "$LINENO" 5
+		    --with-openfst-libs=$with_openfst_libs \
+		     Did you specify --with-openfst-libs?" "$LINENO" 5
+fi
 fi
 #Test all the extensions - tell the user how it *should* be compiled
 #	    -a -e "$with_openfst_libs/fst/libfstpdtscript.so" \
@@ -4542,10 +4550,19 @@ if test -e "$with_openfst_libs/fst/libfstconst.so" \
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found all required OpenFst extensions." >&5
 $as_echo "Found all required OpenFst extensions." >&6; }
 else
+  if test -e "$with_openfst_libs/fst/libfstconst.dylib" \
+	                 -a -e "$with_openfst_libs/fst/libfstfar.dylib" \
+			 -a -e "$with_openfst_libs/fst/libfstngram.dylib" \
+			 -a -e "$with_openfst_libs/fst/libfstlookahead.dylib" \
+			 -a -e "$with_openfst_libs/fst/libfstlinearscript.dylib"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found all required OSX OpenFst extensions." >&5
+$as_echo "Found all required OSX OpenFst extensions." >&6; }
+else
   as_fn_error $? "Can't find one or more extensions.  OpenFst should \
-have been configured with the following flags: \
---enable-static --enable-shared --enable-far --enable-lookahead-fsts \
---enable-const-fsts --enable-pdt --enable-ngram-fsts --enable-linear-fsts" "$LINENO" 5
+			 have been configured with the following flags: \
+			 --enable-static --enable-shared --enable-far --enable-lookahead-fsts \
+			 --enable-const-fsts --enable-pdt --enable-ngram-fsts --enable-linear-fsts" "$LINENO" 5
+fi
 fi
 
 #Set the default install directories

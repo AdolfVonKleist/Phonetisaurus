@@ -48,10 +48,13 @@ AC_ARG_WITH([openfst-libs],
 	echo "Set default OpenFst libs: $default_openfst_libs"])
 AC_SUBST([OPENFST_LDFLAGS])
 #First check OpenFst is actually there
-AS_IF([test ! -e "$with_openfst_libs""/libfst.so"],
-	    [AC_MSG_ERROR([OpenFst libs not found: \
---with-openfst-libs=$with_openfst_libs \
- Did you specify --with-openfst-libs?])])
+AS_IF([test -e "$with_openfst_libs""/libfst.so"],
+	    [AC_MSG_RESULT([Found basic OpenFst installation.])],
+	    [AS_IF([test -e "$with_openfst_libs""/libfst.dylib"],
+	    	    [AC_MSG_RESULT([Found basic OSX OpenFst installation.])],
+	    	    [AC_MSG_ERROR([OpenFst libs not found: \
+		    --with-openfst-libs=$with_openfst_libs \
+		     Did you specify --with-openfst-libs?])])])
 #Test all the extensions - tell the user how it *should* be compiled
 #	    -a -e "$with_openfst_libs/fst/libfstpdtscript.so" \
 AS_IF([test -e "$with_openfst_libs/fst/libfstconst.so" \
@@ -60,10 +63,16 @@ AS_IF([test -e "$with_openfst_libs/fst/libfstconst.so" \
 	    -a -e "$with_openfst_libs/fst/libfstlookahead.so" \
  	    -a -e "$with_openfst_libs/fst/libfstlinearscript.so"],
 	    [AC_MSG_RESULT([Found all required OpenFst extensions.])],
-	    [AC_MSG_ERROR([Can't find one or more extensions.  OpenFst should \
-have been configured with the following flags: \
---enable-static --enable-shared --enable-far --enable-lookahead-fsts \
---enable-const-fsts --enable-pdt --enable-ngram-fsts --enable-linear-fsts])])
+	    [AS_IF([test -e "$with_openfst_libs/fst/libfstconst.dylib" \
+	                 -a -e "$with_openfst_libs/fst/libfstfar.dylib" \
+			 -a -e "$with_openfst_libs/fst/libfstngram.dylib" \
+			 -a -e "$with_openfst_libs/fst/libfstlookahead.dylib" \
+			 -a -e "$with_openfst_libs/fst/libfstlinearscript.dylib"],
+			 [AC_MSG_RESULT([Found all required OSX OpenFst extensions.])],
+			 [AC_MSG_ERROR([Can't find one or more extensions.  OpenFst should \
+			 have been configured with the following flags: \
+			 --enable-static --enable-shared --enable-far --enable-lookahead-fsts \
+			 --enable-const-fsts --enable-pdt --enable-ngram-fsts --enable-linear-fsts])])])
 
 #Set the default install directories
 default_install_bin=/usr/local/bin

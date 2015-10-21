@@ -5,7 +5,9 @@
 #include <include/RnnLMDecoder.h>
 #include <include/util.h>
 #include "utf8.h"
-#include <omp.h>
+#ifndef __GNUC__
+  #include <omp.h>
+#endif
 using namespace fst;
 
 template<class H>
@@ -148,9 +150,9 @@ int main (int argc, char* argv []) {
     cout << "--rnnlm and --test are required!" << endl;
     exit (1);
   }
-    
+#ifndef __GNUC__    
   omp_set_num_threads (FLAGS_threads);
-
+#endif
   vector<vector<string> > corpus;
 
   LoadTestSet (FLAGS_test, FLAGS_gsep, &corpus, FLAGS_reverse);

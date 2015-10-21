@@ -75,7 +75,7 @@ M2MFstAligner::M2MFstAligner (bool _seq1_del, bool _seq2_del,
   isyms->AddSymbol( model_params );
   total     = LogWeight::Zero();
   prevTotal = LogWeight::Zero();
-  penalties.set_empty_key(0);
+  //penalties.set_empty_key(0);
 }
 
 M2MFstAligner::M2MFstAligner (string _model_file, bool _penalize, 
@@ -89,7 +89,7 @@ M2MFstAligner::M2MFstAligner (string _model_file, bool _penalize,
   restrict    = _restrict;
   penalize    = _penalize;
   penalize_em = _penalize_em;
-  penalties.set_empty_key(0);
+  //penalties.set_empty_key(0);
   VectorFst<LogArc>* model = VectorFst<LogArc>::Read( _model_file );
   for( StateIterator<VectorFst<LogArc> > siter(*model); !siter.Done(); siter.Next() ){
     LogArc::StateId q = siter.Value();

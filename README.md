@@ -11,7 +11,8 @@ CONTACT: phonetisaurus@gmail.com
   * OpenFst (Prefer >= 1.4)
 
 ### Basic Build [Linux]: ###
-Use the existing setup.  This should be fine for more linux installations.
+Use the existing setup.  This should be fine for most Linux distributions
+as well as newer versions of OSX.
 ```
  $ cd src/
  $ ./configure

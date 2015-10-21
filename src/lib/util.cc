@@ -153,6 +153,11 @@ timespec diff(timespec start, timespec end){
 DEFINE_bool   (help, false, "show usage information");
 void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 			    bool remove_flags) {
+  //Workaround for Apple's fake GCCs. Don't know why LLVM doesn't work.
+  //It just skips all the options processing. 
+#ifdef FAKEGCC
+  SetFlags (usage, argc, argv, remove_flags);
+#else
   int index = 1;
   for (; index < *argc; ++index) {
     string argval = (*argv)[index];
@@ -164,7 +169,7 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 
     string arg = argval;
     string val = "";
-
+    
     // split argval (arg=val) into arg and val
     size_t pos = argval.find("=");
     if (pos != string::npos) {
@@ -175,7 +180,7 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 
     FlagRegister<bool> *bool_register =
       FlagRegister<bool>::GetRegister();
-    if (bool_register->SetFlag(arg, val))
+    if (bool_register->SetFlag(arg, val)) 
       continue;
     FlagRegister<string> *string_register =
       FlagRegister<string>::GetRegister();
@@ -193,10 +198,10 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
       FlagRegister<double>::GetRegister();
     if (double_register->SetFlag(arg, val))
       continue;
-
+    
     LOG(FATAL) << "SetFlags: Bad option: " << (*argv)[index];
   }
-
+  
   if (FLAGS_help) {
     //Just show program flags - NOT general OpenFst flags
     // There are too many and they are just confusing.
@@ -221,10 +226,13 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
          ++it) {
       const string &file = it->first;
       const string &usage = it->second;
-      if (file.compare ("flags.cc") == 0 || file.compare ("fst.cc") == 0 \
+      
+      //if (file.compare ("flags.cc") == 0 || file.compare ("fst.cc") == 0 
+      if (file.compare ("fst.cc") == 0 \
           || file.compare ("symbol-table.cc") == 0 || \
           file.compare ("util.cc") == 0)
         continue;
+      
       //Else print out the args - they are from the actual program
       cout << usage << endl;
     }
@@ -233,4 +241,5 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
     cout << "  show usage information" << endl;
     exit(1);
   }
+#endif
 }
