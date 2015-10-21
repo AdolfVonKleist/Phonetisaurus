@@ -10,7 +10,7 @@ CONTACT: phonetisaurus@gmail.com
 ### Dependencies: ###
   * OpenFst (Prefer >= 1.4)
 
-### Basic Build [Linux]: ###
+### Basic Build [Linux/OSX]: ###
 Use the existing setup.  This should be fine for most Linux distributions
 as well as newer versions of OSX.
 ```
@@ -24,6 +24,14 @@ Use a special location for OpenFst, parallel build with 2 cores
  $ ./configure --with-openfst-libs=/home/ubuntu/openfst-1.4.1/lib \
           --with-openfst-includes=/home/ubuntu/openfst-1.4.1/include
  $ make -j 2 all
+```
+####Rebuild configure####
+If you need to rebuild the configure script you can do so:
+```
+ $ cd .autoconf
+ $ autoconf -o ../configure
+ $ cd ../
+ $ make -j2 all
 ```
 
 ### Install [Linux]: ###
