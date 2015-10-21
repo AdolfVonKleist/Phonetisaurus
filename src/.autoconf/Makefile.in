@@ -35,32 +35,32 @@ INSTALL_LIB = @INSTALL_LIB@
 OPENFST_CXXFLAGS = @OPENFST_CXXFLAGS@
 OPENFST_LDFLAGS  = @OPENFST_LDFLAGS@
 
-CC=g++
+CXX = @CXX@
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
  #Check if we have actual GCC or a 'fake'.  If we have the real thing,
  # then compile with OpenMP support
- REALGCC=$(shell g++ --version 2>&1 | grep -i LLVM)
+ REALGCC=$(shell $(CXX) --version 2>&1 | grep -i LLVM)
  ifeq ($(REALGCC), )
   LIBS += -fopenmp
- else
-  CFLAGS ?= -DFAKEGCC
+  CXX += -Wno-unused-local-typedefs
  endif
+ CFLAGS ?= -DDARWIN
  LIBS += -lfst -lm -ldl 
- CC=g++ -std=c++0x -Wall -Wno-sign-compare
+ CXX += -std=c++0x -Wall -Wno-sign-compare
 endif
 
 ifeq ($(UNAME), Linux)
 LIBS=-lfst -ldl -lm -lrt -fopenmp
-CC=g++ -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
+CXX += -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
 endif
 
 
 OUT =: $(OBJS) $(BINDIR)/phonetisaurus-align $(BINDIR)/phonetisaurus-arpa2wfst \
 	$(BINDIR)/phonetisaurus-g2prnn $(BINDIR)/rnnlm
 
-CFLAGS ?= -O2     
+CFLAGS += -O2     
 THIRD_PARTIES_INCLUDE ?= -I3rdparty/utfcpp \
 	-I3rdparty/rnnlm -I$(OPENFST_CXXFLAGS)
 
@@ -77,7 +77,7 @@ OBJS  := $(LIBDIR)/util.o \
 
 vpath %.cc $(LIBDIR)/
 $(LIBDIR)/%.o: %.cc
-	$(CC) $(EXTRA) $(CFLAGS) -I. -c $(<) -o $(@)
+	$(CXX) $(EXTRA) -I. -c $(<) -o $(@)
 
 all: phonetisaurus-align phonetisaurus-arpa2wfst phonetisaurus-g2prnn rnnlm
 
@@ -93,28 +93,28 @@ rnnlm: $(BINDIR)/rnnlm
 #General stuff
 $(BINDIR)/phonetisaurus-align: $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o $(LIBDIR)/FstPathFinder.o
-	$(CC) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) -I$(ROOT) $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
+	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) -I$(ROOT) $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o $(LIBDIR)/FstPathFinder.o bin/phonetisaurus-align.cc \
 	-o $(BINDIR)/phonetisaurus-align $(LIBS)
 
 $(BINDIR)/phonetisaurus-arpa2wfst: $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o
-	$(CC) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o \
+	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o \
 	-I$(ROOT) bin/phonetisaurus-arpa2wfst.cc -L$(OPENFST_LDFLAGS) \
 	-o $(BINDIR)/phonetisaurus-arpa2wfst $(LIBS)
 
 $(BINDIR)/phonetisaurus-g2prnn: $(LIBDIR)/rnnlmlib.o bin/phonetisaurus-g2prnn.cc \
 	include/RnnLMDecoder.h include/LegacyRnnLMDecodable.h $(LIBDIR)/util.o
-	$(CC) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -I3rdparty/rnnlm -I3rdparty/utfcpp \
+	$(CXX) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -I3rdparty/rnnlm -I3rdparty/utfcpp \
 	-funroll-loops -I$(ROOT) -ffast-math $(LIBDIR)/util.o $(LIBDIR)/rnnlmlib.o \
 	bin/phonetisaurus-g2prnn.cc -o bin/phonetisaurus-g2prnn $(LIBS)
 
 #RNNLM library
 bin/rnnlm: $(BINDIR)/rnnlm.cc $(LIBDIR)/rnnlmlib.o
-	$(CC) $(EXTRA) -std=c++0x -I. -funroll-loops -ffast-math -lm -w \
+	$(CXX) $(EXTRA) -std=c++0x -I. -funroll-loops -ffast-math -lm -w \
 	$(LIBDIR)/rnnlmlib.o -o bin/rnnlm $(BINDIR)/rnnlm.cc
 
 $(LIBDIR)/rnnlmlib.o: 3rdparty/rnnlm/rnnlmlib.cpp 3rdparty/rnnlm/rnnlmlib.h
-	$(CC) $(EXTRA) -std=c++0x -I. -lfst -lm -ldl \
+	$(CXX) $(EXTRA) -std=c++0x -I. -lfst -lm -ldl \
 	-funroll-loops -ffast-math -lm -w -c 3rdparty/rnnlm/rnnlmlib.cpp \
 	-o $(LIBDIR)/rnnlmlib.o
 

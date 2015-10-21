@@ -153,9 +153,8 @@ timespec diff(timespec start, timespec end){
 DEFINE_bool   (help, false, "show usage information");
 void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 			    bool remove_flags) {
-  //Workaround for Apple's fake GCCs. Don't know why LLVM doesn't work.
-  //It just skips all the options processing. 
-#ifdef FAKEGCC
+  //Workaround for Apple's. It just skips all the options processing. 
+#ifdef DARWIN
   SetFlags (usage, argc, argv, remove_flags);
 #else
   int index = 1;
