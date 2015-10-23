@@ -1,5 +1,5 @@
 /*
- arpa-to-wfsa.cpp
+ phonetisaurus-arpa2wfst.cc
 
  Copyright (c) [2012-], Josef Robert Novak
  All rights reserved.
@@ -34,37 +34,36 @@
 
 using namespace fst;
 
-DEFINE_string( lm,          "",  "Input ARPA format LM." );
-DEFINE_string( eps,    "<eps>",  "Epsilon symbol." );
-DEFINE_string( sb,       "<s>",  "Sentence begin token." );
-DEFINE_string( se,      "</s>",  "Sentence end token." );
-DEFINE_string( split,      "}",  "Character separating grapheme/phoneme info." );
-DEFINE_string( skip,       "_",  "Character indicating insertions/deletions." );
-DEFINE_string( tie,        "|",  "Character separating multi-token subsequences." );
-DEFINE_string( ofile,       "",  "Output file for writing. (STDOUT)" );
+DEFINE_string (lm, "", "Input ARPA format LM.");
+DEFINE_string (eps, "<eps>", "Epsilon symbol.");
+DEFINE_string (sb, "<s>", "Sentence begin token.");
+DEFINE_string (se, "</s>", "Sentence end token.");
+DEFINE_string (split, "}", "Character separating grapheme/phoneme info.");
+DEFINE_string (skip, "_", "Character indicating insertions/deletions.");
+DEFINE_string (tie, "|", "Character separating multi-token subsequences.");
+DEFINE_string (ofile, "", "Output file for writing. (STDOUT)");
 
-int main( int argc, char* argv[] ){
+int main (int argc, char* argv []) {
   string usage = "arpa2wfsa - Transform an ARPA LM into an "
     "equivalent WFSA.\n\n Usage: ";
-  set_new_handler(FailedNewHandler);
-  PhonetisaurusSetFlags(usage.c_str(), &argc, &argv, false );
+  set_new_handler (FailedNewHandler);
+  PhonetisaurusSetFlags (usage.c_str(), &argc, &argv, false);
 
-  if( FLAGS_lm.compare("")==0 ){
+  if (FLAGS_lm.compare ("") == 0) {
     cerr << "You must supply an ARPA format lm "
       "to --lm for conversion!" << endl;
     return 0;
   }
     
   cerr << "Initializing..." << endl;
-  ARPA2WFST* converter = new ARPA2WFST( 
-    FLAGS_lm, FLAGS_eps, FLAGS_sb, FLAGS_se, 
-    FLAGS_split, FLAGS_skip, FLAGS_tie
-    );
+  ARPA2WFST* converter = new ARPA2WFST (FLAGS_lm, FLAGS_eps, FLAGS_sb, 
+					FLAGS_se, FLAGS_split, FLAGS_skip, 
+					FLAGS_tie);
   cerr << "Converting..." << endl;
-  converter->arpa_to_wfst( );
+  converter->arpa_to_wfst ();
   
-  converter->arpafst.Write(FLAGS_ofile);
+  converter->arpafst.Write (FLAGS_ofile);
   delete converter;
 
-  return 1;
+  return 0;
 }

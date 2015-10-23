@@ -47,55 +47,58 @@ string itoas( int i ){
   return ostring.str();
 }
 
-vector<string> tokenize_utf8_string( string* utf8_string, string* delimiter ) {
+vector<string> tokenize_utf8_string (string* utf8_string, string* delimiter) {
   /*
-     Support for tokenizing a utf-8 string. Adapted to also support a delimiter.
-     Note that leading, trailing or multiple consecutive delimiters will result in 
-     empty vector elements.  Normally should not be a problem but just in case.
-     Also note that any tokens that cannot be found in the model symbol table will be
+     Support for tokenizing a utf-8 string. Adapted to also 
+     support a delimiter. Note that leading, trailing or multiple 
+     consecutive delimiters will result in empty vector elements.  
+     Normally should not be a problem but just in case. Also note 
+     that any tokens that cannot be found in the model symbol table will be
      deleted from the input word prior to grapheme-to-phoneme conversion.
 
-     http://stackoverflow.com/questions/2852895/c-iterate-or-split-utf-8-string-into-array-of-symbols#2856241
+     http://stackoverflow.com/questions/2852895/c-iterate-or-split-\
+      utf-8-string-into-array-of-symbols#2856241
   */
-  char* str   = (char*)utf8_string->c_str(); // utf-8 string
-  char* str_i = str;                         // string iterator
+  char* str   = (char*) utf8_string->c_str (); // utf-8 string
+  char* str_i = str;                           // string iterator
   char* str_j = str;
-  char* end   = str+strlen(str)+1;           // end iterator
+  char* end   = str + strlen (str) + 1;        // end iterator
   vector<string> string_vec;
-  if( delimiter->compare("") != 0 )
-    string_vec.push_back("");
+  if (delimiter->compare ("") != 0)
+    string_vec.push_back ("");
 
   do {
     str_j = str_i;
-    utf8::uint32_t code = utf8::next(str_i, end); // get 32 bit code of a utf-8 symbol
+    utf8::uint32_t code = utf8::next (str_i, end); // get 32 bit code
     if (code == 0)
       continue;
-    int start = strlen(str) - strlen(str_j);
-    int end   = strlen(str) - strlen(str_i);
+    int start = strlen (str) - strlen (str_j);
+    int end   = strlen (str) - strlen (str_i);
     int len   = end - start;
       
-    if( delimiter->compare("")==0 ){
-      string_vec.push_back( utf8_string->substr(start,len) );
-    }else{
-      if( delimiter->compare(utf8_string->substr(start,len))==0 )
-        string_vec.push_back("");
+    if (delimiter->compare ("") == 0) {
+      string_vec.push_back (utf8_string->substr (start,len));
+    } else {
+      if (delimiter->compare (utf8_string->substr (start, len)) == 0)
+        string_vec.push_back ("");
       else
-        string_vec[string_vec.size()-1] += utf8_string->substr(start,len);
+        string_vec [string_vec.size () - 1] += utf8_string->substr (start, len);
     }
-  } while ( str_i < end );
+  } while (str_i < end);
   
   return string_vec;
 }
 
 
-vector<string> tokenize_entry(string* testword, string* sep, SymbolTable* syms ){
-  vector<string> tokens = tokenize_utf8_string( testword, sep );
+vector<string> tokenize_entry (string* testword, string* sep, 
+			       SymbolTable* syms) {
+  vector<string> tokens = tokenize_utf8_string (testword, sep);
   vector<string> entry;
-  for( unsigned int i=0; i<tokens.size(); i++ ){
-    if( syms->Find(tokens.at(i)) != -1 ){
-      entry.push_back(tokens.at(i));
+  for (unsigned int i=0; i<tokens.size (); i++) {
+    if (syms->Find (tokens.at (i)) != -1) {
+      entry.push_back (tokens.at (i));
     }else{
-      cerr << "Symbol: '" << tokens.at(i)
+      cerr << "Symbol: '" << tokens.at (i)
            << "' not found in input symbols table." << endl
            << "Mapping to null..." << endl;
     }
@@ -104,7 +107,8 @@ vector<string> tokenize_entry(string* testword, string* sep, SymbolTable* syms )
   return entry;
 }
 
-vector<int> tokenize2ints (string* testword, string* sep, const SymbolTable* syms) {
+vector<int> tokenize2ints (string* testword, string* sep, 
+			   const SymbolTable* syms) {
   vector<string> tokens = tokenize_utf8_string (testword, sep);
   vector<int> entry;
   for (unsigned int i=0; i<tokens.size(); i++) {
@@ -206,7 +210,7 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
     // There are too many and they are just confusing.
     std::set< pair<string, string> > usage_set;
 
-    cout << usage << "\n";
+    cout << usage << "xxx\n";
 
     FlagRegister<bool> *bool_register = FlagRegister<bool>::GetRegister();
     bool_register->GetUsage(&usage_set);
@@ -241,4 +245,36 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
     exit(1);
   }
 #endif
+}
+
+void LoadWordList (const std::string& filename,
+                  std::string& gsep,
+                  std::vector<std::vector<std::string> >* corpus,
+                  bool rev = false) {
+  std::ifstream ifp (filename.c_str ());
+  std::string line;
+
+  if (ifp.is_open ()) {
+    while (ifp.good ()) {
+      getline (ifp, line);
+      if (line.empty ())
+        continue;
+
+      std::vector<string> words = tokenize_utf8_string (&line, &gsep);
+
+      if (rev == true)
+        reverse (words.begin (), words.end ());
+
+      words.push_back ("</s>");
+      corpus->push_back (words);
+    }
+    ifp.close ();
+  }
+}
+
+void Split (const std::string& s, char delim, std::vector<std::string>& elems) {
+  std::stringstream ss (s);
+  std::string item;
+  while (getline (ss, item, delim))
+    elems.push_back (item);
 }

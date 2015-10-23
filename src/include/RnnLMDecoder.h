@@ -4,6 +4,7 @@
 #include <fst/fstlib.h>
 #include <include/LegacyRnnLMDecodable.h>
 #include <include/LegacyRnnLMHash.h>
+#include <include/util.h>
 #include <vector>
 #include <unordered_set>
 
@@ -14,6 +15,7 @@ using fst::StdArc;
 using fst::Heap;
 using std::vector;
 using std::unordered_set;
+
 
 class Token {
  public:
@@ -97,20 +99,72 @@ class TokenPointerCompare {
   }
 };
 
-struct Chunk {
+class Chunk {
  public:
   Chunk (int word, double cost, double total) 
     : w (word), c (cost), t (total) { }
   int w;
   double c;
   double t;
+  template<class H>
+  vector<string> Tokenize (char gpdelim, char gdelim, H& h, 
+			   bool graphemes=false) const {
+    vector<string> gp_elems;
+    Split (h.vocab_[w].word, gpdelim, gp_elems);
+    vector<string> elems;
+    if (graphemes == true)
+      Split (gp_elems [0], gdelim, elems);
+    else if (gp_elems.size () == 2)
+      Split (gp_elems [1], gdelim, elems);
+    return elems;
+  }
 };
+
+class SimpleResult {
+ public:
+  SimpleResult (string word, vector<double> scores,
+		vector<string> pronunciations)
+    : word (word), scores (scores), pronunciations (pronunciations) { }
+  
+  SimpleResult () { }
+
+  string word;
+  vector<double> scores;
+  vector<string> pronunciations;
+};
+
+/*Standalone function for convenience*/
+template<class H>
+VectorFst<StdArc> WordToRnnLMFst (const vector<string>& word, H& h) {
+  VectorFst<StdArc> fst;
+  fst.AddState ();
+  fst.SetStart (0);
+  for (int i = 0; i < word.size (); i++) {
+    int hash = h.HashInput (word.begin () + i,
+			      word.begin () + i + 1);
+    fst.AddState ();
+    fst.AddArc (i, StdArc (hash, hash, StdArc::Weight::One(), i + 1));
+  }
+
+  for (int i = 0; i < word.size (); i++) {
+    for (int j = 2; j <= 3; j++) {
+      if (i + j <= word.size ()) {
+	int hash = h.HashInput (word.begin () + i, word.begin () + i + j);
+	if (h.imap.find (hash) != h.imap.end ())
+	  fst.AddArc (i, StdArc (hash, hash, StdArc::Weight::One (), i + j));
+      }
+    }
+  }
+  fst.SetFinal (word.size (), StdArc::Weight::One ());
+    
+  return fst;
+}
 
 template <class D>
 class RnnLMDecoder {
  public:
   typedef D Decodable;
-  typedef vector<vector<Chunk> > Results;
+  typedef vector<vector<Chunk> > RawResults;
   typedef Heap<Token*, TokenPointerCompare, false> Queue;
   typedef unordered_set<Token, TokenHash, TokenCompare> TokenSet;
 
@@ -124,7 +178,68 @@ class RnnLMDecoder {
     return 0.0;
   }
 
-  Results Decode (VectorFst<StdArc>& fst, int beam, int kMax, int nbest) {
+  VectorFst<StdArc> WordToRnnLMFst (const vector<string>& word) {
+    VectorFst<StdArc> fst;
+    fst.AddState ();
+    fst.SetStart (0);
+    for (int i = 0; i < word.size (); i++) {
+      int hash = d.h.HashInput (word.begin () + i,
+			      word.begin () + i + 1);
+      fst.AddState ();
+      fst.AddArc (i, StdArc (hash, hash, StdArc::Weight::One(), i + 1));
+    }
+
+    for (int i = 0; i < word.size (); i++) {
+      for (int j = 2; j <= 3; j++) {
+	if (i + j <= word.size ()) {
+	  int hash = d.h.HashInput (word.begin () + i, word.begin () + i + j);
+	  if (d.h.imap.find (hash) != d.h.imap.end ())
+	    fst.AddArc (i, StdArc (hash, hash, StdArc::Weight::One (), i + j));
+	}
+      }
+    }
+    fst.SetFinal (word.size (), StdArc::Weight::One ());
+    
+    return fst;
+  }
+
+  SimpleResult Decode (const vector<string>& word, int beam, int kMax,
+		     int nbest, double thresh, const string& gpdelim,
+		     const string& gdelim, const string& skip) {
+    RawResults raw_results = DecodeRaw (word, beam, kMax, nbest, thresh);
+    SimpleResult simple_result;
+    stringstream word_ss;
+    for (int i = 0; i < word.size (); i++)
+      if (i != word.size () - 1)
+	word_ss << word [i];
+    simple_result.word = word_ss.str ();
+    
+    for (int i = 0; i < raw_results.size (); i++) {
+      const vector<Chunk>& result = raw_results [i];
+      stringstream pronunciation_ss;
+      for (vector<Chunk>::const_iterator it = result.begin ();
+	   it != result.end (); ++it) {
+	vector<string> chunk_vec = \
+	  it->Tokenize<LegacyRnnLMHash> ((char)*gpdelim.c_str (),
+					 (char)*gdelim.c_str (), d.h);
+	for (int j = 0; j < chunk_vec.size (); j++) {
+	  if (chunk_vec [j].compare (skip) != 0)
+	    pronunciation_ss << chunk_vec [j];
+	  if (! (it == result.end () && j != chunk_vec.size () - 1))
+	    pronunciation_ss << " ";
+	}
+	if (it+1 == result.end ())
+	  simple_result.scores.push_back (it->t);
+      }
+      simple_result.pronunciations.push_back (pronunciation_ss.str ());
+    }
+
+    return simple_result;
+  }
+
+  RawResults DecodeRaw (const vector<string>& word, int beam, int kMax, 
+			int nbest, double thresh=0.0) {
+    VectorFst<StdArc> fst = WordToRnnLMFst (word);
     for (int i = 0; i < sQueue.size (); i++)
       sQueue [i].Clear ();
     sQueue.resize (fst.NumStates () + 1);
@@ -139,6 +254,10 @@ class RnnLMDecoder {
 	Token* top = sQueue [s].Pop ();
 	if (fst.Final (top->state) != StdArc::Weight::Zero ()) {
 	  Token* a = (Token*)&(*top);
+	  if (n > 0 && thresh > 0.0)
+	    if (a->total - results [0][results [0].size () - 1].t > thresh)
+	      break;
+	  
 	  vector<Chunk> result;
 	  while (a->prev != NULL) {
 	    result.push_back (Chunk (a->word, a->weight, a->total));
@@ -190,7 +309,7 @@ class RnnLMDecoder {
     return results;
   }
 
-  Results  results;
+  RawResults  results;
 
 
  private:

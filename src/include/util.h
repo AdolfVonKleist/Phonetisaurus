@@ -47,7 +47,8 @@ string itoas (int i);
 
 vector<string> tokenize_utf8_string (string* utf8_string, string* delimiter);
 
-vector<string> tokenize_entry (string* testword, string* sep, SymbolTable* syms);
+vector<string> tokenize_entry (string* testword, string* sep, 
+			       SymbolTable* syms);
 
 vector<int> tokenize2ints (string* word, string* sep, const SymbolTable* syms);
 
@@ -57,4 +58,12 @@ timespec diff (timespec start, timespec end);
 
 void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 			    bool remove_flags);
+
+void LoadWordList (const std::string& filename,
+		   std::string& gsep,
+		   std::vector<std::vector<std::string> >* corpus,
+		   bool rev);
+
+void Split (const std::string& s, char delim, std::vector<std::string>& elems);
+
 #endif //UTIL_H //
