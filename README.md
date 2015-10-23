@@ -25,6 +25,15 @@ Use a special location for OpenFst, parallel build with 2 cores
           --with-openfst-includes=/home/ubuntu/openfst-1.4.1/include
  $ make -j 2 all
 ```
+
+Use custom g++ under OSX (note: OpenFst must also be compiled with this
+custom g++ alternative)
+```
+ $ ./configure --with-openfst-libs=/home/osx/openfst-1.4.1gcc/lib \
+          --with-openfst-includes=/home/osx/openfst-1.4.1gcc/include \
+	  CXX=g++-4.9
+ $ make -j 2 all
+```
 ####Rebuild configure####
 If you need to rebuild the configure script you can do so:
 ```

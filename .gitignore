@@ -8,7 +8,7 @@
 bin/phonetisaurus-align$
 bin/phonetisaurus-arpa2wfst$
 bin/phonetisaurus-g2p$
-bin/phonetisaurus-g2p-omega$
+bin/phonetisaurus-g2prnn$
 .*\.pyc$
 models/
 .*\.egg-info/
