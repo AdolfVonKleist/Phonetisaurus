@@ -60,9 +60,7 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 			    bool remove_flags);
 
 void LoadWordList (const std::string& filename,
-		   std::string& gsep,
-		   std::vector<std::vector<std::string> >* corpus,
-		   bool rev);
+		   std::vector<std::string>* corpus);
 
 void Split (const std::string& s, char delim, std::vector<std::string>& elems);
 

@@ -66,8 +66,7 @@ If you need to rebuild the configure script you can do so:
 ```
  $ bin/phonetisaurus-g2prnn --help
 ```
-#### phonetisaurus-g2p ####
+#### phonetisaurus-g2pfst ####
 ```
- #Coming back soon!
- # $ bin/phonetisaurus-g2p --help
+ $ bin/phonetisaurus-g2pfst --help
 ```

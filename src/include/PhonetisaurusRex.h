@@ -36,16 +36,16 @@
 #ifndef PHONETISAURUS_REX_H__
 #define PHONETISAURUS_REX_H__
 #include <fst/fstlib.h>
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
-#include <tr1/functional>
-#include "util.h"
+#include <unordered_map>
+#include <unordered_set>
+#include <functional>
+#include <include/util.h>
 using namespace fst;
 
 struct VectorIntHash {
   size_t operator () (const vector<int>& v) const {
     size_t result = 0;
-    tr1::hash<int> hash_fn;
+    hash<int> hash_fn;
 
     for (size_t i = 0; i < v.size(); i++)
       result ^= hash_fn (v[i]) + 0x9e3779b9 + (result << 6) 
@@ -63,9 +63,9 @@ inline bool operator==(const vector<int>& x, const vector<int>& y) {
   return true;
 }
 
-typedef tr1::unordered_map<int, vector<int> > SymbolMap12M;
-typedef tr1::unordered_map<vector<int>, int, VectorIntHash> SymbolMapM21;
-typedef tr1::unordered_set<int> VetoSet;
+typedef unordered_map<int, vector<int> > SymbolMap12M;
+typedef unordered_map<vector<int>, int, VectorIntHash> SymbolMapM21;
+typedef unordered_set<int> VetoSet;
 
 int LoadClusters (const SymbolTable* syms, SymbolMap12M* clusters,
 		  SymbolMapM21* invclusters) {
@@ -153,7 +153,7 @@ template <class Arc>
 class IdentityPathFilter {
  public:
   IdentityPathFilter () {}
-  tr1::unordered_map<vector<int>, Path, VectorIntHash> path_map;
+  unordered_map<vector<int>, Path, VectorIntHash> path_map;
   vector<vector<int> > ordered_paths;
 
   void Extend (Path* path, const Arc& arc) {
@@ -177,7 +177,7 @@ class M2MPathFilter {
  public:
   M2MPathFilter (const SymbolMap12M& label_map, const VetoSet& veto_set) 
     : label_map_(label_map), veto_set_(veto_set) { }
-  tr1::unordered_map<vector<int>, Path, VectorIntHash> path_map;
+  unordered_map<vector<int>, Path, VectorIntHash> path_map;
   vector<vector<int> > ordered_paths;
 
   void Extend (Path* path, const Arc& arc) {
@@ -206,14 +206,14 @@ class M2MPathFilter {
 
 
 template<class Arc, class RevArc, class PathFilter>
-void NShortestPathSpecialized(const Fst<RevArc> &ifst,
+void NShortestPathSpecialized (const Fst<RevArc> &ifst,
 		   MutableFst<Arc> *ofst,
                    const vector<typename Arc::Weight> &distance,
                    size_t beam,
   	           size_t nbest,
 		   PathFilter* path_filter,
                    float delta = kDelta,
-                   typename Arc::Weight weight_threshold = Arc::Weight::Zero(),
+                   typename Arc::Weight weight_threshold = Arc::Weight::Zero (),
 		   typename Arc::StateId state_threshold = kNoStateId) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Weight Weight;
@@ -221,16 +221,16 @@ void NShortestPathSpecialized(const Fst<RevArc> &ifst,
   //typedef typename RevArc::Weight RevWeight;
 
   if (nbest <= 0) return;
-  if ((Weight::Properties() & (kPath | kSemiring)) != (kPath | kSemiring)) {
+  if ((Weight::Properties () & (kPath | kSemiring)) != (kPath | kSemiring)) {
     FSTERROR() << "NShortestPath: Weight needs to have the "
 	       << "path property and be distributive: "
-	       << Weight::Type();
-    ofst->SetProperties(kError, kError);
+	       << Weight::Type ();
+    ofst->SetProperties (kError, kError);
     return;
   }
-  ofst->DeleteStates();
-  ofst->SetInputSymbols(ifst.InputSymbols());
-  ofst->SetOutputSymbols(ifst.OutputSymbols());
+  ofst->DeleteStates ();
+  ofst->SetInputSymbols (ifst.InputSymbols ());
+  ofst->SetOutputSymbols (ifst.OutputSymbols ());
   // Each state in 'ofst' corresponds to a path with weight w from the
   // initial state of 'ifst' to a state s in 'ifst', that can be
   // characterized by a pair (s,w).  The vector 'pairs' maps each
@@ -249,38 +249,38 @@ void NShortestPathSpecialized(const Fst<RevArc> &ifst,
   // paths computed so far to 's'. Valid for 's == -1' (superfinal).
   vector<int> r;
   NaturalLess<Weight> less;
-  if (ifst.Start() == kNoStateId ||
-      distance.size() <= ifst.Start() ||
-      distance[ifst.Start()] == Weight::Zero() ||
-      less(weight_threshold, Weight::One()) ||
+  if (ifst.Start () == kNoStateId ||
+      distance.size () <= ifst.Start () ||
+      distance [ifst.Start ()] == Weight::Zero () ||
+      less (weight_threshold, Weight::One ()) ||
       state_threshold == 0) {
-    if (ifst.Properties(kError, false)) ofst->SetProperties(kError, kError);
+    if (ifst.Properties (kError, false)) ofst->SetProperties (kError, kError);
     return;
   }
-  ofst->SetStart(ofst->AddState());
-  StateId final = ofst->AddState();
-  ofst->SetFinal(final, Weight::One());
-  while (pairs.size() <= final)
-    pairs.push_back(Pair(kNoStateId, Weight::Zero()));
-  pairs[final] = Pair(ifst.Start(), Weight::One());
-  heap.push_back(final);
-  Weight limit = Times(distance[ifst.Start()], weight_threshold);
+  ofst->SetStart (ofst->AddState ());
+  StateId final = ofst->AddState ();
+  ofst->SetFinal(final, Weight::One ());
+  while (pairs.size () <= final)
+    pairs.push_back (Pair (kNoStateId, Weight::Zero ()));
+  pairs [final] = Pair (ifst.Start(), Weight::One ());
+  heap.push_back (final);
+  Weight limit = Times (distance [ifst.Start ()], weight_threshold);
 
   // Treat 'n' like a beam. npaths contains target number of unique paths
-  while (!heap.empty()) {
-    pop_heap(heap.begin(), heap.end(), compare);
-    StateId state = heap.back();
-    Pair p = pairs[state];
-    heap.pop_back();
-    Weight d = p.first == superfinal ? Weight::One() :
-      p.first < distance.size() ? distance[p.first] : Weight::Zero();
+  while (!heap.empty ()) {
+    pop_heap (heap.begin (), heap.end (), compare);
+    StateId state = heap.back ();
+    Pair p = pairs [state];
+    heap.pop_back ();
+    Weight d = p.first == superfinal ? Weight::One () :
+      p.first < distance.size () ? distance [p.first] : Weight::Zero ();
 
-    if (less(limit, Times(d, p.second)) ||
+    if (less (limit, Times (d, p.second)) ||
         (state_threshold != kNoStateId &&
-         ofst->NumStates() >= state_threshold))
+         ofst->NumStates () >= state_threshold))
       continue;
 
-    while (r.size() <= p.first + 1) r.push_back(0);
+    while (r.size () <= p.first + 1) r.push_back (0);
     ++r[p.first + 1];
 
     // This is extended to 'filter' for unique paths based
@@ -290,62 +290,62 @@ void NShortestPathSpecialized(const Fst<RevArc> &ifst,
     // by avoiding determinization ensures that ngram-weights 
     // will not be moved or smeared
     if (p.first == superfinal) {
-      ofst->AddArc(ofst->Start(), Arc(0, 0, Weight::One(), state));
+      ofst->AddArc(ofst->Start (), Arc (0, 0, Weight::One (), state));
       StateId tstate = state;
       Path one_path;
-      while (ofst->Final(tstate) == Weight::Zero()) {
-	for (ArcIterator<Fst<Arc> > aiter(*ofst, tstate); 
-	     !aiter.Done(); aiter.Next()) {
-	  const Arc& tarc = aiter.Value();
+      while (ofst->Final (tstate) == Weight::Zero ()) {
+	for (ArcIterator<Fst<Arc> > aiter (*ofst, tstate); 
+	     !aiter.Done (); aiter.Next ()) {
+	  const Arc& tarc = aiter.Value ();
 	  tstate = tarc.nextstate;
 	  path_filter->Extend (&one_path, tarc);
 	}
       }
 
       if (path_filter->path_map.find (one_path.unique_olabels) 
-	  == path_filter->path_map.end()) {
+	  == path_filter->path_map.end ()) {
 	path_filter->path_map.insert(
-	  pair<vector<int>, Path>(one_path.unique_olabels, one_path));
+	  pair<vector<int>, Path> (one_path.unique_olabels, one_path));
 	path_filter->ordered_paths.push_back (one_path.unique_olabels);
 
-	if (path_filter->ordered_paths.size() >= nbest)
+	if (path_filter->ordered_paths.size () >= nbest)
 	  break;
       }
     }
 
-    if ((p.first == superfinal) && (r[p.first + 1] == beam)) 
+    if ((p.first == superfinal) && (r [p.first + 1] == beam)) 
       break;
 
-    if (r[p.first + 1] > beam) continue;
+    if (r [p.first + 1] > beam) continue;
     if (p.first == superfinal) continue;
-    for (ArcIterator< Fst<RevArc> > aiter(ifst, p.first);
-         !aiter.Done();
-         aiter.Next()) {
+    for (ArcIterator< Fst<RevArc> > aiter (ifst, p.first);
+         !aiter.Done ();
+         aiter.Next ()) {
       const RevArc &rarc = aiter.Value();
-      Arc arc(rarc.ilabel, rarc.olabel, rarc.weight.Reverse(), rarc.nextstate);
-      Weight w = Times(p.second, arc.weight);
-      StateId next = ofst->AddState();
-      pairs.push_back(Pair(arc.nextstate, w));
+      Arc arc(rarc.ilabel, rarc.olabel, rarc.weight.Reverse (), rarc.nextstate);
+      Weight w = Times (p.second, arc.weight);
+      StateId next = ofst->AddState ();
+      pairs.push_back (Pair (arc.nextstate, w));
       arc.nextstate = state;
-      ofst->AddArc(next, arc);
-      heap.push_back(next);
-      push_heap(heap.begin(), heap.end(), compare);
+      ofst->AddArc (next, arc);
+      heap.push_back (next);
+      push_heap (heap.begin (), heap.end(), compare);
     }
 
-    Weight finalw = ifst.Final(p.first).Reverse();
-    if (finalw != Weight::Zero()) {
-      Weight w = Times(p.second, finalw);
-      StateId next = ofst->AddState();
-      pairs.push_back(Pair(superfinal, w));
-      ofst->AddArc(next, Arc(0, 0, finalw, state));
-      heap.push_back(next);
-      push_heap(heap.begin(), heap.end(), compare);
+    Weight finalw = ifst.Final (p.first).Reverse ();
+    if (finalw != Weight::Zero ()) {
+      Weight w = Times (p.second, finalw);
+      StateId next = ofst->AddState ();
+      pairs.push_back (Pair (superfinal, w));
+      ofst->AddArc (next, Arc(0, 0, finalw, state));
+      heap.push_back (next);
+      push_heap (heap.begin (), heap.end (), compare);
     }
   }
-  Connect(ofst);
-  if (ifst.Properties(kError, false)) ofst->SetProperties(kError, kError);
-  ofst->SetProperties(
-    ShortestPathProperties(ofst->Properties(kFstProperties, false)),
+  Connect (ofst);
+  if (ifst.Properties (kError, false)) ofst->SetProperties (kError, kError);
+  ofst->SetProperties (
+    ShortestPathProperties (ofst->Properties (kFstProperties, false)),
     kFstProperties);
 }
 
@@ -362,17 +362,17 @@ void ShortestPathSpecialized(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
 
   size_t nbest = opts.nshortest;
   if (nbest <= 0) return;
-  if ((Weight::Properties() & (kPath | kSemiring)) != (kPath | kSemiring)) {
+  if ((Weight::Properties () & (kPath | kSemiring)) != (kPath | kSemiring)) {
     FSTERROR() << "ShortestPath: n-shortest: Weight needs to have the "
                << "path property and be distributive: "
-               << Weight::Type();
-    ofst->SetProperties(kError, kError);
+               << Weight::Type ();
+    ofst->SetProperties (kError, kError);
     return;
   }
   if (!opts.has_distance) {
-    ShortestDistance(ifst, distance, opts);
-    if (distance->size() == 1 && !(*distance)[0].Member()) {
-      ofst->SetProperties(kError, kError);
+    ShortestDistance (ifst, distance, opts);
+    if (distance->size () == 1 && !(*distance) [0].Member ()) {
+      ofst->SetProperties (kError, kError);
       return;
     }
   }
@@ -383,18 +383,18 @@ void ShortestPathSpecialized(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
   Reverse(ifst, &rfst);
   Weight d = Weight::Zero();
   for (ArcIterator< VectorFst<ReverseArc> > aiter(rfst, 0);
-       !aiter.Done(); aiter.Next()) {
-    const ReverseArc &arc = aiter.Value();
+       !aiter.Done (); aiter.Next ()) {
+    const ReverseArc &arc = aiter.Value ();
     StateId s = arc.nextstate - 1;
     if (s < distance->size())
-      d = Plus(d, Times(arc.weight.Reverse(), (*distance)[s]));
+      d = Plus (d, Times (arc.weight.Reverse(), (*distance)[s]));
   }
-  distance->insert(distance->begin(), d);
+  distance->insert (distance->begin(), d);
   
   //Specialize the 'uniqueness' property for our needs
   NShortestPathSpecialized (rfst, ofst, *distance, beam, nbest, path_filter, opts.delta,
 		opts.weight_threshold, opts.state_threshold);
 
-  distance->erase(distance->begin());
+  distance->erase (distance->begin());
 }
 #endif // PHONETISAURUS_REX_H__

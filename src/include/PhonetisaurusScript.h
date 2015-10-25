@@ -28,18 +28,19 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#ifndef PHONETISAURUSPY_H__
-#define PHONETISAURUSPY_H__
+#ifndef PHONETISAURUSSCRIPT_H__
+#define PHONETISAURUSSCRIPT_H__
 #include "PhonetisaurusRex.h"
-
+#include <sys/types.h>
+#include <sys/stat.h>
 // This is what we will return the bindings
 struct PathData {
   PathData () {}
   PathData (float PathWeight_, const vector<float>& PathWeights_, 
 	const vector<int>& ILabels_, const vector<int>& OLabels_, 
 	const vector<int>& Uniques_) 
-    : PathWeight (PathWeight_), PathWeights (PathWeights_), ILabels (ILabels_),
-      OLabels (OLabels_), Uniques(Uniques_) {}
+    : PathWeight (PathWeight_), PathWeights (PathWeights_),
+      ILabels (ILabels_), OLabels (OLabels_), Uniques(Uniques_) {}
 
   float PathWeight;
   vector<float> PathWeights;
@@ -49,14 +50,31 @@ struct PathData {
   vector<int>   Uniques;
 };
 
-class PhonetisaurusPy {
+class PhonetisaurusScript {
  public:
-  PhonetisaurusPy (string model) : delim_("") { 
+  PhonetisaurusScript (string model) : delim_("") { 
     struct stat buffer;   
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
 
     model_ = *(VectorFst<StdArc>::Read(model));
+    ArcSort (&model_, ILabelCompare<StdArc> ());
+    isyms_ = model_.InputSymbols ();
+    osyms_ = model_.OutputSymbols ();
+    imax_  = LoadClusters (isyms_, &imap_, &invimap_);
+    omax_  = LoadClusters (osyms_, &omap_, &invomap_);
+    veto_set_.insert (0);
+    veto_set_.insert (1);
+    veto_set_.insert (2);
+  }
+
+  PhonetisaurusScript (string model, string delim) : delim_(delim) { 
+    struct stat buffer;   
+    if (!(stat (model.c_str(), &buffer) == 0))
+      throw std::exception();
+
+    model_ = *(VectorFst<StdArc>::Read(model));
+    ArcSort (&model_, ILabelCompare<StdArc> ());
     isyms_ = model_.InputSymbols ();
     osyms_ = model_.OutputSymbols ();
     imax_  = LoadClusters (isyms_, &imap_, &invimap_);
@@ -71,7 +89,7 @@ class PhonetisaurusPy {
 				int beam = 10000, float threshold = 99,
 				bool write_fsts = false) {
     VectorFst<StdArc>* fst = new VectorFst<StdArc> ();
-    vector<int> entry = tokenize2ints ((string*)&word, &delim_, isyms_);
+    vector<int> entry = tokenize2ints ((string*) &word, &delim_, isyms_);
     Entry2FSA (entry, fst, imax_, invimap_);
       
     fst->SetInputSymbols (isyms_);
@@ -87,11 +105,10 @@ class PhonetisaurusPy {
     StdArc::StateId state_threshold = kNoStateId;
     AnyArcFilter<StdArc> arc_filter;
     vector<StdArc::Weight> distance;
-
+    
     //ComposeFst<StdArc>* ifst = new ComposeFst<StdArc>(*fst, model_);
     VectorFst<StdArc>* ifst = new VectorFst<StdArc>();
     Compose(*fst, model_, ifst);
-
     //Useful for debugging
     if (write_fsts)
       ifst->Write (word+".lat.fst");
@@ -142,25 +159,6 @@ class PhonetisaurusPy {
   }
 
   
-  // TODO: Still causing a segfault.  Something about 
-  //  GDB:   #3  0x00000001002937f2 in std::string::assign ()
-  // Parallel batch mode with openmp
-  /*
-  vector<vector<PathData> > BatchPhoneticize (vector<string> words, int nbest = 1,
-					   int beam = 10000, float threshold = 99) {
-    int num_words = words.size();
-    vector<vector<PathData> > results;
-    results.resize (num_words);
-    
-    omp_set_num_threads (4);
-    #pragma omp parallel for
-    for (int i = 0; i < num_words; i++) {
-      results[i] = Phoneticize (words[i], nbest, beam, threshold);
-    }
-
-    return results;
-  }
-  */
   const SymbolTable* isyms_;
   const SymbolTable* osyms_;
 
@@ -173,4 +171,4 @@ class PhonetisaurusPy {
   VetoSet veto_set_;
   string delim_;
 };
-#endif // PHONETISUARUSPY_H__
+#endif // PHONETISUARUSSCRIPT_H__

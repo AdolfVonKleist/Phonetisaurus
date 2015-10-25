@@ -5,7 +5,7 @@
 #include <include/RnnLMDecoder.h>
 #include <include/util.h>
 #include "utf8.h"
-#ifndef __GNUC__
+#ifdef _GNUC_
 #include <omp.h>
 #endif
 using namespace fst;
@@ -14,13 +14,13 @@ typedef LegacyRnnLMDecodable<Token, LegacyRnnLMHash> Decodable;
 typedef unordered_map<int, SimpleResult> RMAP;
 
 
-void ThreadedEvaluateWordlist (vector<vector<string> >& corpus, RMAP& rmap,
+void ThreadedEvaluateWordlist (vector<string>& corpus, RMAP& rmap,
 			       LegacyRnnLMHash& h, Decodable& s, 
 			       int FLAGS_threads, int FLAGS_beam, 
 			       int FLAGS_kmax, int FLAGS_nbest, 
 			       bool FLAGS_reverse, string FLAGS_gpdelim,
 			       string FLAGS_gdelim, string FLAGS_skip,
-			       double FLAGS_thresh) {
+			       double FLAGS_thresh, string FLAGS_gsep) {
   int csize = corpus.size ();
 
 #pragma omp parallel for
@@ -28,10 +28,17 @@ void ThreadedEvaluateWordlist (vector<vector<string> >& corpus, RMAP& rmap,
     RnnLMDecoder<Decodable> decoder (s);
 
     int start = x * (csize / FLAGS_threads);
-    int end   = (x == FLAGS_threads - 1) ? csize : start + (csize / FLAGS_threads);
+    int end   = (x == FLAGS_threads - 1) ? csize \
+      : start + (csize / FLAGS_threads);
     for (int i = start; i < end; i++) {
+      vector<string> graphemes = tokenize_utf8_string (&corpus [i],
+							 &FLAGS_gsep);
+      if (FLAGS_reverse == true)
+	reverse (graphemes.begin (), graphemes.end ());
+
+      graphemes.push_back ("</s>");
       SimpleResult result = \
-	decoder.Decode (corpus [i], FLAGS_beam, FLAGS_kmax, 
+	decoder.Decode (graphemes, FLAGS_beam, FLAGS_kmax, 
 			FLAGS_nbest, FLAGS_thresh, FLAGS_gpdelim,
 			FLAGS_gdelim, FLAGS_skip);
       rmap [i] = result;
@@ -47,16 +54,24 @@ void ThreadedEvaluateWordlist (vector<vector<string> >& corpus, RMAP& rmap,
   }
 }
 
-void EvaluateWordlist (vector<vector<string> >& corpus,
+void EvaluateWordlist (vector<string>& corpus,
 		       LegacyRnnLMHash& h, Decodable& s, int FLAGS_beam, 
 		       int FLAGS_kmax, int FLAGS_nbest, bool FLAGS_reverse, 
 		       string FLAGS_gpdelim, string FLAGS_gdelim, 
-		       string FLAGS_skip, double FLAGS_thresh) {
+		       string FLAGS_skip, double FLAGS_thresh,
+		       string FLAGS_gsep) {
 
   RnnLMDecoder<Decodable> decoder (s);
   for (int i = 0; i < corpus.size (); i++) {
+    vector<string> graphemes = tokenize_utf8_string (&corpus [i],
+						     &FLAGS_gsep);
+    if (FLAGS_reverse == true)
+	reverse (graphemes.begin (), graphemes.end ());
+
+    graphemes.push_back ("</s>");
+    
     SimpleResult result = \
-      decoder.Decode (corpus [i], FLAGS_beam, FLAGS_kmax, 
+      decoder.Decode (graphemes, FLAGS_beam, FLAGS_kmax, 
 		      FLAGS_nbest, FLAGS_thresh, FLAGS_gpdelim,
 		      FLAGS_gdelim, FLAGS_skip);
     
@@ -66,15 +81,21 @@ void EvaluateWordlist (vector<vector<string> >& corpus,
   }
 }
 
-void EvaluateWord (vector<string>& word, LegacyRnnLMHash& h, Decodable& s, 
+void EvaluateWord (string word, LegacyRnnLMHash& h, Decodable& s, 
 		   int FLAGS_beam, int FLAGS_kmax, int FLAGS_nbest, 
 		   bool FLAGS_reverse, string FLAGS_gpdelim, 
 		   string FLAGS_gdelim, string FLAGS_skip, 
-		   double FLAGS_thresh) {
+		   double FLAGS_thresh, string FLAGS_gsep) {
 
+  vector<string> graphemes = tokenize_utf8_string (&word,
+						   &FLAGS_gsep);
+  if (FLAGS_reverse == true)
+    reverse (graphemes.begin (), graphemes.end ());
+  graphemes.push_back ("</s>");
+  
   RnnLMDecoder<Decodable> decoder (s);
   SimpleResult result =	\
-      decoder.Decode (word, FLAGS_beam, FLAGS_kmax, 
+      decoder.Decode (graphemes, FLAGS_beam, FLAGS_kmax, 
 		      FLAGS_nbest, FLAGS_thresh, FLAGS_gpdelim,
 		      FLAGS_gdelim, FLAGS_skip);
     
@@ -90,7 +111,6 @@ DEFINE_string (gdelim, "|", "The default multigram delimiter.");
 DEFINE_string (gpdelim, "}", "The default grapheme / phoneme delimiter.");
 DEFINE_string (gsep, "", "The default grapheme delimiter for testing.  Typically ''.");
 DEFINE_string (skip, "_", "The default null/skip token.");
-DEFINE_int32  (order, 8, "Maximum order for ngram model.");
 DEFINE_int32  (nbest, 1, "Maximum number of hypotheses to return.");
 DEFINE_int32  (threads, 1, "Number of parallel threads (OpenMP).");
 DEFINE_int32  (kmax, 20, "State-local maximum queue size.");
@@ -107,6 +127,13 @@ int main (int argc, char* argv []) {
   if (FLAGS_rnnlm.compare ("") == 0) {
     cout << "--rnnlm model is required!" << endl;
     exit (1);
+  } else {
+    std::ifstream rnnlm_ifp (FLAGS_rnnlm);
+    if (!rnnlm_ifp.good ()) {
+      cout << "Faile to open --rnnlm file '"
+	   << FLAGS_rnnlm << "'" << endl;
+      exit (1);
+    }
   }
 
   bool use_wordlist = false;
@@ -115,6 +142,7 @@ int main (int argc, char* argv []) {
     if (!wordlist_ifp.good ()) {
       cout << "Failed to open --wordlist file '" 
 	   << FLAGS_wordlist << "'" << endl;
+      exit (1);
     } else {
       use_wordlist = true;
     }
@@ -127,9 +155,9 @@ int main (int argc, char* argv []) {
 #ifndef __GNUC__    
   omp_set_num_threads (FLAGS_threads);
 #endif
-  vector<vector<string> > corpus;
+  vector<string> corpus;
 
-  LoadWordList (FLAGS_wordlist, FLAGS_gsep, &corpus, FLAGS_reverse);
+  LoadWordList (FLAGS_wordlist, &corpus);
 
   RMAP rmap;
 
@@ -142,21 +170,18 @@ int main (int argc, char* argv []) {
       ThreadedEvaluateWordlist (corpus, rmap, h, s, FLAGS_threads,
 				FLAGS_beam, FLAGS_kmax, FLAGS_nbest,
 				FLAGS_reverse, FLAGS_gpdelim,
-				FLAGS_gdelim, FLAGS_skip, FLAGS_thresh);
+				FLAGS_gdelim, FLAGS_skip,
+				FLAGS_thresh, FLAGS_gsep);
     } else {
       EvaluateWordlist (corpus, h, s, FLAGS_beam, 
 			FLAGS_kmax, FLAGS_nbest, FLAGS_reverse, 
 			FLAGS_gpdelim, FLAGS_gdelim, FLAGS_skip, 
-			FLAGS_thresh);
+			FLAGS_thresh, FLAGS_gsep);
     }
   } else {
-    vector<string> word_vec = tokenize_utf8_string (&FLAGS_word, &FLAGS_gsep);
-    if (FLAGS_reverse == true)
-      reverse (word_vec.begin (), word_vec.end ());
-    word_vec.push_back ("</s>");
-    EvaluateWord (word_vec, h, s, FLAGS_beam, FLAGS_kmax,
+    EvaluateWord (FLAGS_word, h, s, FLAGS_beam, FLAGS_kmax,
 		  FLAGS_nbest, FLAGS_reverse, FLAGS_gpdelim,
-		  FLAGS_gdelim, FLAGS_skip, FLAGS_thresh);
+		  FLAGS_gdelim, FLAGS_skip, FLAGS_thresh, FLAGS_gsep);
   }
 
   return 0;

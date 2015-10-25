@@ -248,9 +248,7 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 }
 
 void LoadWordList (const std::string& filename,
-                  std::string& gsep,
-                  std::vector<std::vector<std::string> >* corpus,
-                  bool rev = false) {
+                  std::vector<std::string>* corpus) {
   std::ifstream ifp (filename.c_str ());
   std::string line;
 
@@ -259,18 +257,13 @@ void LoadWordList (const std::string& filename,
       getline (ifp, line);
       if (line.empty ())
         continue;
-
-      std::vector<string> words = tokenize_utf8_string (&line, &gsep);
-
-      if (rev == true)
-        reverse (words.begin (), words.end ());
-
-      words.push_back ("</s>");
-      corpus->push_back (words);
+      
+      corpus->push_back (line);
     }
     ifp.close ();
   }
 }
+
 
 void Split (const std::string& s, char delim, std::vector<std::string>& elems) {
   std::stringstream ss (s);

@@ -45,8 +45,9 @@ ifeq ($(UNAME), Darwin)
  ifeq ($(REALGCC), )
   LIBS += -fopenmp
   CXX += -Wno-unused-local-typedefs
+  CFLAGS += -D_GNUC_
  endif
- CFLAGS ?= -DDARWIN
+ CFLAGS += -DDARWIN
  LIBS += -lfst -lm -ldl 
  CXX += -std=c++0x -Wall -Wno-sign-compare
 endif
@@ -54,11 +55,13 @@ endif
 ifeq ($(UNAME), Linux)
 LIBS=-lfst -ldl -lm -lrt -fopenmp
 CXX += -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
+CFLAGS += -D_GNUC_
 endif
 
 
 OUT =: $(OBJS) $(BINDIR)/phonetisaurus-align $(BINDIR)/phonetisaurus-arpa2wfst \
-	$(BINDIR)/phonetisaurus-g2prnn $(BINDIR)/rnnlm
+	$(BINDIR)/phonetisaurus-g2prnn $(BINDIR)/rnnlm \
+	$(BINDIR)/phonetisaurus-g2pfst
 
 CFLAGS += -O2     
 THIRD_PARTIES_INCLUDE ?= -I3rdparty/utfcpp \
@@ -71,23 +74,21 @@ OBJS  := $(LIBDIR)/util.o \
 	$(LIBDIR)/FstPathFinder.o \
 	$(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o \
-	$(LIBDIR)/phonetisaurus-align.o \
-	$(LIBDIR)/phonetisaurus-arpa2wfst.o \
-	$(LIBDIR)/rnnlmlib.o
 
 vpath %.cc $(LIBDIR)/
 $(LIBDIR)/%.o: %.cc
 	$(CXX) $(EXTRA) -I. -c $(<) -o $(@)
 
-all: phonetisaurus-align phonetisaurus-arpa2wfst phonetisaurus-g2prnn rnnlm
+all: phonetisaurus-align phonetisaurus-arpa2wfst phonetisaurus-g2prnn \
+	rnnlm phonetisaurus-g2pfst
 
 #Phony stuff
 .PHONY: phonetisaurus-align phonetisaurus-arpa2wfst phonetisaurus-g2prnn rnnlm \
-	test uninstall
+	test uninstall phonetisaurus-g2pfst
 phonetisaurus-align: $(BINDIR)/phonetisaurus-align
 phonetisaurus-arpa2wfst: $(BINDIR)/phonetisaurus-arpa2wfst
 phonetisaurus-g2prnn: $(BINDIR)/phonetisaurus-g2prnn
-phonetisaurus-g2p: $(BINDIR)/phonetisaurus-g2p
+phonetisaurus-g2pfst: $(BINDIR)/phonetisaurus-g2pfst
 rnnlm: $(BINDIR)/rnnlm
 
 #General stuff
@@ -108,6 +109,12 @@ $(BINDIR)/phonetisaurus-g2prnn: $(LIBDIR)/rnnlmlib.o bin/phonetisaurus-g2prnn.cc
 	-funroll-loops -I$(ROOT) -ffast-math $(LIBDIR)/util.o $(LIBDIR)/rnnlmlib.o \
 	bin/phonetisaurus-g2prnn.cc -o bin/phonetisaurus-g2prnn $(LIBS)
 
+$(BINDIR)/phonetisaurus-g2pfst: bin/phonetisaurus-g2pfst.cc \
+	include/PhonetisaurusScript.h $(LIBDIR)/util.o
+	$(CXX) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -I3rdparty/utfcpp \
+	-funroll-loops -I$(ROOT) -ffast-math $(LIBDIR)/util.o \
+	bin/phonetisaurus-g2pfst.cc -o bin/phonetisaurus-g2pfst $(LIBS)
+
 #RNNLM library
 bin/rnnlm: $(BINDIR)/rnnlm.cc $(LIBDIR)/rnnlmlib.o
 	$(CXX) $(EXTRA) -std=c++0x -I. -funroll-loops -ffast-math -lm -w \
@@ -123,6 +130,7 @@ install: all
 	install -c $(BINDIR)/phonetisaurus-align $(INSTALL_BIN)/
 	install -c $(BINDIR)/phonetisaurus-arpa2wfst $(INSTALL_BIN)/
 	install -c $(BINDIR)/phonetisaurus-g2prnn $(INSTALL_BIN)/
+	install -c $(BINDIR)/phonetisaurus-g2pfst $(INSTALL_BIN)/
 	install -c $(BINDIR)/rnnlm $(INSTALL_BIN)/
 
 #Uninstall
@@ -130,6 +138,7 @@ uninstall:
 	rm $(INSTALL_BIN)/phonetisaurus-align
 	rm $(INSTALL_BIN)/phonetisaurus-arpa2wfst
 	rm $(INSTALL_BIN)/phonetisaurus-g2prnn
+	rm $(INSTALL_BIN)/phonetisaurus-g2pfst
 	rm $(INSTALL_BIN)/rnnlm
 
 #Test the configure outputs

@@ -225,6 +225,9 @@ class RnnLMDecoder {
 	for (int j = 0; j < chunk_vec.size (); j++) {
 	  if (chunk_vec [j].compare (skip) != 0)
 	    pronunciation_ss << chunk_vec [j];
+	  else
+	    continue;
+	  
 	  if (! (it == result.end () && j != chunk_vec.size () - 1))
 	    pronunciation_ss << " ";
 	}
