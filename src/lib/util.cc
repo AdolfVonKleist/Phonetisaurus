@@ -210,7 +210,7 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
     // There are too many and they are just confusing.
     std::set< pair<string, string> > usage_set;
 
-    cout << usage << "xxx\n";
+    cout << usage << "\n";
 
     FlagRegister<bool> *bool_register = FlagRegister<bool>::GetRegister();
     bool_register->GetUsage(&usage_set);
