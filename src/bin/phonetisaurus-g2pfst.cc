@@ -152,10 +152,13 @@ int main (int argc, char* argv []) {
     LoadWordList (FLAGS_wordlist, &corpus);
     
     if (FLAGS_threads > 1) {
+      cout << "TODO: Current OpenMP parallel output is non-deterministic." << endl;
+      /*
       ThreadedEvalaateWordlist (FLAGS_model, corpus, FLAGS_beam,
 				FLAGS_nbest, FLAGS_reverse, FLAGS_skip,
 				FLAGS_thresh, FLAGS_gsep, FLAGS_write_fsts,
 				FLAGS_threads);
+      */
     } else {
       PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
       EvaluateWordlist (decoder, corpus, FLAGS_beam, FLAGS_nbest,
