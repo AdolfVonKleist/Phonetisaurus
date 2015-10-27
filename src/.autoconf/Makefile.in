@@ -70,7 +70,6 @@ THIRD_PARTIES_INCLUDE ?= -I3rdparty/utfcpp \
 EXTRA := $(CFLAGS) $(THIRD_PARTIES_INCLUDE) $(CXXFLAGS) $(CPPFLAGS)
 OBJS  := $(LIBDIR)/util.o \
 	$(LIBDIR)/rnnlmlib.o \
-	$(LIBDIR)/FstPathFinder.o \
 	$(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o \
 
@@ -92,10 +91,10 @@ rnnlm: $(BINDIR)/rnnlm
 
 #General stuff
 $(BINDIR)/phonetisaurus-align: $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
-	$(LIBDIR)/M2MFstAligner.o $(LIBDIR)/FstPathFinder.o
+	$(LIBDIR)/M2MFstAligner.o $(BINDIR)/phonetisaurus-align.cc
 	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) -I$(ROOT) \
 	$(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o $(LIBDIR)/M2MFstAligner.o \
-	$(LIBDIR)/FstPathFinder.o bin/phonetisaurus-align.cc \
+	bin/phonetisaurus-align.cc \
 	-o $(BINDIR)/phonetisaurus-align $(LIBS)
 
 $(BINDIR)/phonetisaurus-arpa2wfst: include/ARPA2WFST.h $(LIBDIR)/util.o

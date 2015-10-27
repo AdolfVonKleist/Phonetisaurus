@@ -36,145 +36,141 @@ M2MFstAligner::M2MFstAligner( ){
   //Default constructor
 }
 
-M2MFstAligner::M2MFstAligner (bool _seq1_del, bool _seq2_del, 
-			      unsigned int _seq1_max, unsigned int _seq2_max, 
-			      string _seq1_sep, string _seq2_sep, 
-			      string _s1s2_sep, string _eps, string _skip,
-			      bool _penalize, bool _penalize_em, 
-			      bool _restrict) {
+M2MFstAligner::M2MFstAligner (bool seq1_del, bool seq2_del, 
+			      unsigned int seq1_max, unsigned int seq2_max, 
+			      string seq1_sep, string seq2_sep, 
+			      string s1s2_sep, string eps, string skip,
+			      bool penalize, bool penalize_em, 
+			      bool restrict) 
+  : seq1_del (seq1_del), seq2_del (seq2_del), seq1_max (seq1_max),
+    seq2_max (seq2_max), seq1_sep (seq1_sep), seq2_sep (seq2_sep),
+    s1s2_sep (s1s2_sep), eps (eps), skip (skip), penalize (penalize),
+    penalize_em (penalize_em), restrict (restrict) {
   //Base constructor.  Determine whether or not to allow deletions in seq1 and seq2
   // as well as the maximum allowable subsequence size.
-  seq1_del = _seq1_del;
-  seq2_del = _seq2_del;
-  seq1_max = _seq1_max;
-  seq2_max = _seq2_max;
-  seq1_sep = _seq1_sep;
-  seq2_sep = _seq2_sep;
-  s1s2_sep = _s1s2_sep;
-  penalize = _penalize;
-  penalize_em = _penalize_em;
-  restrict = _restrict;
-  eps      = _eps;
-  skip     = _skip;
-  skipSeqs.insert(0);
+  skipSeqs.insert (0);
   isyms = new SymbolTable("syms");
   //Add all the important symbols to the table.  We can store these 
   // in the model that we train and then attach them to the fst model
   // if we want to use it later on. 
   //Thus, in addition to eps->0, we reserve symbol ids 1-4 as well.
-  isyms->AddSymbol(eps);
-  isyms->AddSymbol(skip);
+  isyms->AddSymbol (eps);
+  isyms->AddSymbol (skip);
   //The '_' as a separator here is dangerous
-  isyms->AddSymbol(seq1_sep+"_"+seq2_sep);
-  isyms->AddSymbol(s1s2_sep);
+  isyms->AddSymbol (seq1_sep + "_" + seq2_sep);
+  isyms->AddSymbol (s1s2_sep);
   string s1_del_str = seq1_del ? "true" : "false";
   string s2_del_str = seq2_del ? "true" : "false";
-  string s1_max_str = itoas(seq1_max);
-  string s2_max_str = itoas(seq2_max);
-  string model_params = s1_del_str + "_" + s2_del_str + "_" + s1_max_str + "_" + s2_max_str;
-  isyms->AddSymbol( model_params );
-  total     = LogWeight::Zero();
-  prevTotal = LogWeight::Zero();
+  string s1_max_str = itoas (seq1_max);
+  string s2_max_str = itoas (seq2_max);
+  string model_params = s1_del_str + "_" + s2_del_str + "_" \
+    + s1_max_str + "_" + s2_max_str;
+  isyms->AddSymbol (model_params);
+  total     = LogWeight::Zero ();
+  prevTotal = LogWeight::Zero ();
   //penalties.set_empty_key(0);
 }
 
-M2MFstAligner::M2MFstAligner (string _model_file, bool _penalize, 
-			      bool _penalize_em, bool _restrict){
+M2MFstAligner::M2MFstAligner (string model_file, bool penalize, 
+			      bool penalize_em, bool restrict)
+  : penalize (penalize), penalize_em (penalize_em), restrict (restrict) {
   /*
     Initialize the aligner with a previously trained model.
     The model requires that the first several symbols in the 
     symbols table contain the separator and other bookkeeping info.
   */
-
-  restrict    = _restrict;
-  penalize    = _penalize;
-  penalize_em = _penalize_em;
   //penalties.set_empty_key(0);
-  VectorFst<LogArc>* model = VectorFst<LogArc>::Read( _model_file );
-  for( StateIterator<VectorFst<LogArc> > siter(*model); !siter.Done(); siter.Next() ){
-    LogArc::StateId q = siter.Value();
-    for( ArcIterator<VectorFst<LogArc> > aiter(*model, q); !aiter.Done(); aiter.Next() ){
-      const LogArc& arc = aiter.Value();
-      alignment_model.insert( pair<LogArc::Label,LogWeight>(arc.ilabel,arc.weight) );
+  VectorFst<LogArc>* model = VectorFst<LogArc>::Read (model_file);
+  for (StateIterator<VectorFst<LogArc> > siter (*model); 
+       !siter.Done (); siter.Next ()) {
+    LogArc::StateId q = siter.Value ();
+    for( ArcIterator<VectorFst<LogArc> > aiter (*model, q); 
+	 !aiter.Done (); aiter.Next ()) {
+      const LogArc& arc = aiter.Value ();
+      alignment_model.insert (pair<LogArc::Label, LogWeight> 
+			      (arc.ilabel,arc.weight));
     }
   }      
-  isyms = (SymbolTable*)model->InputSymbols();
+  isyms = (SymbolTable*)model->InputSymbols ();
   int i = 0;
-  eps      = isyms->Find(i);//Can't write '0' here for some reason...
-  skip     = isyms->Find(1);
+  eps   = isyms->Find (i);//Can't write '0' here for some reason...
+  skip  = isyms->Find (1);
   string tie = "_"; //tie to pack parameters
 
-  string sseps = isyms->Find(2);
-  vector<string> seps = tokenize_utf8_string( &sseps, &tie );
-  seq1_sep = seps[0];
-  seq2_sep = seps[1];
-  s1s2_sep = isyms->Find(3);
+  string sseps = isyms->Find (2);
+  vector<string> seps = tokenize_utf8_string (&sseps, &tie);
+  seq1_sep = seps [0];
+  seq2_sep = seps [1];
+  s1s2_sep = isyms->Find (3);
 
-  string sparams = isyms->Find(4);
-  vector<string> params = tokenize_utf8_string( &sparams, &tie );
-  seq1_del = params[0].compare("true") ? false : true;
-  seq2_del = params[1].compare("true") ? false : true;
-  seq1_max = atoi(params[2].c_str());
-  seq2_max = atoi(params[3].c_str());
+  string sparams = isyms->Find (4);
+  vector<string> params = tokenize_utf8_string (&sparams, &tie);
+  seq1_del = params [0].compare ("true") ? false : true;
+  seq2_del = params [1].compare ("true") ? false : true;
+  seq1_max = atoi (params [2].c_str ());
+  seq2_max = atoi (params [3].c_str ());
 
 }
 
-void M2MFstAligner::write_model( string _model_file ){
+void M2MFstAligner::write_model (string model_file) {
   /*
     Write the alignment model to disk using a single-state WFSA.
   */
   VectorFst<LogArc> model;
-  model.AddState();
-  model.SetStart(0);
-  model.SetFinal(0,LogWeight::One());
+  model.AddState ();
+  model.SetStart (0);
+  model.SetFinal (0, LogWeight::One ());
+
   map<LogArc::Label,LogWeight>::iterator it;
-  for( it=alignment_model.begin(); it != alignment_model.end(); it++ )
-    model.AddArc( 0, LogArc( (*it).first, (*it).first, (*it).second, 0 ) );
-  model.SetInputSymbols(isyms);
-  model.Write(_model_file);
+  for (it = alignment_model.begin (); it != alignment_model.end (); it++)
+    model.AddArc (0, LogArc( (*it).first, (*it).first, (*it).second, 0));
+
+  model.SetInputSymbols (isyms);
+  model.Write (model_file);
+
   return;
 }
 
-void M2MFstAligner::expectation ( ){
+void M2MFstAligner::expectation () {
   /*
     Here we compute the arc posteriors.  This routine is almost 
     fun to implement in the FST paradigm.
   */
   //omp_set_num_threads (4);
   //#pragma omp parallel for
-  for (unsigned int i = 0; i < fsas.size(); i++) {
+  for (unsigned int i = 0; i < fsas.size (); i++) {
     //Compute Forward and Backward probabilities
     vector<LogWeight> alpha, beta;
-    ShortestDistance( fsas.at(i), &alpha );
-    ShortestDistance( fsas.at(i), &beta, true );
+    ShortestDistance (fsas.at (i), &alpha);
+    ShortestDistance (fsas.at (i), &beta, true);
 
     //Compute the normalized Gamma probabilities and 
     // update our running tally
-    for (StateIterator<VectorFst<LogArc> > siter(fsas.at(i)); !siter.Done(); 
-	 siter.Next() ){
-      const LogArc::StateId q = siter.Value();
-      for (ArcIterator<VectorFst<LogArc> > aiter(fsas.at(i), q); 
-	   !aiter.Done(); aiter.Next()) {
-	const LogArc&      arc = aiter.Value();
-	const LogWeight& gamma = Divide(Times(Times(alpha[q], arc.weight), 
-					      beta[arc.nextstate]), beta[0]); 
+    for (StateIterator<VectorFst<LogArc> > siter (fsas.at (i)); 
+	 !siter.Done (); siter.Next ()) {
+      const LogArc::StateId q = siter.Value ();
+      for (ArcIterator<VectorFst<LogArc> > aiter (fsas.at (i), q); 
+	   !aiter.Done (); aiter.Next ()) {
+	const LogArc&      arc = aiter.Value ();
+	const LogWeight& gamma = Divide (Times (Times (alpha [q], arc.weight), 
+					    beta [arc.nextstate]), beta [0]);
 	//Check for any BadValue results, otherwise add to the tally.
         //We call this 'prev_alignment_model' which may seem misleading, but
         // this conventions leads to 'alignment_model' being the final version.
-	if (gamma.Value() == gamma.Value()) {
-	  prev_alignment_model[arc.ilabel] = 
-	    Plus (prev_alignment_model[arc.ilabel], gamma);
+	if (gamma.Value () == gamma.Value ()) {
+	  prev_alignment_model [arc.ilabel] = \
+	    Plus (prev_alignment_model [arc.ilabel], gamma);
 	  total = Plus (total, gamma);
 	}
       }
     }
-    alpha.clear();
-    beta.clear();
+    alpha.clear ();
+    beta.clear ();
   }
 }
 
 
-void M2MFstAligner::_conditional_max( bool y_given_x ){
+void M2MFstAligner::_conditional_max (bool y_given_x) {
   /*
     Compute the conditional distribution, P(Y|X) using the WFST paradigm.
     This is bassed on the approach from Shu and Hetherington 2002.
@@ -254,7 +250,7 @@ void M2MFstAligner::_conditional_max( bool y_given_x ){
   for( MutableArcIterator<VectorFst<LogArc> > aiter(cond, 0); !aiter.Done(); aiter.Next() ){
     LogArc arc = aiter.Value();
     string lab = misyms->Find(arc.ilabel)+"}"+mosyms->Find(arc.olabel);
-    int   labi = isyms->Find(lab);
+    int labi   = isyms->Find(lab);
     alignment_model[labi]      = arc.weight;
     prev_alignment_model[labi] = LogWeight::Zero();
   }
@@ -269,61 +265,64 @@ void M2MFstAligner::_conditional_max( bool y_given_x ){
 
 
     
-float M2MFstAligner::maximization( bool lastiter ){
+float M2MFstAligner::maximization (bool lastiter) {
   //Maximization. Standard approach is simple count normalization.  
   //The 'penalize' option penalizes links by total length.  Results seem to be inconclusive.
   //  Probably get an improvement by distinguishing between gaps and insertions, etc.
   bool cond = false;
-  float change = abs(total.Value()-prevTotal.Value());
-  if( cond==false ){
+  float change = abs (total.Value () - prevTotal.Value ());
+  if (cond == false) {
     map<LogArc::Label,LogWeight>::iterator it;
     //cout << "Total: " << total << " Change: " << abs(total.Value()-prevTotal.Value()) << endl;
     prevTotal = total;
 
     //Normalize and iterate to the next model.  We apply it dynamically 
     // during the expectation step.
-    for( it=prev_alignment_model.begin(); it != prev_alignment_model.end(); it++ ){
-      alignment_model[(*it).first] = Divide((*it).second,total);
-      (*it).second = LogWeight::Zero();
+    for (it = prev_alignment_model.begin ();
+	 it != prev_alignment_model.end (); it++) {
+      alignment_model [(*it).first] = Divide ((*it).second, total);
+      (*it).second = LogWeight::Zero ();
     }
   }else{
-    _conditional_max( true );
+    _conditional_max (true);
   }
 
  
-  for( unsigned int i=0; i<fsas.size(); i++ ){
-    for( StateIterator<VectorFst<LogArc> > siter(fsas[i]); !siter.Done(); siter.Next() ){
-      LogArc::StateId q = siter.Value();
-      for( MutableArcIterator<VectorFst<LogArc> > aiter(&fsas[i], q); !aiter.Done(); aiter.Next() ){
-	LogArc arc = aiter.Value();
-	if( penalize_em==true ){
-	  LabelDatum* ld = &penalties[arc.ilabel];
-	  if( ld->lhs>1 && ld->rhs>1 ){
+  for (unsigned int i = 0; i < fsas.size(); i++) {
+    for (StateIterator<VectorFst<LogArc> > siter (fsas [i]); 
+	 !siter.Done (); siter.Next ()) {
+      LogArc::StateId q = siter.Value ();
+      for (MutableArcIterator<VectorFst<LogArc> > aiter (&fsas [i], q); 
+	   !aiter.Done (); aiter.Next ()) {
+	LogArc arc = aiter.Value ();
+	if (penalize_em == true) {
+	  LabelDatum* ld = &penalties [arc.ilabel];
+	  if (ld->lhs > 1 && ld->rhs > 1) {
 	    arc.weight = 99; 
-	  }else if( ld->lhsE==false && ld->rhsE==false ){
-	    arc.weight = arc.weight.Value() * ld->tot;
+	  } else if (ld->lhsE == false && ld->rhsE == false) {
+	    arc.weight = arc.weight.Value () * ld->tot;
 	  }
 	  /*
 	    else{
 	    arc.weight = arc.weight.Value() * (ld->tot+10);
 	  }
 	  */
-	  if( arc.weight == LogWeight::Zero() || arc.weight != arc.weight )
+	  if (arc.weight == LogWeight::Zero () || arc.weight != arc.weight)
 	    arc.weight = 99;
-	}else{
-	  arc.weight = alignment_model[arc.ilabel];
+	} else {
+	  arc.weight = alignment_model [arc.ilabel];
 	}
-	aiter.SetValue(arc);
+	aiter.SetValue (arc);
       }
     }
   }
 
-  total = LogWeight::Zero();
+  total = LogWeight::Zero ();
   return change;
 }
 
 
-void M2MFstAligner::Sequences2FST( VectorFst<LogArc>* fst, vector<string>* seq1, vector<string>* seq2 ){
+void M2MFstAligner::Sequences2FST (VectorFst<LogArc>* fst, vector<string>* seq1, vector<string>* seq2 ){
   /*
     Build an FST that represents all possible alignments between seq1 and seq2, given the 
      parameter values input by the user.  Here we encode the input and output labels, in fact

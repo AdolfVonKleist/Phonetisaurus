@@ -31,8 +31,8 @@
 */
 #include <include/M2MFstAligner.h>
 #include <include/LatticePruner.h>
-#include <include/FstPathFinder.h>
 #include <include/util.h>
+#include <include/PhonetisaurusRex.h>
 using namespace fst;
 
 
@@ -92,6 +92,8 @@ void write_alignments (M2MFstAligner* aligner, string ofile_name,
   LatticePruner pruner (aligner->penalties, threshold, nbest, fb, penalize);
 
   ofstream ofile (ofile_name.c_str ());
+  VetoSet veto_set_;
+  veto_set_.insert (0);
   for (unsigned int i = 0; i < aligner->fsas.size (); i++) {
     //Map to Tropical semiring
     VectorFst<StdArc>* tfst = new VectorFst<StdArc> ();
@@ -108,33 +110,32 @@ void write_alignments (M2MFstAligner* aligner, string ofile_name,
     // user params didn't allow us to.  
     //Probably better to insert these where necessary
     // during initialization, regardless of user prefs.
-    vector<PathData> paths;
     if (tfst->NumStates () > 0) {
-      FstPathFinder pathfinder (aligner->skipSeqs);
-      //pathfinder.isyms = aligner->isyms;
-      //pathfinder.findAllStrings( *tfst );
-      pathfinder.extract_all_paths (*tfst);
-      paths = pathfinder.paths;
-    }
+      StdArc::Weight weight_threshold = 99;
+      StdArc::StateId state_threshold = kNoStateId;
+      AnyArcFilter<StdArc> arc_filter;
+      vector<StdArc::Weight> distance;
+      VectorFst<StdArc> ofst;
 
-    for (unsigned int j = 0; j < paths.size (); j++) {
-	for (unsigned int k = 0; k < paths [j].path.size (); k++) {
-	  string sym = aligner->isyms->Find (paths [j].path [k]);
-	  if (ofile)
-	    ofile << sym;
-	  else
-	    cout << sym;
-	  if (j < paths [j].path.size ()) {
-	    if (ofile)
-	      ofile << " ";
-	    else
-	      cout << " ";
-	  }
+      AutoQueue<StdArc::StateId> state_queue (*tfst, &distance, arc_filter);
+      IdentityPathFilter<StdArc> path_filter;
+
+      ShortestPathOptions<StdArc, AutoQueue<StdArc::StateId>,
+			  AnyArcFilter<StdArc> >
+	opts (&state_queue, arc_filter, nbest, false, false,
+	      kDelta, false, weight_threshold,
+	      state_threshold);
+      ShortestPathSpecialized (*tfst, &ofst, &distance,
+			       &path_filter, 10000, opts);
+      for (size_t i = 0; i < path_filter.ordered_paths.size (); i++) {
+	const vector<int>& path = path_filter.ordered_paths[i];
+	for (size_t j = 0; j < path.size (); j++) {
+	  ofile << aligner->isyms->Find (path [j]);
+	  if (j < path.size () - 1)
+	    ofile << " ";
 	}
-	if (ofile)
-	  ofile << endl;
-	else
-	  cout << endl;
+	ofile << "\n";
+      }
     }
     delete tfst;
   }

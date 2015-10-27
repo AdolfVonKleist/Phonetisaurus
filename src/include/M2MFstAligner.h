@@ -69,8 +69,8 @@ public:
   string eps;
   string skip;
   bool   penalize;
-  bool   restrict;
   bool   penalize_em;
+  bool   restrict;
   //vector<LogWeight> alpha, beta;
   //This will be used during decoding to clean the paths
   set<int>   skipSeqs;
@@ -92,36 +92,41 @@ public:
   //Constructors
   M2MFstAligner( );
   //Train from scratch using a dictionary
-  M2MFstAligner( bool _seq1_del, bool _seq2_del, unsigned int _seq1_max, 
-		 unsigned int _seq2_max, 
-		 string _seq1_sep, string _seq2_sep, string _s1s2_sep,
-		 string _eps, string _skip, bool _penalize, 
-		 bool _penalize_em, bool _restrict );
+  M2MFstAligner (bool seq1_del, bool seq2_del, unsigned int seq1_max, 
+		 unsigned int seq2_max, 
+		 string seq1_sep, string seq2_sep, string s1s2_sep,
+		 string eps, string _skip, bool _penalize, 
+		 bool penalize_em, bool restrict);
   //We've already got a model to go on
-  M2MFstAligner( string _model_file, bool _penalize, bool _penalize_em, bool _restrict );
+  M2MFstAligner (string model_file, bool penalize, bool penalize_em, 
+		 bool restrict);
 
   //Write an aligner model to disk.  Critical info is stored in the 
   // the symbol table so that it can be restored when the model is loaded.
-  void write_model( string _model_name );
+  void write_model (string model_name);
 
   //Transform a sequence pair into an equivalent multiple-to-multiple FST,
   // encoding all possible alignments between the two sequences
-  void Sequences2FST      ( VectorFst<LogArc>* fst, vector<string>* seq1, vector<string>* seq2 );
-  void Sequences2FSTNoInit( VectorFst<LogArc>* fst, vector<string>* seq1, vector<string>* seq2 );
+  void Sequences2FST       (VectorFst<LogArc>* fst, vector<string>* seq1, 
+			    vector<string>* seq2);
+  void Sequences2FSTNoInit (VectorFst<LogArc>* fst, vector<string>* seq1, 
+			    vector<string>* seq2);
 
   //Initialize all of the training data
-  void entry2alignfst( vector<string> seq1, vector<string> seq2 );
-  void entry2alignfstnoinit( vector<string> seq1, vector<string> seq2, int nbest, string lattice="" );
-  void _conditional_max( bool x_given_y );
+  void entry2alignfst (vector<string> seq1, vector<string> seq2);
+  void entry2alignfstnoinit (vector<string> seq1, vector<string> seq2, 
+			     int nbest, string lattice = "");
+  void _conditional_max (bool x_given_y);
   //The expectation routines
-  void expectation( );
+  void expectation ();
 
   //The maximization routine.  Returns the change since the last iteration
-  float maximization( bool lastiter );
+  float maximization (bool lastiter);
 
   //Precompute the label and subsequence lengths for all possible alignment units
   //  this helps speedup the penalization and decoding routines.
-  void _compute_penalties( LogArc::Label label, int lhs, int rhs, bool lhsE, bool rhsE );
+  void _compute_penalties (LogArc::Label label, int lhs, int rhs, 
+			   bool lhsE, bool rhsE);
 
 };
 }
