@@ -5,10 +5,10 @@
 .*\.dylib$
 .*\.so
 .*-binding.cc
-bin/phonetisaurus-align$
-bin/phonetisaurus-arpa2wfst$
-bin/phonetisaurus-g2p$
-bin/phonetisaurus-g2prnn$
+bin/phonetisaurus-align
+bin/phonetisaurus-arpa2wfst
+bin/phonetisaurus-g2pfst
+bin/phonetisaurus-g2prnn
 .*\.pyc$
 models/
 .*\.egg-info/

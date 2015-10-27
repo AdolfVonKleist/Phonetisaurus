@@ -69,7 +69,6 @@ THIRD_PARTIES_INCLUDE ?= -I3rdparty/utfcpp \
 
 EXTRA := $(CFLAGS) $(THIRD_PARTIES_INCLUDE) $(CXXFLAGS) $(CPPFLAGS)
 OBJS  := $(LIBDIR)/util.o \
-	$(LIBDIR)/ARPA2WFST.o \
 	$(LIBDIR)/rnnlmlib.o \
 	$(LIBDIR)/FstPathFinder.o \
 	$(LIBDIR)/LatticePruner.o \
@@ -94,23 +93,24 @@ rnnlm: $(BINDIR)/rnnlm
 #General stuff
 $(BINDIR)/phonetisaurus-align: $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o $(LIBDIR)/FstPathFinder.o
-	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) -I$(ROOT) $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
-	$(LIBDIR)/M2MFstAligner.o $(LIBDIR)/FstPathFinder.o bin/phonetisaurus-align.cc \
+	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) -I$(ROOT) \
+	$(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o $(LIBDIR)/M2MFstAligner.o \
+	$(LIBDIR)/FstPathFinder.o bin/phonetisaurus-align.cc \
 	-o $(BINDIR)/phonetisaurus-align $(LIBS)
 
-$(BINDIR)/phonetisaurus-arpa2wfst: $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o
-	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) $(LIBDIR)/ARPA2WFST.o $(LIBDIR)/util.o \
+$(BINDIR)/phonetisaurus-arpa2wfst: include/ARPA2WFST.h $(LIBDIR)/util.o
+	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) $(LIBDIR)/util.o \
 	-I$(ROOT) bin/phonetisaurus-arpa2wfst.cc -L$(OPENFST_LDFLAGS) \
 	-o $(BINDIR)/phonetisaurus-arpa2wfst $(LIBS)
 
 $(BINDIR)/phonetisaurus-g2prnn: $(LIBDIR)/rnnlmlib.o bin/phonetisaurus-g2prnn.cc \
 	include/RnnLMDecoder.h include/LegacyRnnLMDecodable.h $(LIBDIR)/util.o
-	$(CXX) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -I3rdparty/rnnlm -I3rdparty/utfcpp \
-	-funroll-loops -I$(ROOT) -ffast-math $(LIBDIR)/util.o $(LIBDIR)/rnnlmlib.o \
+	$(CXX) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -funroll-loops -I$(ROOT) \
+	-ffast-math $(LIBDIR)/util.o $(LIBDIR)/rnnlmlib.o \
 	bin/phonetisaurus-g2prnn.cc -o bin/phonetisaurus-g2prnn $(LIBS)
 
 $(BINDIR)/phonetisaurus-g2pfst: bin/phonetisaurus-g2pfst.cc \
-	include/PhonetisaurusScript.h $(LIBDIR)/util.o
+	include/PhonetisaurusScript.h include/PhonetisaurusRex.h $(LIBDIR)/util.o
 	$(CXX) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -I3rdparty/utfcpp \
 	-funroll-loops -I$(ROOT) -ffast-math $(LIBDIR)/util.o \
 	bin/phonetisaurus-g2pfst.cc -o bin/phonetisaurus-g2pfst $(LIBS)
