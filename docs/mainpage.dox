@@ -1,0 +1,11 @@
+/**
+@brief Documentation file for Phonetisaurus G2P project
+@author Josef R. Novak
+@file
+*/
+/** @defgroup Phonetisaurus Sources */
+/** 
+@mainpage Phonetisaurus G2P - WFST-based Grapheme-to-Phoneme conversion.
+
+Some more words.
+*/
