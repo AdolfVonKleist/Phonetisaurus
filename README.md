@@ -4,6 +4,7 @@
 Phonetisaurus G2P
 #### !WARNING: In Flux! ####
 A lot of things are changing.
+DOXYGEN: http://adolfvonkleist.github.io/Phonetisaurus/
 
 CONTACT: phonetisaurus@gmail.com
 
