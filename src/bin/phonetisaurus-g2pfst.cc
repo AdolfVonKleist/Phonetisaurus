@@ -40,10 +40,11 @@ using namespace fst;
 typedef unordered_map<int, vector<PathData> > RMAP;
 
 void PrintPathData (const vector<PathData>& results, string FLAGS_word,
-		    const SymbolTable* osyms) {
+		    const SymbolTable* osyms, bool print_scores = true) {
   for (int i = 0; i < results.size (); i++) {
     cout << FLAGS_word << "\t";
-    cout << results [i].PathWeight << "\t";
+    if (print_scores == true)
+      cout << results [i].PathWeight << "\t";
     for (int j = 0; j < results [i].Uniques.size (); j++) {
       cout << osyms->Find (results [i].Uniques [j]);
       if (j < results [i].Uniques.size () - 1)
@@ -56,12 +57,12 @@ void PrintPathData (const vector<PathData>& results, string FLAGS_word,
 void EvaluateWordlist (PhonetisaurusScript& decoder, vector<string> corpus,
 		       int FLAGS_beam, int FLAGS_nbest, bool FLAGS_reverse,
 		       string FLAGS_skip, double FLAGS_thresh, string FLAGS_gsep,
-		       bool FLAGS_write_fsts) {
+		       bool FLAGS_write_fsts, bool FLAGS_print_scores) {
   for (int i = 0; i < corpus.size (); i++) {
     vector<PathData> results = decoder.Phoneticize (corpus [i], FLAGS_nbest,
 						    FLAGS_beam, FLAGS_thresh,
 						    FLAGS_write_fsts);
-    PrintPathData (results, corpus [i], decoder.osyms_);
+    PrintPathData (results, corpus [i], decoder.osyms_, FLAGS_print_scores);
   }
 }
 
@@ -107,6 +108,7 @@ DEFINE_int32  (threads, 1, "Number of parallel threads.");
 DEFINE_double (thresh, 99.0, "N-best comparison threshold.");
 DEFINE_bool   (write_fsts, false, "Write the output FSTs for debugging.");
 DEFINE_bool   (reverse, false, "Reverse input word.");
+DEFINE_bool   (print_scores, true, "Print scores in output.");
 
 int main (int argc, char* argv []) {
   string usage = "phonetisaurus-g2pfst - joint N-gram decoder.\n\n Usage: ";
@@ -163,14 +165,14 @@ int main (int argc, char* argv []) {
       PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
       EvaluateWordlist (decoder, corpus, FLAGS_beam, FLAGS_nbest,
 			FLAGS_reverse, FLAGS_skip, FLAGS_thresh,
-			FLAGS_gsep, FLAGS_write_fsts);
+			FLAGS_gsep, FLAGS_write_fsts, FLAGS_print_scores);
     }
   } else {
     PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
     vector<PathData> results = decoder.Phoneticize (FLAGS_word, FLAGS_nbest,
 						    FLAGS_beam, FLAGS_thresh,
 						    FLAGS_write_fsts);
-    PrintPathData (results, FLAGS_word, decoder.osyms_);
+    PrintPathData (results, FLAGS_word, decoder.osyms_, FLAGS_print_scores);
   }
   
   return 0;
