@@ -4,12 +4,21 @@
 Phonetisaurus G2P
 #### !WARNING: In Flux! ####
 A lot of things are changing.
-DOXYGEN: http://adolfvonkleist.github.io/Phonetisaurus/
 
-CONTACT: phonetisaurus@gmail.com
+#### Documentation: ####
+  * http://adolfvonkleist.github.io/Phonetisaurus/
+
+#### Contact: ####
+  * phonetisaurus@gmail.com
 
 ### Dependencies: ###
-  * OpenFst (Prefer >= 1.4)
+  * OpenFst (Prefer >= 1.4, compile with all extensions)
+    * ```
+ $ ./configure --enable-static --enable-shared --enable-far \
+      --enable-lookahead-fsts --enable-const-fsts --enable-pdt \
+      --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9 \
+      --prefix=`pwd` CXX=g++-4.9
+```
 
 ### Basic Build [Linux/OSX]: ###
 Use the existing setup.  This should be fine for most Linux distributions
@@ -35,7 +44,7 @@ custom g++ alternative)
 	  CXX=g++-4.9
  $ make -j 2 all
 ```
-####Rebuild configure####
+#### Rebuild configure ####
 If you need to rebuild the configure script you can do so:
 ```
  $ cd .autoconf
