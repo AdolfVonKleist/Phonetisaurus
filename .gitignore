@@ -31,3 +31,4 @@ src/.autoconf/configure
 src/Makefile
 html/
 script/
+exp/

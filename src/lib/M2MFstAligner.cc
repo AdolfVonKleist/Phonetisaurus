@@ -453,10 +453,7 @@ void M2MFstAligner::Sequences2FST (VectorFst<LogArc>* fst, vector<string>* seq1,
       total = Plus( total, arc.weight );
     }
   }
-  if( seq1->size()>5 && seq1->at(0)=="a" && seq1->at(1)=="s" && seq1->at(2)=="b" ){
-    fst->SetInputSymbols(isyms);
-    fst->Write("asbestos.fst");
-  }
+  
   return;
 }
 
