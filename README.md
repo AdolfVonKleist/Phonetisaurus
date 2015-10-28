@@ -4,7 +4,7 @@
 Phonetisaurus G2P
 #### !WARNING: In Flux! ####
 A lot of things are changing.
-  * Last stable version from Google code (includes downloads):
+  * Last stable version from Google code (includes downloads).  All ~2015 academic papers also refer to this:
     * https://code.google.com/p/phonetisaurus/
   
 #### Documentation: ####
@@ -15,11 +15,9 @@ A lot of things are changing.
 
 ### Dependencies: ###
   * OpenFst (Prefer >= 1.4, compile with all extensions)
-    * ```
- $ ./configure --enable-static --enable-shared --enable-far \
+    * ``` $ ./configure --enable-static --enable-shared --enable-far \
       --enable-lookahead-fsts --enable-const-fsts --enable-pdt \
-      --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9
-```
+      --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9```
 
 ### Basic Build [Linux/OSX]: ###
 Use the existing setup.  This should be fine for most Linux distributions
