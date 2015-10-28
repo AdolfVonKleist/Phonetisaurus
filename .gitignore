@@ -29,3 +29,5 @@ src/.autoconf/config.log
 src/.autoconf/config.status
 src/.autoconf/configure
 src/Makefile
+html/
+script/

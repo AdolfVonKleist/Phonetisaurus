@@ -28,12 +28,24 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+// \file
+// This implements the scripting interface for the FST-based 
+// decoder.  The associated classes are suitable for
+// construction of command-line utilities and bindings for 
+// scripting languages such as Python.
+//
 #ifndef PHONETISAURUSSCRIPT_H__
 #define PHONETISAURUSSCRIPT_H__
 #include "PhonetisaurusRex.h"
 #include <sys/types.h>
 #include <sys/stat.h>
-// This is what we will return the bindings
+
+/*! \struct PathData
+    \brief Response data.
+
+    The PathData structure is used to encapsulate
+    a single FST G2P result.
+*/
 struct PathData {
   PathData () {}
   PathData (float PathWeight_, const vector<float>& PathWeights_, 
@@ -50,6 +62,13 @@ struct PathData {
   vector<int>   Uniques;
 };
 
+/*! \class PhonetisaurusScript
+    \brief A wrapper class encapsulating the FST G2P decoder.
+
+    A wrapper class for the FST G2P decoder.  Suitable for 
+    incorporation into commandline binaries and bindings
+    for various scripting languages.  
+*/
 class PhonetisaurusScript {
  public:
   PhonetisaurusScript (string model) : delim_("") { 
