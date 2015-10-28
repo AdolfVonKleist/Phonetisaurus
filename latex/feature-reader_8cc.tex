@@ -1,0 +1,88 @@
+\hypertarget{feature-reader_8cc}{}\section{src/lib/feature-\/reader.cc File Reference}
+\label{feature-reader_8cc}\index{src/lib/feature-\/reader.\+cc@{src/lib/feature-\/reader.\+cc}}
+{\ttfamily \#include $<$fst/fstlib.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}Legacy\+Rnn\+L\+M\+Hash.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Rnn\+L\+M\+Decoder.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Legacy\+Rnn\+L\+M\+Decodable.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Legacy\+Rnn\+L\+M\+Reader.\+h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::unordered\+\_\+map$<$ int, std\+::vector$<$ int $>$ $>$ \hyperlink{feature-reader_8cc_a6f19009d35f2ced0560470ee58648357}{F\+M\+AP}
+\item 
+typedef \hyperlink{class_legacy_rnn_l_m_decodable}{Legacy\+Rnn\+L\+M\+Decodable}$<$ \hyperlink{class_token}{Token}, \hyperlink{class_legacy_rnn_l_m_hash}{Legacy\+Rnn\+L\+M\+Hash} $>$ \hyperlink{feature-reader_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}{Decodable}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class H $>$ }\\void \hyperlink{feature-reader_8cc_aa40d7f819c8f8e25c477ff0277a3c488}{Load\+Feature\+Conf} (const H \&h, \hyperlink{feature-reader_8cc_a6f19009d35f2ced0560470ee58648357}{F\+M\+AP} $\ast$fmap, std\+::string \&featurefilename)
+\item 
+\hyperlink{feature-reader_8cc_a4d6c8868221908bdaac95aeb694bf7d2}{D\+E\+F\+I\+N\+E\+\_\+string} (rnnlm,\char`\"{}\char`\"{},\char`\"{}The input Rnn\+LM model.\char`\"{})
+\item 
+\hyperlink{feature-reader_8cc_a4aec534fd49e2d20e5094494d76cd830}{D\+E\+F\+I\+N\+E\+\_\+string} (feats,\char`\"{}\char`\"{},\char`\"{}Auxiliary features conf file.\char`\"{})
+\item 
+int \hyperlink{feature-reader_8cc_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{feature-\/reader.\+cc@{feature-\/reader.\+cc}!Decodable@{Decodable}}
+\index{Decodable@{Decodable}!feature-\/reader.\+cc@{feature-\/reader.\+cc}}
+\subsubsection[{Decodable}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Legacy\+Rnn\+L\+M\+Decodable}$<${\bf Token}, {\bf Legacy\+Rnn\+L\+M\+Hash}$>$ {\bf Decodable}}\hypertarget{feature-reader_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}{}\label{feature-reader_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}
+
+
+Definition at line 40 of file feature-\/reader.\+cc.
+
+\index{feature-\/reader.\+cc@{feature-\/reader.\+cc}!F\+M\+AP@{F\+M\+AP}}
+\index{F\+M\+AP@{F\+M\+AP}!feature-\/reader.\+cc@{feature-\/reader.\+cc}}
+\subsubsection[{F\+M\+AP}]{\setlength{\rightskip}{0pt plus 5cm}typedef std\+::unordered\+\_\+map$<$int, std\+::vector$<$int$>$ $>$ {\bf F\+M\+AP}}\hypertarget{feature-reader_8cc_a6f19009d35f2ced0560470ee58648357}{}\label{feature-reader_8cc_a6f19009d35f2ced0560470ee58648357}
+
+
+Definition at line 9 of file feature-\/reader.\+cc.
+
+
+
+\subsection{Function Documentation}
+\index{feature-\/reader.\+cc@{feature-\/reader.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!feature-\/reader.\+cc@{feature-\/reader.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(rnnlm,"""",""The input Rnn\+L\+M model."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{rnnlm}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}The input Rnn\+LM model.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{feature-reader_8cc_a4d6c8868221908bdaac95aeb694bf7d2}{}\label{feature-reader_8cc_a4d6c8868221908bdaac95aeb694bf7d2}
+\index{feature-\/reader.\+cc@{feature-\/reader.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!feature-\/reader.\+cc@{feature-\/reader.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(feats,"""",""Auxiliary features conf file."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{feats}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Auxiliary features conf file.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{feature-reader_8cc_a4aec534fd49e2d20e5094494d76cd830}{}\label{feature-reader_8cc_a4aec534fd49e2d20e5094494d76cd830}
+\index{feature-\/reader.\+cc@{feature-\/reader.\+cc}!Load\+Feature\+Conf@{Load\+Feature\+Conf}}
+\index{Load\+Feature\+Conf@{Load\+Feature\+Conf}!feature-\/reader.\+cc@{feature-\/reader.\+cc}}
+\subsubsection[{Load\+Feature\+Conf(const H \&h, F\+M\+A\+P $\ast$fmap, std\+::string \&featurefilename)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class H $>$ void Load\+Feature\+Conf (
+\begin{DoxyParamCaption}
+\item[{const H \&}]{h, }
+\item[{{\bf F\+M\+AP} $\ast$}]{fmap, }
+\item[{std\+::string \&}]{featurefilename}
+\end{DoxyParamCaption}
+)}\hypertarget{feature-reader_8cc_aa40d7f819c8f8e25c477ff0277a3c488}{}\label{feature-reader_8cc_aa40d7f819c8f8e25c477ff0277a3c488}
+
+
+Definition at line 12 of file feature-\/reader.\+cc.
+
+\index{feature-\/reader.\+cc@{feature-\/reader.\+cc}!main@{main}}
+\index{main@{main}!feature-\/reader.\+cc@{feature-\/reader.\+cc}}
+\subsubsection[{main(int argc, char $\ast$argv[])}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{feature-reader_8cc_a0ddf1224851353fc92bfbff6f499fa97}{}\label{feature-reader_8cc_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+Definition at line 44 of file feature-\/reader.\+cc.
+

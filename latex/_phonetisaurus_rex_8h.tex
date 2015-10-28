@@ -1,0 +1,142 @@
+\hypertarget{_phonetisaurus_rex_8h}{}\section{src/include/\+Phonetisaurus\+Rex.h File Reference}
+\label{_phonetisaurus_rex_8h}\index{src/include/\+Phonetisaurus\+Rex.\+h@{src/include/\+Phonetisaurus\+Rex.\+h}}
+{\ttfamily \#include $<$fst/fstlib.\+h$>$}\\*
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\\*
+{\ttfamily \#include $<$unordered\+\_\+set$>$}\\*
+{\ttfamily \#include $<$functional$>$}\\*
+{\ttfamily \#include $<$include/util.\+h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_vector_int_hash}{Vector\+Int\+Hash}
+\item 
+struct \hyperlink{struct_path}{Path}
+\item 
+class \hyperlink{class_identity_path_filter}{Identity\+Path\+Filter$<$ Arc $>$}
+\item 
+class \hyperlink{class_m2_m_path_filter}{M2\+M\+Path\+Filter$<$ Arc $>$}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unordered\+\_\+map$<$ int, vector$<$ int $>$ $>$ \hyperlink{_phonetisaurus_rex_8h_a1b8d3cfde7f91bb07908a765d0afa44f}{Symbol\+Map12M}
+\item 
+typedef unordered\+\_\+map$<$ vector$<$ int $>$, int, \hyperlink{struct_vector_int_hash}{Vector\+Int\+Hash} $>$ \hyperlink{_phonetisaurus_rex_8h_a2be1c4ceaea6c6f9eae5fac174e22d88}{Symbol\+Map\+M21}
+\item 
+typedef unordered\+\_\+set$<$ int $>$ \hyperlink{_phonetisaurus_rex_8h_a667adafd2242ec30095948e6176168f2}{Veto\+Set}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{_phonetisaurus_rex_8h_acd2aea34413dc92e3c497576f547a137}{operator==} (const vector$<$ int $>$ \&x, const vector$<$ int $>$ \&y)
+\item 
+int \hyperlink{_phonetisaurus_rex_8h_acc1df0d3010f388cf6995d2b65997eed}{Load\+Clusters} (const Symbol\+Table $\ast$syms, \hyperlink{_phonetisaurus_rex_8h_a1b8d3cfde7f91bb07908a765d0afa44f}{Symbol\+Map12M} $\ast$clusters, \hyperlink{_phonetisaurus_rex_8h_a2be1c4ceaea6c6f9eae5fac174e22d88}{Symbol\+Map\+M21} $\ast$invclusters)
+\item 
+{\footnotesize template$<$class Arc $>$ }\\void \hyperlink{_phonetisaurus_rex_8h_a2ec3c200e93ea1abcb37782eca8fd090}{Entry2\+F\+SA} (const vector$<$ int $>$ \&word, Vector\+Fst$<$ Arc $>$ $\ast$fsa, size\+\_\+t maxlen, const \hyperlink{_phonetisaurus_rex_8h_a2be1c4ceaea6c6f9eae5fac174e22d88}{Symbol\+Map\+M21} \&invmap, bool superfinal=false)
+\item 
+{\footnotesize template$<$class Arc , class Rev\+Arc , class Path\+Filter $>$ }\\void \hyperlink{_phonetisaurus_rex_8h_a827ef9fa1fe367f900b9779cc70ec97f}{N\+Shortest\+Path\+Specialized} (const Fst$<$ Rev\+Arc $>$ \&ifst, Mutable\+Fst$<$ Arc $>$ $\ast$ofst, const vector$<$ typename Arc\+::\+Weight $>$ \&distance, size\+\_\+t beam, size\+\_\+t nbest, Path\+Filter $\ast$path\+\_\+filter, float delta=k\+Delta, typename Arc\+::\+Weight weight\+\_\+threshold=Arc\+::\+Weight\+::\+Zero(), typename Arc\+::\+State\+Id state\+\_\+threshold=k\+No\+State\+Id)
+\item 
+{\footnotesize template$<$class Arc , class Queue , class Arc\+Filter , class Path\+Filter $>$ }\\void \hyperlink{_phonetisaurus_rex_8h_a372903fe57c8e8abe1d8db8574502912}{Shortest\+Path\+Specialized} (const Fst$<$ Arc $>$ \&ifst, Mutable\+Fst$<$ Arc $>$ $\ast$ofst, vector$<$ typename Arc\+::\+Weight $>$ $\ast$distance, Path\+Filter $\ast$path\+\_\+filter, size\+\_\+t beam, Shortest\+Path\+Options$<$ Arc, Queue, Arc\+Filter $>$ \&opts)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!Symbol\+Map12M@{Symbol\+Map12M}}
+\index{Symbol\+Map12M@{Symbol\+Map12M}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{Symbol\+Map12M}]{\setlength{\rightskip}{0pt plus 5cm}typedef unordered\+\_\+map$<$int, vector$<$int$>$ $>$ {\bf Symbol\+Map12M}}\hypertarget{_phonetisaurus_rex_8h_a1b8d3cfde7f91bb07908a765d0afa44f}{}\label{_phonetisaurus_rex_8h_a1b8d3cfde7f91bb07908a765d0afa44f}
+
+
+Definition at line 66 of file Phonetisaurus\+Rex.\+h.
+
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!Symbol\+Map\+M21@{Symbol\+Map\+M21}}
+\index{Symbol\+Map\+M21@{Symbol\+Map\+M21}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{Symbol\+Map\+M21}]{\setlength{\rightskip}{0pt plus 5cm}typedef unordered\+\_\+map$<$vector$<$int$>$, int, {\bf Vector\+Int\+Hash}$>$ {\bf Symbol\+Map\+M21}}\hypertarget{_phonetisaurus_rex_8h_a2be1c4ceaea6c6f9eae5fac174e22d88}{}\label{_phonetisaurus_rex_8h_a2be1c4ceaea6c6f9eae5fac174e22d88}
+
+
+Definition at line 67 of file Phonetisaurus\+Rex.\+h.
+
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!Veto\+Set@{Veto\+Set}}
+\index{Veto\+Set@{Veto\+Set}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{Veto\+Set}]{\setlength{\rightskip}{0pt plus 5cm}typedef unordered\+\_\+set$<$int$>$ {\bf Veto\+Set}}\hypertarget{_phonetisaurus_rex_8h_a667adafd2242ec30095948e6176168f2}{}\label{_phonetisaurus_rex_8h_a667adafd2242ec30095948e6176168f2}
+
+
+Definition at line 68 of file Phonetisaurus\+Rex.\+h.
+
+
+
+\subsection{Function Documentation}
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!Entry2\+F\+SA@{Entry2\+F\+SA}}
+\index{Entry2\+F\+SA@{Entry2\+F\+SA}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{Entry2\+F\+S\+A(const vector$<$ int $>$ \&word, Vector\+Fst$<$ Arc $>$ $\ast$fsa, size\+\_\+t maxlen, const Symbol\+Map\+M21 \&invmap, bool superfinal=false)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Arc $>$ void Entry2\+F\+SA (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ int $>$ \&}]{word, }
+\item[{Vector\+Fst$<$ Arc $>$ $\ast$}]{fsa, }
+\item[{size\+\_\+t}]{maxlen, }
+\item[{const {\bf Symbol\+Map\+M21} \&}]{invmap, }
+\item[{bool}]{superfinal = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{_phonetisaurus_rex_8h_a2ec3c200e93ea1abcb37782eca8fd090}{}\label{_phonetisaurus_rex_8h_a2ec3c200e93ea1abcb37782eca8fd090}
+
+
+Definition at line 103 of file Phonetisaurus\+Rex.\+h.
+
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!Load\+Clusters@{Load\+Clusters}}
+\index{Load\+Clusters@{Load\+Clusters}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{Load\+Clusters(const Symbol\+Table $\ast$syms, Symbol\+Map12\+M $\ast$clusters, Symbol\+Map\+M21 $\ast$invclusters)}]{\setlength{\rightskip}{0pt plus 5cm}int Load\+Clusters (
+\begin{DoxyParamCaption}
+\item[{const Symbol\+Table $\ast$}]{syms, }
+\item[{{\bf Symbol\+Map12M} $\ast$}]{clusters, }
+\item[{{\bf Symbol\+Map\+M21} $\ast$}]{invclusters}
+\end{DoxyParamCaption}
+)}\hypertarget{_phonetisaurus_rex_8h_acc1df0d3010f388cf6995d2b65997eed}{}\label{_phonetisaurus_rex_8h_acc1df0d3010f388cf6995d2b65997eed}
+
+
+Definition at line 70 of file Phonetisaurus\+Rex.\+h.
+
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!N\+Shortest\+Path\+Specialized@{N\+Shortest\+Path\+Specialized}}
+\index{N\+Shortest\+Path\+Specialized@{N\+Shortest\+Path\+Specialized}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{N\+Shortest\+Path\+Specialized(const Fst$<$ Rev\+Arc $>$ \&ifst, Mutable\+Fst$<$ Arc $>$ $\ast$ofst, const vector$<$ typename Arc\+::\+Weight $>$ \&distance, size\+\_\+t beam, size\+\_\+t nbest, Path\+Filter $\ast$path\+\_\+filter, float delta=k\+Delta, typename Arc\+::\+Weight weight\+\_\+threshold=\+Arc\+::\+Weight\+::\+Zero(), typename Arc\+::\+State\+Id state\+\_\+threshold=k\+No\+State\+Id)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Arc , class Rev\+Arc , class Path\+Filter $>$ void N\+Shortest\+Path\+Specialized (
+\begin{DoxyParamCaption}
+\item[{const Fst$<$ Rev\+Arc $>$ \&}]{ifst, }
+\item[{Mutable\+Fst$<$ Arc $>$ $\ast$}]{ofst, }
+\item[{const vector$<$ typename Arc\+::\+Weight $>$ \&}]{distance, }
+\item[{size\+\_\+t}]{beam, }
+\item[{size\+\_\+t}]{nbest, }
+\item[{Path\+Filter $\ast$}]{path\+\_\+filter, }
+\item[{float}]{delta = {\ttfamily kDelta}, }
+\item[{typename Arc\+::\+Weight}]{weight\+\_\+threshold = {\ttfamily Arc\+:\+:Weight\+:\+:Zero~()}, }
+\item[{typename Arc\+::\+State\+Id}]{state\+\_\+threshold = {\ttfamily kNoStateId}}
+\end{DoxyParamCaption}
+)}\hypertarget{_phonetisaurus_rex_8h_a827ef9fa1fe367f900b9779cc70ec97f}{}\label{_phonetisaurus_rex_8h_a827ef9fa1fe367f900b9779cc70ec97f}
+
+
+Definition at line 209 of file Phonetisaurus\+Rex.\+h.
+
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!operator==@{operator==}}
+\index{operator==@{operator==}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{operator==(const vector$<$ int $>$ \&x, const vector$<$ int $>$ \&y)}]{\setlength{\rightskip}{0pt plus 5cm}bool operator== (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ int $>$ \&}]{x, }
+\item[{const vector$<$ int $>$ \&}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{_phonetisaurus_rex_8h_acd2aea34413dc92e3c497576f547a137}{}\label{_phonetisaurus_rex_8h_acd2aea34413dc92e3c497576f547a137}
+
+
+Definition at line 57 of file Phonetisaurus\+Rex.\+h.
+
+\index{Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}!Shortest\+Path\+Specialized@{Shortest\+Path\+Specialized}}
+\index{Shortest\+Path\+Specialized@{Shortest\+Path\+Specialized}!Phonetisaurus\+Rex.\+h@{Phonetisaurus\+Rex.\+h}}
+\subsubsection[{Shortest\+Path\+Specialized(const Fst$<$ Arc $>$ \&ifst, Mutable\+Fst$<$ Arc $>$ $\ast$ofst, vector$<$ typename Arc\+::\+Weight $>$ $\ast$distance, Path\+Filter $\ast$path\+\_\+filter, size\+\_\+t beam, Shortest\+Path\+Options$<$ Arc, Queue, Arc\+Filter $>$ \&opts)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Arc , class Queue , class Arc\+Filter , class Path\+Filter $>$ void Shortest\+Path\+Specialized (
+\begin{DoxyParamCaption}
+\item[{const Fst$<$ Arc $>$ \&}]{ifst, }
+\item[{Mutable\+Fst$<$ Arc $>$ $\ast$}]{ofst, }
+\item[{vector$<$ typename Arc\+::\+Weight $>$ $\ast$}]{distance, }
+\item[{Path\+Filter $\ast$}]{path\+\_\+filter, }
+\item[{size\+\_\+t}]{beam, }
+\item[{Shortest\+Path\+Options$<$ Arc, Queue, Arc\+Filter $>$ \&}]{opts}
+\end{DoxyParamCaption}
+)}\hypertarget{_phonetisaurus_rex_8h_a372903fe57c8e8abe1d8db8574502912}{}\label{_phonetisaurus_rex_8h_a372903fe57c8e8abe1d8db8574502912}
+
+
+Definition at line 354 of file Phonetisaurus\+Rex.\+h.
+

@@ -1,0 +1,163 @@
+\hypertarget{util_8cc}{}\section{src/lib/util.cc File Reference}
+\label{util_8cc}\index{src/lib/util.\+cc@{src/lib/util.\+cc}}
+{\ttfamily \#include $<$include/util.\+h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{util_8cc_a260903f8b736572053601a2667f700d1}{vec2str} (vector$<$ string $>$ vec, string sep)
+\item 
+string \hyperlink{util_8cc_ad1428a7f966f4f8bf2b5f2c6a8f847b2}{itoas} (int i)
+\item 
+vector$<$ string $>$ \hyperlink{util_8cc_aefb62abc53e44fa74b034b6de17fd3ba}{tokenize\+\_\+utf8\+\_\+string} (string $\ast$utf8\+\_\+string, string $\ast$delimiter)
+\item 
+vector$<$ string $>$ \hyperlink{util_8cc_a744454615e6a48d2c7811cb574b02415}{tokenize\+\_\+entry} (string $\ast$testword, string $\ast$sep, Symbol\+Table $\ast$syms)
+\item 
+vector$<$ int $>$ \hyperlink{util_8cc_a2f92a4ff0e982ae202869e60c1b2f492}{tokenize2ints} (string $\ast$testword, string $\ast$sep, const Symbol\+Table $\ast$syms)
+\item 
+timespec \hyperlink{util_8cc_add731bf5639dfeb2e80349b123a38595}{get\+\_\+time} ()
+\item 
+timespec \hyperlink{util_8cc_a5959b2e100c03e81bd1c5049adf30165}{diff} (timespec start, timespec end)
+\item 
+\hyperlink{util_8cc_aa224eaabb82e0b6590dabf3ff421957b}{D\+E\+F\+I\+N\+E\+\_\+bool} (help, false,\char`\"{}show usage information\char`\"{})
+\item 
+void \hyperlink{util_8cc_a44dab9986f58efc5a54511b6f122666c}{Phonetisaurus\+Set\+Flags} (const char $\ast$usage, int $\ast$argc, char $\ast$$\ast$$\ast$argv, bool remove\+\_\+flags)
+\item 
+void \hyperlink{util_8cc_af54352ad40c97ac3c73e3cb89db191ad}{Load\+Word\+List} (const std\+::string \&filename, std\+::vector$<$ std\+::string $>$ $\ast$corpus)
+\item 
+void \hyperlink{util_8cc_a081142eaee17d48c6b980499543d5c20}{Split} (const std\+::string \&s, char delim, std\+::vector$<$ std\+::string $>$ \&elems)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{util.\+cc@{util.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!util.\+cc@{util.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(help, false,""show usage information"")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{help}]{, }
+\item[{false}]{, }
+\item[{\char`\"{}show usage information\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_aa224eaabb82e0b6590dabf3ff421957b}{}\label{util_8cc_aa224eaabb82e0b6590dabf3ff421957b}
+\index{util.\+cc@{util.\+cc}!diff@{diff}}
+\index{diff@{diff}!util.\+cc@{util.\+cc}}
+\subsubsection[{diff(timespec start, timespec end)}]{\setlength{\rightskip}{0pt plus 5cm}timespec diff (
+\begin{DoxyParamCaption}
+\item[{timespec}]{start, }
+\item[{timespec}]{end}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_a5959b2e100c03e81bd1c5049adf30165}{}\label{util_8cc_a5959b2e100c03e81bd1c5049adf30165}
+
+
+Definition at line 145 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!get\+\_\+time@{get\+\_\+time}}
+\index{get\+\_\+time@{get\+\_\+time}!util.\+cc@{util.\+cc}}
+\subsubsection[{get\+\_\+time()}]{\setlength{\rightskip}{0pt plus 5cm}timespec get\+\_\+time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_add731bf5639dfeb2e80349b123a38595}{}\label{util_8cc_add731bf5639dfeb2e80349b123a38595}
+
+
+Definition at line 138 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!itoas@{itoas}}
+\index{itoas@{itoas}!util.\+cc@{util.\+cc}}
+\subsubsection[{itoas(int i)}]{\setlength{\rightskip}{0pt plus 5cm}string itoas (
+\begin{DoxyParamCaption}
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_ad1428a7f966f4f8bf2b5f2c6a8f847b2}{}\label{util_8cc_ad1428a7f966f4f8bf2b5f2c6a8f847b2}
+
+
+Definition at line 44 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!Load\+Word\+List@{Load\+Word\+List}}
+\index{Load\+Word\+List@{Load\+Word\+List}!util.\+cc@{util.\+cc}}
+\subsubsection[{Load\+Word\+List(const std\+::string \&filename, std\+::vector$<$ std\+::string $>$ $\ast$corpus)}]{\setlength{\rightskip}{0pt plus 5cm}void Load\+Word\+List (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{filename, }
+\item[{std\+::vector$<$ std\+::string $>$ $\ast$}]{corpus}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_af54352ad40c97ac3c73e3cb89db191ad}{}\label{util_8cc_af54352ad40c97ac3c73e3cb89db191ad}
+
+
+Definition at line 250 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!Phonetisaurus\+Set\+Flags@{Phonetisaurus\+Set\+Flags}}
+\index{Phonetisaurus\+Set\+Flags@{Phonetisaurus\+Set\+Flags}!util.\+cc@{util.\+cc}}
+\subsubsection[{Phonetisaurus\+Set\+Flags(const char $\ast$usage, int $\ast$argc, char $\ast$$\ast$$\ast$argv, bool remove\+\_\+flags)}]{\setlength{\rightskip}{0pt plus 5cm}void Phonetisaurus\+Set\+Flags (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{usage, }
+\item[{int $\ast$}]{argc, }
+\item[{char $\ast$$\ast$$\ast$}]{argv, }
+\item[{bool}]{remove\+\_\+flags}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_a44dab9986f58efc5a54511b6f122666c}{}\label{util_8cc_a44dab9986f58efc5a54511b6f122666c}
+
+
+Definition at line 158 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!Split@{Split}}
+\index{Split@{Split}!util.\+cc@{util.\+cc}}
+\subsubsection[{Split(const std\+::string \&s, char delim, std\+::vector$<$ std\+::string $>$ \&elems)}]{\setlength{\rightskip}{0pt plus 5cm}void Split (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{s, }
+\item[{char}]{delim, }
+\item[{std\+::vector$<$ std\+::string $>$ \&}]{elems}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_a081142eaee17d48c6b980499543d5c20}{}\label{util_8cc_a081142eaee17d48c6b980499543d5c20}
+
+
+Definition at line 268 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!tokenize2ints@{tokenize2ints}}
+\index{tokenize2ints@{tokenize2ints}!util.\+cc@{util.\+cc}}
+\subsubsection[{tokenize2ints(string $\ast$testword, string $\ast$sep, const Symbol\+Table $\ast$syms)}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$int$>$ tokenize2ints (
+\begin{DoxyParamCaption}
+\item[{string $\ast$}]{testword, }
+\item[{string $\ast$}]{sep, }
+\item[{const Symbol\+Table $\ast$}]{syms}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_a2f92a4ff0e982ae202869e60c1b2f492}{}\label{util_8cc_a2f92a4ff0e982ae202869e60c1b2f492}
+
+
+Definition at line 110 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!tokenize\+\_\+entry@{tokenize\+\_\+entry}}
+\index{tokenize\+\_\+entry@{tokenize\+\_\+entry}!util.\+cc@{util.\+cc}}
+\subsubsection[{tokenize\+\_\+entry(string $\ast$testword, string $\ast$sep, Symbol\+Table $\ast$syms)}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$string$>$ tokenize\+\_\+entry (
+\begin{DoxyParamCaption}
+\item[{string $\ast$}]{testword, }
+\item[{string $\ast$}]{sep, }
+\item[{Symbol\+Table $\ast$}]{syms}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_a744454615e6a48d2c7811cb574b02415}{}\label{util_8cc_a744454615e6a48d2c7811cb574b02415}
+
+
+Definition at line 93 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!tokenize\+\_\+utf8\+\_\+string@{tokenize\+\_\+utf8\+\_\+string}}
+\index{tokenize\+\_\+utf8\+\_\+string@{tokenize\+\_\+utf8\+\_\+string}!util.\+cc@{util.\+cc}}
+\subsubsection[{tokenize\+\_\+utf8\+\_\+string(string $\ast$utf8\+\_\+string, string $\ast$delimiter)}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$string$>$ tokenize\+\_\+utf8\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{string $\ast$}]{utf8\+\_\+string, }
+\item[{string $\ast$}]{delimiter}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_aefb62abc53e44fa74b034b6de17fd3ba}{}\label{util_8cc_aefb62abc53e44fa74b034b6de17fd3ba}
+
+
+Definition at line 50 of file util.\+cc.
+
+\index{util.\+cc@{util.\+cc}!vec2str@{vec2str}}
+\index{vec2str@{vec2str}!util.\+cc@{util.\+cc}}
+\subsubsection[{vec2str(vector$<$ string $>$ vec, string sep)}]{\setlength{\rightskip}{0pt plus 5cm}string vec2str (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$}]{vec, }
+\item[{string}]{sep}
+\end{DoxyParamCaption}
+)}\hypertarget{util_8cc_a260903f8b736572053601a2667f700d1}{}\label{util_8cc_a260903f8b736572053601a2667f700d1}
+
+
+Definition at line 34 of file util.\+cc.
+

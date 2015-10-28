@@ -1,0 +1,112 @@
+\hypertarget{phonetisaurus-arpa2wfst_8cc}{}\section{src/bin/phonetisaurus-\/arpa2wfst.cc File Reference}
+\label{phonetisaurus-arpa2wfst_8cc}\index{src/bin/phonetisaurus-\/arpa2wfst.\+cc@{src/bin/phonetisaurus-\/arpa2wfst.\+cc}}
+{\ttfamily \#include $<$include/\+A\+R\+P\+A2\+W\+F\+S\+T.\+h$>$}\\*
+{\ttfamily \#include $<$include/util.\+h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_a8f2697874c4cb901f60afbbebbb5a8de}{D\+E\+F\+I\+N\+E\+\_\+string} (lm,\char`\"{}\char`\"{},\char`\"{}Input A\+R\+PA format L\+M.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_ae1595814a6ef0dc3ac1d18c60dac9769}{D\+E\+F\+I\+N\+E\+\_\+string} (eps,\char`\"{}$<$eps$>$\char`\"{},\char`\"{}Epsilon symbol.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_ab85c7d8ecb99957f29eecc5ccad72521}{D\+E\+F\+I\+N\+E\+\_\+string} (sb,\char`\"{}$<$s$>$\char`\"{},\char`\"{}Sentence begin token.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_a4fb025f2d69c7833e70ed3b620ba44d4}{D\+E\+F\+I\+N\+E\+\_\+string} (se,\char`\"{}$<$/s$>$\char`\"{},\char`\"{}Sentence end token.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_afdf53b3d4d4c49997a7fadd2aeae6b9c}{D\+E\+F\+I\+N\+E\+\_\+string} (split,\char`\"{}\}\char`\"{},\char`\"{}Character separating grapheme/phoneme info.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_a21f7c06d8131a143c6e0f460a2ba0ac4}{D\+E\+F\+I\+N\+E\+\_\+string} (skip,\char`\"{}\+\_\+\char`\"{},\char`\"{}Character indicating insertions/deletions.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_ae5a55108fddfd9190365407470f6cdbd}{D\+E\+F\+I\+N\+E\+\_\+string} (tie,\char`\"{}$\vert$\char`\"{},\char`\"{}Character separating multi-\/token subsequences.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-arpa2wfst_8cc_a7d02519f45cba665e617899a67e34c1f}{D\+E\+F\+I\+N\+E\+\_\+string} (ofile,\char`\"{}\char`\"{},\char`\"{}Output file for writing. (S\+T\+D\+O\+UT)\char`\"{})
+\item 
+int \hyperlink{phonetisaurus-arpa2wfst_8cc_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(lm,"""",""Input A\+R\+P\+A format L\+M."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{lm}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Input A\+R\+PA format L\+M.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_a8f2697874c4cb901f60afbbebbb5a8de}{}\label{phonetisaurus-arpa2wfst_8cc_a8f2697874c4cb901f60afbbebbb5a8de}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(eps,""$<$eps$>$"",""Epsilon symbol."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{eps}]{, }
+\item[{\char`\"{}$<$eps$>$\char`\"{}}]{, }
+\item[{\char`\"{}Epsilon symbol.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_ae1595814a6ef0dc3ac1d18c60dac9769}{}\label{phonetisaurus-arpa2wfst_8cc_ae1595814a6ef0dc3ac1d18c60dac9769}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(sb,""$<$s$>$"",""Sentence begin token."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{sb}]{, }
+\item[{\char`\"{}$<$s$>$\char`\"{}}]{, }
+\item[{\char`\"{}Sentence begin token.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_ab85c7d8ecb99957f29eecc5ccad72521}{}\label{phonetisaurus-arpa2wfst_8cc_ab85c7d8ecb99957f29eecc5ccad72521}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(se,""$<$/s$>$"",""Sentence end token."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{se}]{, }
+\item[{\char`\"{}$<$/s$>$\char`\"{}}]{, }
+\item[{\char`\"{}Sentence end token.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_a4fb025f2d69c7833e70ed3b620ba44d4}{}\label{phonetisaurus-arpa2wfst_8cc_a4fb025f2d69c7833e70ed3b620ba44d4}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(split,""\rcurly{}"",""Character separating grapheme/phoneme info."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{split}]{, }
+\item[{\char`\"{}\}\char`\"{}}]{, }
+\item[{\char`\"{}Character separating grapheme/phoneme info.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_afdf53b3d4d4c49997a7fadd2aeae6b9c}{}\label{phonetisaurus-arpa2wfst_8cc_afdf53b3d4d4c49997a7fadd2aeae6b9c}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(skip,""\+\_\+"",""Character indicating insertions/deletions."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{skip}]{, }
+\item[{\char`\"{}\+\_\+\char`\"{}}]{, }
+\item[{\char`\"{}Character indicating insertions/deletions.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_a21f7c06d8131a143c6e0f460a2ba0ac4}{}\label{phonetisaurus-arpa2wfst_8cc_a21f7c06d8131a143c6e0f460a2ba0ac4}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(tie,""\texttt{"|}"",""Character separating multi-\/token subsequences."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{tie}]{, }
+\item[{\char`\"{}$\vert$\char`\"{}}]{, }
+\item[{\char`\"{}Character separating multi-\/token subsequences.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_ae5a55108fddfd9190365407470f6cdbd}{}\label{phonetisaurus-arpa2wfst_8cc_ae5a55108fddfd9190365407470f6cdbd}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(ofile,"""",""Output file for writing. (\+S\+T\+D\+O\+U\+T)"")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{ofile}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Output file for writing. (S\+T\+D\+O\+UT)\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_a7d02519f45cba665e617899a67e34c1f}{}\label{phonetisaurus-arpa2wfst_8cc_a7d02519f45cba665e617899a67e34c1f}
+\index{phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}!main@{main}}
+\index{main@{main}!phonetisaurus-\/arpa2wfst.\+cc@{phonetisaurus-\/arpa2wfst.\+cc}}
+\subsubsection[{main(int argc, char $\ast$argv[])}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-arpa2wfst_8cc_a0ddf1224851353fc92bfbff6f499fa97}{}\label{phonetisaurus-arpa2wfst_8cc_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+Definition at line 46 of file phonetisaurus-\/arpa2wfst.\+cc.
+

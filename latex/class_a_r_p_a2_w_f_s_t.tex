@@ -1,0 +1,200 @@
+\hypertarget{class_a_r_p_a2_w_f_s_t}{}\section{A\+R\+P\+A2\+W\+F\+ST Class Reference}
+\label{class_a_r_p_a2_w_f_s_t}\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+
+
+{\ttfamily \#include $<$A\+R\+P\+A2\+W\+F\+S\+T.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_r_p_a2_w_f_s_t_ab4bd900786807977ced8d8a77c218351}{A\+R\+P\+A2\+W\+F\+ST} (string lm, string \hyperlink{class_a_r_p_a2_w_f_s_t_ac3c171a25b4f9cee7a2977301af868ce}{eps}, string \hyperlink{class_a_r_p_a2_w_f_s_t_a98d68ef7089bf028a9ec5ce8929a7e9a}{sb}, string \hyperlink{class_a_r_p_a2_w_f_s_t_aaca67dc9e7b65acfb8aa24b542db8fe4}{se}, string \hyperlink{class_a_r_p_a2_w_f_s_t_aa9a5047c54dbfe3ffd799a28eb809729}{split}, string \hyperlink{class_a_r_p_a2_w_f_s_t_a5574ec74f50b2b78490e608ea10ef046}{skip}, string \hyperlink{class_a_r_p_a2_w_f_s_t_ab2db4a57e9b4020e3c9efda458d1355e}{tie})
+\item 
+void \hyperlink{class_a_r_p_a2_w_f_s_t_a5375a63a5b60605e7de0057cbeb10a50}{arpa\+\_\+to\+\_\+wfst} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ifstream \hyperlink{class_a_r_p_a2_w_f_s_t_a864de8947d779a07aac4fd5fad5eada8}{arpa\+\_\+lm\+\_\+fp}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_adb975c2928af5caf83b23f49286d10a2}{arpa\+\_\+lm\+\_\+file}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_a80673879d80fa9d9f06707e2e4f3c6f5}{line}
+\item 
+size\+\_\+t \hyperlink{class_a_r_p_a2_w_f_s_t_a0ce9ce2a2c963009a08cf35f73b1c159}{max\+\_\+order}
+\item 
+size\+\_\+t \hyperlink{class_a_r_p_a2_w_f_s_t_a0aff74ebbb5ca7329772a5f14fec14fe}{current\+\_\+order}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_ac3c171a25b4f9cee7a2977301af868ce}{eps}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_a98d68ef7089bf028a9ec5ce8929a7e9a}{sb}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_aaca67dc9e7b65acfb8aa24b542db8fe4}{se}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_aa9a5047c54dbfe3ffd799a28eb809729}{split}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_a5574ec74f50b2b78490e608ea10ef046}{skip}
+\item 
+string \hyperlink{class_a_r_p_a2_w_f_s_t_ab2db4a57e9b4020e3c9efda458d1355e}{tie}
+\item 
+Vector\+Fst$<$ Std\+Arc $>$ \hyperlink{class_a_r_p_a2_w_f_s_t_a2f34de8cb879f22a716881fd867854ed}{arpafst}
+\item 
+Symbol\+Table $\ast$ \hyperlink{class_a_r_p_a2_w_f_s_t_a3f59b3de10e68a415f44f2f47aaadea8}{ssyms}
+\item 
+Symbol\+Table $\ast$ \hyperlink{class_a_r_p_a2_w_f_s_t_acfefd0129935a85fc424811a7d3627d3}{isyms}
+\item 
+Symbol\+Table $\ast$ \hyperlink{class_a_r_p_a2_w_f_s_t_ac115a6b73de97772d853c3ce9470832d}{osyms}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 39 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{A\+R\+P\+A2\+W\+F\+S\+T(string lm, string eps, string sb, string se, string split, string skip, string tie)}]{\setlength{\rightskip}{0pt plus 5cm}A\+R\+P\+A2\+W\+F\+S\+T\+::\+A\+R\+P\+A2\+W\+F\+ST (
+\begin{DoxyParamCaption}
+\item[{string}]{lm, }
+\item[{string}]{eps, }
+\item[{string}]{sb, }
+\item[{string}]{se, }
+\item[{string}]{split, }
+\item[{string}]{skip, }
+\item[{string}]{tie}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_a_r_p_a2_w_f_s_t_ab4bd900786807977ced8d8a77c218351}{}\label{class_a_r_p_a2_w_f_s_t_ab4bd900786807977ced8d8a77c218351}
+
+
+Definition at line 79 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!arpa\+\_\+to\+\_\+wfst@{arpa\+\_\+to\+\_\+wfst}}
+\index{arpa\+\_\+to\+\_\+wfst@{arpa\+\_\+to\+\_\+wfst}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{arpa\+\_\+to\+\_\+wfst()}]{\setlength{\rightskip}{0pt plus 5cm}void A\+R\+P\+A2\+W\+F\+S\+T\+::arpa\+\_\+to\+\_\+wfst (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_a_r_p_a2_w_f_s_t_a5375a63a5b60605e7de0057cbeb10a50}{}\label{class_a_r_p_a2_w_f_s_t_a5375a63a5b60605e7de0057cbeb10a50}
+
+
+Definition at line 106 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!arpa\+\_\+lm\+\_\+file@{arpa\+\_\+lm\+\_\+file}}
+\index{arpa\+\_\+lm\+\_\+file@{arpa\+\_\+lm\+\_\+file}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{arpa\+\_\+lm\+\_\+file}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::arpa\+\_\+lm\+\_\+file}\hypertarget{class_a_r_p_a2_w_f_s_t_adb975c2928af5caf83b23f49286d10a2}{}\label{class_a_r_p_a2_w_f_s_t_adb975c2928af5caf83b23f49286d10a2}
+
+
+Definition at line 60 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!arpa\+\_\+lm\+\_\+fp@{arpa\+\_\+lm\+\_\+fp}}
+\index{arpa\+\_\+lm\+\_\+fp@{arpa\+\_\+lm\+\_\+fp}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{arpa\+\_\+lm\+\_\+fp}]{\setlength{\rightskip}{0pt plus 5cm}ifstream A\+R\+P\+A2\+W\+F\+S\+T\+::arpa\+\_\+lm\+\_\+fp}\hypertarget{class_a_r_p_a2_w_f_s_t_a864de8947d779a07aac4fd5fad5eada8}{}\label{class_a_r_p_a2_w_f_s_t_a864de8947d779a07aac4fd5fad5eada8}
+
+
+Definition at line 59 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!arpafst@{arpafst}}
+\index{arpafst@{arpafst}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{arpafst}]{\setlength{\rightskip}{0pt plus 5cm}Vector\+Fst$<$Std\+Arc$>$ A\+R\+P\+A2\+W\+F\+S\+T\+::arpafst}\hypertarget{class_a_r_p_a2_w_f_s_t_a2f34de8cb879f22a716881fd867854ed}{}\label{class_a_r_p_a2_w_f_s_t_a2f34de8cb879f22a716881fd867854ed}
+
+
+Definition at line 74 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!current\+\_\+order@{current\+\_\+order}}
+\index{current\+\_\+order@{current\+\_\+order}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{current\+\_\+order}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t A\+R\+P\+A2\+W\+F\+S\+T\+::current\+\_\+order}\hypertarget{class_a_r_p_a2_w_f_s_t_a0aff74ebbb5ca7329772a5f14fec14fe}{}\label{class_a_r_p_a2_w_f_s_t_a0aff74ebbb5ca7329772a5f14fec14fe}
+
+
+Definition at line 63 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!eps@{eps}}
+\index{eps@{eps}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{eps}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::eps}\hypertarget{class_a_r_p_a2_w_f_s_t_ac3c171a25b4f9cee7a2977301af868ce}{}\label{class_a_r_p_a2_w_f_s_t_ac3c171a25b4f9cee7a2977301af868ce}
+
+
+Definition at line 66 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!isyms@{isyms}}
+\index{isyms@{isyms}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{isyms}]{\setlength{\rightskip}{0pt plus 5cm}Symbol\+Table$\ast$ A\+R\+P\+A2\+W\+F\+S\+T\+::isyms}\hypertarget{class_a_r_p_a2_w_f_s_t_acfefd0129935a85fc424811a7d3627d3}{}\label{class_a_r_p_a2_w_f_s_t_acfefd0129935a85fc424811a7d3627d3}
+
+
+Definition at line 76 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!line@{line}}
+\index{line@{line}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{line}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::line}\hypertarget{class_a_r_p_a2_w_f_s_t_a80673879d80fa9d9f06707e2e4f3c6f5}{}\label{class_a_r_p_a2_w_f_s_t_a80673879d80fa9d9f06707e2e4f3c6f5}
+
+
+Definition at line 61 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!max\+\_\+order@{max\+\_\+order}}
+\index{max\+\_\+order@{max\+\_\+order}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{max\+\_\+order}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t A\+R\+P\+A2\+W\+F\+S\+T\+::max\+\_\+order}\hypertarget{class_a_r_p_a2_w_f_s_t_a0ce9ce2a2c963009a08cf35f73b1c159}{}\label{class_a_r_p_a2_w_f_s_t_a0ce9ce2a2c963009a08cf35f73b1c159}
+
+
+Definition at line 62 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!osyms@{osyms}}
+\index{osyms@{osyms}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{osyms}]{\setlength{\rightskip}{0pt plus 5cm}Symbol\+Table$\ast$ A\+R\+P\+A2\+W\+F\+S\+T\+::osyms}\hypertarget{class_a_r_p_a2_w_f_s_t_ac115a6b73de97772d853c3ce9470832d}{}\label{class_a_r_p_a2_w_f_s_t_ac115a6b73de97772d853c3ce9470832d}
+
+
+Definition at line 77 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!sb@{sb}}
+\index{sb@{sb}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{sb}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::sb}\hypertarget{class_a_r_p_a2_w_f_s_t_a98d68ef7089bf028a9ec5ce8929a7e9a}{}\label{class_a_r_p_a2_w_f_s_t_a98d68ef7089bf028a9ec5ce8929a7e9a}
+
+
+Definition at line 67 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!se@{se}}
+\index{se@{se}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{se}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::se}\hypertarget{class_a_r_p_a2_w_f_s_t_aaca67dc9e7b65acfb8aa24b542db8fe4}{}\label{class_a_r_p_a2_w_f_s_t_aaca67dc9e7b65acfb8aa24b542db8fe4}
+
+
+Definition at line 68 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!skip@{skip}}
+\index{skip@{skip}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{skip}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::skip}\hypertarget{class_a_r_p_a2_w_f_s_t_a5574ec74f50b2b78490e608ea10ef046}{}\label{class_a_r_p_a2_w_f_s_t_a5574ec74f50b2b78490e608ea10ef046}
+
+
+Definition at line 70 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!split@{split}}
+\index{split@{split}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{split}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::split}\hypertarget{class_a_r_p_a2_w_f_s_t_aa9a5047c54dbfe3ffd799a28eb809729}{}\label{class_a_r_p_a2_w_f_s_t_aa9a5047c54dbfe3ffd799a28eb809729}
+
+
+Definition at line 69 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!ssyms@{ssyms}}
+\index{ssyms@{ssyms}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{ssyms}]{\setlength{\rightskip}{0pt plus 5cm}Symbol\+Table$\ast$ A\+R\+P\+A2\+W\+F\+S\+T\+::ssyms}\hypertarget{class_a_r_p_a2_w_f_s_t_a3f59b3de10e68a415f44f2f47aaadea8}{}\label{class_a_r_p_a2_w_f_s_t_a3f59b3de10e68a415f44f2f47aaadea8}
+
+
+Definition at line 75 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+\index{A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}!tie@{tie}}
+\index{tie@{tie}!A\+R\+P\+A2\+W\+F\+ST@{A\+R\+P\+A2\+W\+F\+ST}}
+\subsubsection[{tie}]{\setlength{\rightskip}{0pt plus 5cm}string A\+R\+P\+A2\+W\+F\+S\+T\+::tie}\hypertarget{class_a_r_p_a2_w_f_s_t_ab2db4a57e9b4020e3c9efda458d1355e}{}\label{class_a_r_p_a2_w_f_s_t_ab2db4a57e9b4020e3c9efda458d1355e}
+
+
+Definition at line 71 of file A\+R\+P\+A2\+W\+F\+S\+T.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{_a_r_p_a2_w_f_s_t_8h}{A\+R\+P\+A2\+W\+F\+S\+T.\+h}\end{DoxyCompactItemize}

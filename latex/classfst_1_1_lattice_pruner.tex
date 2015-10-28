@@ -1,0 +1,155 @@
+\hypertarget{classfst_1_1_lattice_pruner}{}\section{fst\+:\+:Lattice\+Pruner Class Reference}
+\label{classfst_1_1_lattice_pruner}\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+
+
+{\ttfamily \#include $<$Lattice\+Pruner.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classfst_1_1_lattice_pruner_a8ecd3fdc53f0d48fb411b96014efe9ab}{Lattice\+Pruner} ()
+\item 
+\hyperlink{classfst_1_1_lattice_pruner_aa2336aaaa48746a2cfc7fc8146597576}{Lattice\+Pruner} (\hyperlink{util_8h_a13f45ccb6f1fc986fdd8d78d0edf5a16}{Label\+Data} \+\_\+penalties, Tropical\+Weight \+\_\+beam, int \+\_\+nbest, bool \+\_\+fb, bool \+\_\+penalize)
+\item 
+\hyperlink{classfst_1_1_lattice_pruner_aff99de66a7b398cd8bc00f6b26817ab7}{Lattice\+Pruner} (Tropical\+Weight \+\_\+beam, int \+\_\+nbest, bool \+\_\+fb)
+\item 
+void \hyperlink{classfst_1_1_lattice_pruner_abe86a9417f34681b6979cfab38f9cbb4}{prune\+\_\+fst} (Vector\+Fst$<$ Std\+Arc $>$ $\ast$fst)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ Log\+Weight $>$ \hyperlink{classfst_1_1_lattice_pruner_a6d15772df115fcd55910b6e6b3d4f28c}{alpha}
+\item 
+vector$<$ Log\+Weight $>$ \hyperlink{classfst_1_1_lattice_pruner_a13bcf628dbceba07d4a7c4a9a0651370}{beta}
+\item 
+\hyperlink{util_8h_a13f45ccb6f1fc986fdd8d78d0edf5a16}{Label\+Data} \hyperlink{classfst_1_1_lattice_pruner_a4d2c5ebcc9a88bbe7ebdb58523c0b01f}{penalties}
+\item 
+bool \hyperlink{classfst_1_1_lattice_pruner_a812ff9458a41f3a40e60454fefad9c1e}{penalize}
+\item 
+int \hyperlink{classfst_1_1_lattice_pruner_a8346ec4a44626618420c75c14fdb64f6}{nbest}
+\item 
+bool \hyperlink{classfst_1_1_lattice_pruner_a0334f1638ddf39db90c820f9921fb689}{fb}
+\item 
+Tropical\+Weight \hyperlink{classfst_1_1_lattice_pruner_abdf2a2d041bba147d7a7199fcafedd36}{beam}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 38 of file Lattice\+Pruner.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!Lattice\+Pruner@{Lattice\+Pruner}}
+\index{Lattice\+Pruner@{Lattice\+Pruner}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{Lattice\+Pruner()}]{\setlength{\rightskip}{0pt plus 5cm}Lattice\+Pruner\+::\+Lattice\+Pruner (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classfst_1_1_lattice_pruner_a8ecd3fdc53f0d48fb411b96014efe9ab}{}\label{classfst_1_1_lattice_pruner_a8ecd3fdc53f0d48fb411b96014efe9ab}
+
+
+Definition at line 35 of file Lattice\+Pruner.\+cc.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!Lattice\+Pruner@{Lattice\+Pruner}}
+\index{Lattice\+Pruner@{Lattice\+Pruner}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{Lattice\+Pruner(\+Label\+Data \+\_\+penalties, Tropical\+Weight \+\_\+beam, int \+\_\+nbest, bool \+\_\+fb, bool \+\_\+penalize)}]{\setlength{\rightskip}{0pt plus 5cm}Lattice\+Pruner\+::\+Lattice\+Pruner (
+\begin{DoxyParamCaption}
+\item[{{\bf Label\+Data}}]{\+\_\+penalties, }
+\item[{Tropical\+Weight}]{\+\_\+beam, }
+\item[{int}]{\+\_\+nbest, }
+\item[{bool}]{\+\_\+fb, }
+\item[{bool}]{\+\_\+penalize}
+\end{DoxyParamCaption}
+)}\hypertarget{classfst_1_1_lattice_pruner_aa2336aaaa48746a2cfc7fc8146597576}{}\label{classfst_1_1_lattice_pruner_aa2336aaaa48746a2cfc7fc8146597576}
+
+
+Definition at line 39 of file Lattice\+Pruner.\+cc.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!Lattice\+Pruner@{Lattice\+Pruner}}
+\index{Lattice\+Pruner@{Lattice\+Pruner}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{Lattice\+Pruner(\+Tropical\+Weight \+\_\+beam, int \+\_\+nbest, bool \+\_\+fb)}]{\setlength{\rightskip}{0pt plus 5cm}Lattice\+Pruner\+::\+Lattice\+Pruner (
+\begin{DoxyParamCaption}
+\item[{Tropical\+Weight}]{\+\_\+beam, }
+\item[{int}]{\+\_\+nbest, }
+\item[{bool}]{\+\_\+fb}
+\end{DoxyParamCaption}
+)}\hypertarget{classfst_1_1_lattice_pruner_aff99de66a7b398cd8bc00f6b26817ab7}{}\label{classfst_1_1_lattice_pruner_aff99de66a7b398cd8bc00f6b26817ab7}
+
+
+Definition at line 47 of file Lattice\+Pruner.\+cc.
+
+
+
+\subsection{Member Function Documentation}
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!prune\+\_\+fst@{prune\+\_\+fst}}
+\index{prune\+\_\+fst@{prune\+\_\+fst}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{prune\+\_\+fst(\+Vector\+Fst$<$ Std\+Arc $>$ $\ast$fst)}]{\setlength{\rightskip}{0pt plus 5cm}void Lattice\+Pruner\+::prune\+\_\+fst (
+\begin{DoxyParamCaption}
+\item[{Vector\+Fst$<$ Std\+Arc $>$ $\ast$}]{fst}
+\end{DoxyParamCaption}
+)}\hypertarget{classfst_1_1_lattice_pruner_abe86a9417f34681b6979cfab38f9cbb4}{}\label{classfst_1_1_lattice_pruner_abe86a9417f34681b6979cfab38f9cbb4}
+
+
+Definition at line 55 of file Lattice\+Pruner.\+cc.
+
+
+
+\subsection{Member Data Documentation}
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!alpha@{alpha}}
+\index{alpha@{alpha}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{alpha}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$Log\+Weight$>$ fst\+::\+Lattice\+Pruner\+::alpha}\hypertarget{classfst_1_1_lattice_pruner_a6d15772df115fcd55910b6e6b3d4f28c}{}\label{classfst_1_1_lattice_pruner_a6d15772df115fcd55910b6e6b3d4f28c}
+
+
+Definition at line 50 of file Lattice\+Pruner.\+h.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!beam@{beam}}
+\index{beam@{beam}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{beam}]{\setlength{\rightskip}{0pt plus 5cm}Tropical\+Weight fst\+::\+Lattice\+Pruner\+::beam}\hypertarget{classfst_1_1_lattice_pruner_abdf2a2d041bba147d7a7199fcafedd36}{}\label{classfst_1_1_lattice_pruner_abdf2a2d041bba147d7a7199fcafedd36}
+
+
+Definition at line 55 of file Lattice\+Pruner.\+h.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!beta@{beta}}
+\index{beta@{beta}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{beta}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$Log\+Weight$>$ fst\+::\+Lattice\+Pruner\+::beta}\hypertarget{classfst_1_1_lattice_pruner_a13bcf628dbceba07d4a7c4a9a0651370}{}\label{classfst_1_1_lattice_pruner_a13bcf628dbceba07d4a7c4a9a0651370}
+
+
+Definition at line 50 of file Lattice\+Pruner.\+h.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!fb@{fb}}
+\index{fb@{fb}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{fb}]{\setlength{\rightskip}{0pt plus 5cm}bool fst\+::\+Lattice\+Pruner\+::fb}\hypertarget{classfst_1_1_lattice_pruner_a0334f1638ddf39db90c820f9921fb689}{}\label{classfst_1_1_lattice_pruner_a0334f1638ddf39db90c820f9921fb689}
+
+
+Definition at line 54 of file Lattice\+Pruner.\+h.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!nbest@{nbest}}
+\index{nbest@{nbest}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{nbest}]{\setlength{\rightskip}{0pt plus 5cm}int fst\+::\+Lattice\+Pruner\+::nbest}\hypertarget{classfst_1_1_lattice_pruner_a8346ec4a44626618420c75c14fdb64f6}{}\label{classfst_1_1_lattice_pruner_a8346ec4a44626618420c75c14fdb64f6}
+
+
+Definition at line 53 of file Lattice\+Pruner.\+h.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!penalize@{penalize}}
+\index{penalize@{penalize}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{penalize}]{\setlength{\rightskip}{0pt plus 5cm}bool fst\+::\+Lattice\+Pruner\+::penalize}\hypertarget{classfst_1_1_lattice_pruner_a812ff9458a41f3a40e60454fefad9c1e}{}\label{classfst_1_1_lattice_pruner_a812ff9458a41f3a40e60454fefad9c1e}
+
+
+Definition at line 52 of file Lattice\+Pruner.\+h.
+
+\index{fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}!penalties@{penalties}}
+\index{penalties@{penalties}!fst\+::\+Lattice\+Pruner@{fst\+::\+Lattice\+Pruner}}
+\subsubsection[{penalties}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Label\+Data} fst\+::\+Lattice\+Pruner\+::penalties}\hypertarget{classfst_1_1_lattice_pruner_a4d2c5ebcc9a88bbe7ebdb58523c0b01f}{}\label{classfst_1_1_lattice_pruner_a4d2c5ebcc9a88bbe7ebdb58523c0b01f}
+
+
+Definition at line 51 of file Lattice\+Pruner.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{_lattice_pruner_8h}{Lattice\+Pruner.\+h}\item 
+src/lib/\hyperlink{_lattice_pruner_8cc}{Lattice\+Pruner.\+cc}\end{DoxyCompactItemize}

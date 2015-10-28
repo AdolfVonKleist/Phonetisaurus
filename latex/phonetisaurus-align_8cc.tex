@@ -1,0 +1,379 @@
+\hypertarget{phonetisaurus-align_8cc}{}\section{src/bin/phonetisaurus-\/align.cc File Reference}
+\label{phonetisaurus-align_8cc}\index{src/bin/phonetisaurus-\/align.\+cc@{src/bin/phonetisaurus-\/align.\+cc}}
+{\ttfamily \#include $<$include/\+M2\+M\+Fst\+Aligner.\+h$>$}\\*
+{\ttfamily \#include $<$include/\+Lattice\+Pruner.\+h$>$}\\*
+{\ttfamily \#include $<$include/util.\+h$>$}\\*
+{\ttfamily \#include $<$include/\+Phonetisaurus\+Rex.\+h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{phonetisaurus-align_8cc_a5b968534ba908e3665cbdb1a7d32cab3}{load\+\_\+input\+\_\+file} (\hyperlink{classfst_1_1_m2_m_fst_aligner}{M2\+M\+Fst\+Aligner} $\ast$aligner, string input\+\_\+file, string delim, string s1\+\_\+char\+\_\+delim, string s2\+\_\+char\+\_\+delim, bool init=false)
+\item 
+void \hyperlink{phonetisaurus-align_8cc_a3c7baa67124566fca72dccbbe07898b0}{write\+\_\+alignments} (\hyperlink{classfst_1_1_m2_m_fst_aligner}{M2\+M\+Fst\+Aligner} $\ast$aligner, string ofile\+\_\+name, Std\+Arc\+::\+Weight threshold, int nbest, bool fb, bool penalize)
+\item 
+void \hyperlink{phonetisaurus-align_8cc_aee3872a1716dba7313069f74cf4a3f26}{compile\+N\+Best\+Far\+Archive} (\hyperlink{classfst_1_1_m2_m_fst_aligner}{M2\+M\+Fst\+Aligner} $\ast$aligner, vector$<$ Vector\+Fst$<$ Log\+Arc $>$ $>$ $\ast$fsts, string far\+\_\+name, Std\+Arc\+::\+Weight threshold, int nbest, bool fb, bool penalize)
+\item 
+\hyperlink{phonetisaurus-align_8cc_a519390dc2a08a10bbeac1d66a8acf40b}{D\+E\+F\+I\+N\+E\+\_\+bool} (seq1\+\_\+del, true,\char`\"{}Allow deletions in sequence one.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a026901d5c2decd26c9076998f7bd6343}{D\+E\+F\+I\+N\+E\+\_\+bool} (seq2\+\_\+del, true,\char`\"{}Allow deletions in sequence two.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_aa289cf922ae8f8b5d684f13d477a3a19}{D\+E\+F\+I\+N\+E\+\_\+bool} (penalize, true,\char`\"{}Penalize scores.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a04d2e69f65d7950b9c648b42d62d0647}{D\+E\+F\+I\+N\+E\+\_\+bool} (penalize\+\_\+em, false,\char`\"{}Penalize links during EM training.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a5bc870033331f892f7bd65a94264154d}{D\+E\+F\+I\+N\+E\+\_\+bool} (load\+\_\+model, false,\char`\"{}Load a pre-\/trained model for use.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a01c283c5fcd61f1edd3e116e103b7653}{D\+E\+F\+I\+N\+E\+\_\+bool} (lattice, false,\char`\"{}Write out the alignment lattices as an fst archive (.far).\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_aa3017ec90c1954b9995598f44db31c69}{D\+E\+F\+I\+N\+E\+\_\+bool} (restrict, true,\char`\"{}Restrict links to M-\/1, 1-\/N during initialization.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a6b13d28e16e0917a096b2aa6f9ead009}{D\+E\+F\+I\+N\+E\+\_\+bool} (mbr, false,\char`\"{}Use the L\+M\+BR decoder (not yet implemented).\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_ae8d43d903930ceb212c39e1a2aca8b05}{D\+E\+F\+I\+N\+E\+\_\+bool} (fb, false,\char`\"{}Use forward-\/backward pruning for the alignment lattices.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a6ef13ec1f28831ad404a0a2bf10190e0}{D\+E\+F\+I\+N\+E\+\_\+int32} (seq1\+\_\+max, 2,\char`\"{}Maximum subsequence length for sequence one.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_aeef73ba59fa40f086987502d4160145d}{D\+E\+F\+I\+N\+E\+\_\+int32} (seq2\+\_\+max, 2,\char`\"{}Maximum subsequence length for sequence two.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a78f73c5db31a8e4745a84fb4c872961e}{D\+E\+F\+I\+N\+E\+\_\+int32} (iter, 11,\char`\"{}Maximum number of EM iterations to perform.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a26d5adc23a533d58ec8a5b0167b87594}{D\+E\+F\+I\+N\+E\+\_\+int32} (nbest, 1,\char`\"{}Output the N-\/best alignments given the model.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a18eb0acd74d210b766de65024d9a73ab}{D\+E\+F\+I\+N\+E\+\_\+string} (input,\char`\"{}\char`\"{},\char`\"{}Two-\/column input file to align.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a855693efd2a698fa106e2214f87cf1b2}{D\+E\+F\+I\+N\+E\+\_\+string} (seq1\+\_\+sep,\char`\"{}$\vert$\char`\"{},\char`\"{}Multi-\/token separator for input tokens.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_af00da9375ee6e41c13c700d3b3bbbed8}{D\+E\+F\+I\+N\+E\+\_\+string} (seq2\+\_\+sep,\char`\"{}$\vert$\char`\"{},\char`\"{}Multi-\/token separator for output tokens.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a42080c49bec024a5029ca421ac861e78}{D\+E\+F\+I\+N\+E\+\_\+string} (s1s2\+\_\+sep,\char`\"{}\}\char`\"{},\char`\"{}Token used to separate input-\/output subsequences in the g2p model.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a59fc363efa8b295fcc598dbead5f29a4}{D\+E\+F\+I\+N\+E\+\_\+string} (delim,\char`\"{}\textbackslash{}t\char`\"{},\char`\"{}Delimiter separating entry one and entry two in the input file.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_ae1595814a6ef0dc3ac1d18c60dac9769}{D\+E\+F\+I\+N\+E\+\_\+string} (eps,\char`\"{}$<$eps$>$\char`\"{},\char`\"{}Epsilon symbol.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a1a6e906e949b6845ef8a186dd0055335}{D\+E\+F\+I\+N\+E\+\_\+string} (skip,\char`\"{}\+\_\+\char`\"{},\char`\"{}Skip token used to represent null transitions.  Distinct from epsilon.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a07d2fe8a6f9c92439d4b8d5d016615c6}{D\+E\+F\+I\+N\+E\+\_\+string} (ofile,\char`\"{}\char`\"{},\char`\"{}Output file to write the aligned dictionary to.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_abd54ad579a1f0f7eb6d56be80ac789c7}{D\+E\+F\+I\+N\+E\+\_\+string} (s1\+\_\+char\+\_\+delim,\char`\"{}\char`\"{},\char`\"{}Sequence one input delimeter.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_ab639bd94e4ccb405b69a82d6efba7d45}{D\+E\+F\+I\+N\+E\+\_\+string} (s2\+\_\+char\+\_\+delim,\char`\"{} \char`\"{},\char`\"{}Sequence two input delimeter.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a7ecda1625cd9a67bd26bc048506fbd75}{D\+E\+F\+I\+N\+E\+\_\+string} (model\+\_\+file,\char`\"{}\char`\"{},\char`\"{}F\+ST-\/format alignment model to load.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a96fba0f3561a62e7a839e057a142c492}{D\+E\+F\+I\+N\+E\+\_\+string} (write\+\_\+model,\char`\"{}\char`\"{},\char`\"{}Write out the alignment model in Open\+Fst format to filename.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_a8c2a80c854a2595c7326a8cdec4147f0}{D\+E\+F\+I\+N\+E\+\_\+double} (thresh, 1e-\/10,\char`\"{}\+Delta threshold for E\+M training termination.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-align_8cc_aeba2f6623326254ef340dfc611835b26}{D\+E\+F\+I\+N\+E\+\_\+double} (pthresh,-\/99,\char`\"{}Pruning threshold.  Use to prune unlikely N-\/best candidates when using multiple alignments.\char`\"{})
+\item 
+int \hyperlink{phonetisaurus-align_8cc_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!compile\+N\+Best\+Far\+Archive@{compile\+N\+Best\+Far\+Archive}}
+\index{compile\+N\+Best\+Far\+Archive@{compile\+N\+Best\+Far\+Archive}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{compile\+N\+Best\+Far\+Archive(\+M2\+M\+Fst\+Aligner $\ast$aligner, vector$<$ Vector\+Fst$<$ Log\+Arc $>$ $>$ $\ast$fsts, string far\+\_\+name, Std\+Arc\+::\+Weight threshold, int nbest, bool fb, bool penalize)}]{\setlength{\rightskip}{0pt plus 5cm}void compile\+N\+Best\+Far\+Archive (
+\begin{DoxyParamCaption}
+\item[{{\bf M2\+M\+Fst\+Aligner} $\ast$}]{aligner, }
+\item[{vector$<$ Vector\+Fst$<$ Log\+Arc $>$ $>$ $\ast$}]{fsts, }
+\item[{string}]{far\+\_\+name, }
+\item[{Std\+Arc\+::\+Weight}]{threshold, }
+\item[{int}]{nbest, }
+\item[{bool}]{fb, }
+\item[{bool}]{penalize}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_aee3872a1716dba7313069f74cf4a3f26}{}\label{phonetisaurus-align_8cc_aee3872a1716dba7313069f74cf4a3f26}
+
+
+Definition at line 146 of file phonetisaurus-\/align.\+cc.
+
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(seq1\+\_\+del, true,""Allow deletions in sequence one."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{seq1\+\_\+del}]{, }
+\item[{true}]{, }
+\item[{\char`\"{}Allow deletions in sequence one.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a519390dc2a08a10bbeac1d66a8acf40b}{}\label{phonetisaurus-align_8cc_a519390dc2a08a10bbeac1d66a8acf40b}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(seq2\+\_\+del, true,""Allow deletions in sequence two."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{seq2\+\_\+del}]{, }
+\item[{true}]{, }
+\item[{\char`\"{}Allow deletions in sequence two.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a026901d5c2decd26c9076998f7bd6343}{}\label{phonetisaurus-align_8cc_a026901d5c2decd26c9076998f7bd6343}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(penalize, true,""Penalize scores."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{penalize}]{, }
+\item[{true}]{, }
+\item[{\char`\"{}Penalize scores.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_aa289cf922ae8f8b5d684f13d477a3a19}{}\label{phonetisaurus-align_8cc_aa289cf922ae8f8b5d684f13d477a3a19}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(penalize\+\_\+em, false,""Penalize links during E\+M training."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{penalize\+\_\+em}]{, }
+\item[{false}]{, }
+\item[{\char`\"{}Penalize links during EM training.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a04d2e69f65d7950b9c648b42d62d0647}{}\label{phonetisaurus-align_8cc_a04d2e69f65d7950b9c648b42d62d0647}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(load\+\_\+model, false,""Load a pre-\/trained model for use."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{load\+\_\+model}]{, }
+\item[{false}]{, }
+\item[{\char`\"{}Load a pre-\/trained model for use.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a5bc870033331f892f7bd65a94264154d}{}\label{phonetisaurus-align_8cc_a5bc870033331f892f7bd65a94264154d}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(lattice, false,""Write out the alignment lattices as an fst archive (.\+far)."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{lattice}]{, }
+\item[{false}]{, }
+\item[{\char`\"{}Write out the alignment lattices as an fst archive (.far).\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a01c283c5fcd61f1edd3e116e103b7653}{}\label{phonetisaurus-align_8cc_a01c283c5fcd61f1edd3e116e103b7653}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(restrict, true,""Restrict links to M-\/1, 1-\/\+N during initialization."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{restrict}]{, }
+\item[{true}]{, }
+\item[{\char`\"{}Restrict links to M-\/}]{1, }
+\item[{1-\/N during initialization.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_aa3017ec90c1954b9995598f44db31c69}{}\label{phonetisaurus-align_8cc_aa3017ec90c1954b9995598f44db31c69}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(mbr, false,""Use the L\+M\+B\+R decoder (not yet implemented)."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{mbr}]{, }
+\item[{false}]{, }
+\item[{\char`\"{}Use the L\+M\+BR decoder (not yet implemented).\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a6b13d28e16e0917a096b2aa6f9ead009}{}\label{phonetisaurus-align_8cc_a6b13d28e16e0917a096b2aa6f9ead009}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(fb, false,""Use forward-\/backward pruning for the alignment lattices."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{fb}]{, }
+\item[{false}]{, }
+\item[{\char`\"{}Use forward-\/backward pruning for the alignment lattices.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_ae8d43d903930ceb212c39e1a2aca8b05}{}\label{phonetisaurus-align_8cc_ae8d43d903930ceb212c39e1a2aca8b05}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+double@{D\+E\+F\+I\+N\+E\+\_\+double}}
+\index{D\+E\+F\+I\+N\+E\+\_\+double@{D\+E\+F\+I\+N\+E\+\_\+double}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+double(thresh, 1e-\/10,""Delta threshold for E\+M training termination."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+double (
+\begin{DoxyParamCaption}
+\item[{thresh}]{, }
+\item[{1e-\/}]{10, }
+\item[{\char`\"{}Delta threshold for EM training termination.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a8c2a80c854a2595c7326a8cdec4147f0}{}\label{phonetisaurus-align_8cc_a8c2a80c854a2595c7326a8cdec4147f0}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+double@{D\+E\+F\+I\+N\+E\+\_\+double}}
+\index{D\+E\+F\+I\+N\+E\+\_\+double@{D\+E\+F\+I\+N\+E\+\_\+double}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+double(pthresh,-\/99,""Pruning threshold.  Use to prune unlikely N-\/best candidates when using multiple alignments."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+double (
+\begin{DoxyParamCaption}
+\item[{pthresh}]{, }
+\item[{-\/}]{99, }
+\item[{\char`\"{}Pruning threshold. Use to prune unlikely N-\/best candidates when using multiple alignments.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_aeba2f6623326254ef340dfc611835b26}{}\label{phonetisaurus-align_8cc_aeba2f6623326254ef340dfc611835b26}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(seq1\+\_\+max, 2,""Maximum subsequence length for sequence one."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{seq1\+\_\+max}]{, }
+\item[{2}]{, }
+\item[{\char`\"{}Maximum subsequence length for sequence one.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a6ef13ec1f28831ad404a0a2bf10190e0}{}\label{phonetisaurus-align_8cc_a6ef13ec1f28831ad404a0a2bf10190e0}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(seq2\+\_\+max, 2,""Maximum subsequence length for sequence two."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{seq2\+\_\+max}]{, }
+\item[{2}]{, }
+\item[{\char`\"{}Maximum subsequence length for sequence two.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_aeef73ba59fa40f086987502d4160145d}{}\label{phonetisaurus-align_8cc_aeef73ba59fa40f086987502d4160145d}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(iter, 11,""Maximum number of E\+M iterations to perform."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{iter}]{, }
+\item[{11}]{, }
+\item[{\char`\"{}Maximum number of EM iterations to perform.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a78f73c5db31a8e4745a84fb4c872961e}{}\label{phonetisaurus-align_8cc_a78f73c5db31a8e4745a84fb4c872961e}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(nbest, 1,""Output the N-\/best alignments given the model."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{nbest}]{, }
+\item[{1}]{, }
+\item[{\char`\"{}Output the N-\/best alignments given the model.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a26d5adc23a533d58ec8a5b0167b87594}{}\label{phonetisaurus-align_8cc_a26d5adc23a533d58ec8a5b0167b87594}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(input,"""",""Two-\/column input file to align."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{input}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Two-\/column input file to align.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a18eb0acd74d210b766de65024d9a73ab}{}\label{phonetisaurus-align_8cc_a18eb0acd74d210b766de65024d9a73ab}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(seq1\+\_\+sep,""\texttt{"|}"",""Multi-\/token separator for input tokens."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{seq1\+\_\+sep}]{, }
+\item[{\char`\"{}$\vert$\char`\"{}}]{, }
+\item[{\char`\"{}Multi-\/token separator for input tokens.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a855693efd2a698fa106e2214f87cf1b2}{}\label{phonetisaurus-align_8cc_a855693efd2a698fa106e2214f87cf1b2}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(seq2\+\_\+sep,""\texttt{"|}"",""Multi-\/token separator for output tokens."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{seq2\+\_\+sep}]{, }
+\item[{\char`\"{}$\vert$\char`\"{}}]{, }
+\item[{\char`\"{}Multi-\/token separator for output tokens.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_af00da9375ee6e41c13c700d3b3bbbed8}{}\label{phonetisaurus-align_8cc_af00da9375ee6e41c13c700d3b3bbbed8}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(s1s2\+\_\+sep,""\rcurly{}"",""Token used to separate input-\/output subsequences in the g2p model."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{s1s2\+\_\+sep}]{, }
+\item[{\char`\"{}\}\char`\"{}}]{, }
+\item[{\char`\"{}Token used to separate input-\/output subsequences in the g2p model.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a42080c49bec024a5029ca421ac861e78}{}\label{phonetisaurus-align_8cc_a42080c49bec024a5029ca421ac861e78}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(delim,""\textbackslash{}t"",""Delimiter separating entry one and entry two in the input file."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{delim}]{, }
+\item[{\char`\"{}\textbackslash{}t\char`\"{}}]{, }
+\item[{\char`\"{}Delimiter separating entry one and entry two in the input file.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a59fc363efa8b295fcc598dbead5f29a4}{}\label{phonetisaurus-align_8cc_a59fc363efa8b295fcc598dbead5f29a4}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(eps,""$<$eps$>$"",""Epsilon symbol."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{eps}]{, }
+\item[{\char`\"{}$<$eps$>$\char`\"{}}]{, }
+\item[{\char`\"{}Epsilon symbol.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_ae1595814a6ef0dc3ac1d18c60dac9769}{}\label{phonetisaurus-align_8cc_ae1595814a6ef0dc3ac1d18c60dac9769}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(skip,""\+\_\+"",""Skip token used to represent null transitions.  Distinct from epsilon."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{skip}]{, }
+\item[{\char`\"{}\+\_\+\char`\"{}}]{, }
+\item[{\char`\"{}Skip token used to represent null transitions. Distinct from epsilon.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a1a6e906e949b6845ef8a186dd0055335}{}\label{phonetisaurus-align_8cc_a1a6e906e949b6845ef8a186dd0055335}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(ofile,"""",""Output file to write the aligned dictionary to."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{ofile}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Output file to write the aligned dictionary to.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a07d2fe8a6f9c92439d4b8d5d016615c6}{}\label{phonetisaurus-align_8cc_a07d2fe8a6f9c92439d4b8d5d016615c6}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(s1\+\_\+char\+\_\+delim,"""",""Sequence one input delimeter."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{s1\+\_\+char\+\_\+delim}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Sequence one input delimeter.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_abd54ad579a1f0f7eb6d56be80ac789c7}{}\label{phonetisaurus-align_8cc_abd54ad579a1f0f7eb6d56be80ac789c7}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(s2\+\_\+char\+\_\+delim,"" "",""Sequence two input delimeter."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{s2\+\_\+char\+\_\+delim}]{, }
+\item[{\char`\"{} \char`\"{}}]{, }
+\item[{\char`\"{}Sequence two input delimeter.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_ab639bd94e4ccb405b69a82d6efba7d45}{}\label{phonetisaurus-align_8cc_ab639bd94e4ccb405b69a82d6efba7d45}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(model\+\_\+file,"""",""F\+S\+T-\/format alignment model to load."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{model\+\_\+file}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}F\+ST-\/format alignment model to load.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a7ecda1625cd9a67bd26bc048506fbd75}{}\label{phonetisaurus-align_8cc_a7ecda1625cd9a67bd26bc048506fbd75}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(write\+\_\+model,"""",""Write out the alignment model in Open\+Fst format to filename."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{write\+\_\+model}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Write out the alignment model in Open\+Fst format to filename.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a96fba0f3561a62e7a839e057a142c492}{}\label{phonetisaurus-align_8cc_a96fba0f3561a62e7a839e057a142c492}
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!load\+\_\+input\+\_\+file@{load\+\_\+input\+\_\+file}}
+\index{load\+\_\+input\+\_\+file@{load\+\_\+input\+\_\+file}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{load\+\_\+input\+\_\+file(\+M2\+M\+Fst\+Aligner $\ast$aligner, string input\+\_\+file, string delim, string s1\+\_\+char\+\_\+delim, string s2\+\_\+char\+\_\+delim, bool init=false)}]{\setlength{\rightskip}{0pt plus 5cm}int load\+\_\+input\+\_\+file (
+\begin{DoxyParamCaption}
+\item[{{\bf M2\+M\+Fst\+Aligner} $\ast$}]{aligner, }
+\item[{string}]{input\+\_\+file, }
+\item[{string}]{delim, }
+\item[{string}]{s1\+\_\+char\+\_\+delim, }
+\item[{string}]{s2\+\_\+char\+\_\+delim, }
+\item[{bool}]{init = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a5b968534ba908e3665cbdb1a7d32cab3}{}\label{phonetisaurus-align_8cc_a5b968534ba908e3665cbdb1a7d32cab3}
+
+
+Definition at line 39 of file phonetisaurus-\/align.\+cc.
+
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!main@{main}}
+\index{main@{main}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{main(int argc, char $\ast$argv[])}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a0ddf1224851353fc92bfbff6f499fa97}{}\label{phonetisaurus-align_8cc_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+Definition at line 263 of file phonetisaurus-\/align.\+cc.
+
+\index{phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}!write\+\_\+alignments@{write\+\_\+alignments}}
+\index{write\+\_\+alignments@{write\+\_\+alignments}!phonetisaurus-\/align.\+cc@{phonetisaurus-\/align.\+cc}}
+\subsubsection[{write\+\_\+alignments(\+M2\+M\+Fst\+Aligner $\ast$aligner, string ofile\+\_\+name, Std\+Arc\+::\+Weight threshold, int nbest, bool fb, bool penalize)}]{\setlength{\rightskip}{0pt plus 5cm}void write\+\_\+alignments (
+\begin{DoxyParamCaption}
+\item[{{\bf M2\+M\+Fst\+Aligner} $\ast$}]{aligner, }
+\item[{string}]{ofile\+\_\+name, }
+\item[{Std\+Arc\+::\+Weight}]{threshold, }
+\item[{int}]{nbest, }
+\item[{bool}]{fb, }
+\item[{bool}]{penalize}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-align_8cc_a3c7baa67124566fca72dccbbe07898b0}{}\label{phonetisaurus-align_8cc_a3c7baa67124566fca72dccbbe07898b0}
+
+
+Definition at line 75 of file phonetisaurus-\/align.\+cc.
+

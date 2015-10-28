@@ -1,0 +1,270 @@
+\hypertarget{phonetisaurus-g2prnn_8cc}{}\section{src/bin/phonetisaurus-\/g2prnn.cc File Reference}
+\label{phonetisaurus-g2prnn_8cc}\index{src/bin/phonetisaurus-\/g2prnn.\+cc@{src/bin/phonetisaurus-\/g2prnn.\+cc}}
+{\ttfamily \#include $<$fst/fstlib.\+h$>$}\\*
+{\ttfamily \#include $<$include/\+Legacy\+Rnn\+L\+M\+Hash.\+h$>$}\\*
+{\ttfamily \#include $<$include/\+Legacy\+Rnn\+L\+M\+Decodable.\+h$>$}\\*
+{\ttfamily \#include $<$include/\+Legacy\+Rnn\+L\+M\+Reader.\+h$>$}\\*
+{\ttfamily \#include $<$include/\+Rnn\+L\+M\+Decoder.\+h$>$}\\*
+{\ttfamily \#include $<$include/util.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}utf8.\+h\char`\"{}}\\*
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \hyperlink{class_legacy_rnn_l_m_decodable}{Legacy\+Rnn\+L\+M\+Decodable}$<$ \hyperlink{class_token}{Token}, \hyperlink{class_legacy_rnn_l_m_hash}{Legacy\+Rnn\+L\+M\+Hash} $>$ \hyperlink{phonetisaurus-g2prnn_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}{Decodable}
+\item 
+typedef unordered\+\_\+map$<$ int, \hyperlink{class_simple_result}{Simple\+Result} $>$ \hyperlink{phonetisaurus-g2prnn_8cc_a7b96401d634bcd97a67f2a841418f174}{R\+M\+AP}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{phonetisaurus-g2prnn_8cc_aeda911220d69a88fc9cca5b1f3d870d7}{Threaded\+Evaluate\+Wordlist} (vector$<$ string $>$ \&corpus, \hyperlink{phonetisaurus-g2pfst_8cc_aaed81f2ee40857c2b37f7772067c38ee}{R\+M\+AP} \&rmap, \hyperlink{class_legacy_rnn_l_m_hash}{Legacy\+Rnn\+L\+M\+Hash} \&h, \hyperlink{phonetisaurus-g2prnn_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}{Decodable} \&s, int F\+L\+A\+G\+S\+\_\+threads, int F\+L\+A\+G\+S\+\_\+beam, int F\+L\+A\+G\+S\+\_\+kmax, int F\+L\+A\+G\+S\+\_\+nbest, bool F\+L\+A\+G\+S\+\_\+reverse, string F\+L\+A\+G\+S\+\_\+gpdelim, string F\+L\+A\+G\+S\+\_\+gdelim, string F\+L\+A\+G\+S\+\_\+skip, double F\+L\+A\+G\+S\+\_\+thresh, string F\+L\+A\+G\+S\+\_\+gsep)
+\item 
+void \hyperlink{phonetisaurus-g2prnn_8cc_a5209b9ab2d29f2b5dd99d644dd339969}{Evaluate\+Wordlist} (vector$<$ string $>$ \&corpus, \hyperlink{class_legacy_rnn_l_m_hash}{Legacy\+Rnn\+L\+M\+Hash} \&h, \hyperlink{phonetisaurus-g2prnn_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}{Decodable} \&s, int F\+L\+A\+G\+S\+\_\+beam, int F\+L\+A\+G\+S\+\_\+kmax, int F\+L\+A\+G\+S\+\_\+nbest, bool F\+L\+A\+G\+S\+\_\+reverse, string F\+L\+A\+G\+S\+\_\+gpdelim, string F\+L\+A\+G\+S\+\_\+gdelim, string F\+L\+A\+G\+S\+\_\+skip, double F\+L\+A\+G\+S\+\_\+thresh, string F\+L\+A\+G\+S\+\_\+gsep)
+\item 
+void \hyperlink{phonetisaurus-g2prnn_8cc_aa3699879f92e8e27fdfbce625ba21ac2}{Evaluate\+Word} (string word, \hyperlink{class_legacy_rnn_l_m_hash}{Legacy\+Rnn\+L\+M\+Hash} \&h, \hyperlink{phonetisaurus-g2prnn_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}{Decodable} \&s, int F\+L\+A\+G\+S\+\_\+beam, int F\+L\+A\+G\+S\+\_\+kmax, int F\+L\+A\+G\+S\+\_\+nbest, bool F\+L\+A\+G\+S\+\_\+reverse, string F\+L\+A\+G\+S\+\_\+gpdelim, string F\+L\+A\+G\+S\+\_\+gdelim, string F\+L\+A\+G\+S\+\_\+skip, double F\+L\+A\+G\+S\+\_\+thresh, string F\+L\+A\+G\+S\+\_\+gsep)
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a4d6c8868221908bdaac95aeb694bf7d2}{D\+E\+F\+I\+N\+E\+\_\+string} (rnnlm,\char`\"{}\char`\"{},\char`\"{}The input Rnn\+LM model.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a74b564a3305ef7fab8247f5cdfca26c9}{D\+E\+F\+I\+N\+E\+\_\+string} (wordlist,\char`\"{}\char`\"{},\char`\"{}Input word list to evaluate.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a1a79fbeb46e8d58fc6589433af277428}{D\+E\+F\+I\+N\+E\+\_\+string} (word,\char`\"{}\char`\"{},\char`\"{}Single input word to evaluate.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a74fff5c2a9beb815a6bd1f5a330520bb}{D\+E\+F\+I\+N\+E\+\_\+string} (gdelim,\char`\"{}$\vert$\char`\"{},\char`\"{}The default multigram delimiter.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_ab1f6e3b5a5387f2651c2abb5c65f39db}{D\+E\+F\+I\+N\+E\+\_\+string} (gpdelim,\char`\"{}\}\char`\"{},\char`\"{}The default grapheme / phoneme delimiter.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_ab2cc4d61bb4340ded7b8c8cce8ef2998}{D\+E\+F\+I\+N\+E\+\_\+string} (gsep,\char`\"{}\char`\"{},\char`\"{}The default grapheme delimiter for testing.  Typically \textquotesingle{}\textquotesingle{}.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a712966f3cc546a90beaf0ff6d307df76}{D\+E\+F\+I\+N\+E\+\_\+string} (skip,\char`\"{}\+\_\+\char`\"{},\char`\"{}The default null/skip token.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a8ce5665997cc9fdf474932437140b4f9}{D\+E\+F\+I\+N\+E\+\_\+int32} (nbest, 1,\char`\"{}Maximum number of hypotheses to return.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a78f0c9344cdc475aeff6a7b00d89e5c1}{D\+E\+F\+I\+N\+E\+\_\+int32} (threads, 1,\char`\"{}Number of parallel threads (Open\+MP).\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a0feacf2109e0b1e83f06240d0354ff4e}{D\+E\+F\+I\+N\+E\+\_\+int32} (kmax, 20,\char`\"{}State-\/local maximum queue size.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a39fd8f0112b58d6c13e35329686c90af}{D\+E\+F\+I\+N\+E\+\_\+int32} (beam, 20,\char`\"{}The state-\/local beam width.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_a51ab0545bb2214c70c3bc4b8958b2500}{D\+E\+F\+I\+N\+E\+\_\+double} (thresh, 0.\+0,\char`\"{}The n-\/best pruning threshold. Relative to 1-\/best.\char`\"{})
+\item 
+\hyperlink{phonetisaurus-g2prnn_8cc_ab4cc7f74640b5741f665bb09c9d3f9a7}{D\+E\+F\+I\+N\+E\+\_\+bool} (reverse, false,\char`\"{}Reverse the input word before decoding.\char`\"{})
+\item 
+int \hyperlink{phonetisaurus-g2prnn_8cc_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!Decodable@{Decodable}}
+\index{Decodable@{Decodable}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{Decodable}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Legacy\+Rnn\+L\+M\+Decodable}$<${\bf Token}, {\bf Legacy\+Rnn\+L\+M\+Hash}$>$ {\bf Decodable}}\hypertarget{phonetisaurus-g2prnn_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}{}\label{phonetisaurus-g2prnn_8cc_a43ce4eb8f370c5b37f80c5bb5f1b4e16}
+
+
+Definition at line 13 of file phonetisaurus-\/g2prnn.\+cc.
+
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!R\+M\+AP@{R\+M\+AP}}
+\index{R\+M\+AP@{R\+M\+AP}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{R\+M\+AP}]{\setlength{\rightskip}{0pt plus 5cm}typedef unordered\+\_\+map$<$int, {\bf Simple\+Result}$>$ {\bf R\+M\+AP}}\hypertarget{phonetisaurus-g2prnn_8cc_a7b96401d634bcd97a67f2a841418f174}{}\label{phonetisaurus-g2prnn_8cc_a7b96401d634bcd97a67f2a841418f174}
+
+
+Definition at line 14 of file phonetisaurus-\/g2prnn.\+cc.
+
+
+
+\subsection{Function Documentation}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}}
+\index{D\+E\+F\+I\+N\+E\+\_\+bool@{D\+E\+F\+I\+N\+E\+\_\+bool}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+bool(reverse, false,""Reverse the input word before decoding."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+bool (
+\begin{DoxyParamCaption}
+\item[{reverse}]{, }
+\item[{false}]{, }
+\item[{\char`\"{}Reverse the input word before decoding.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_ab4cc7f74640b5741f665bb09c9d3f9a7}{}\label{phonetisaurus-g2prnn_8cc_ab4cc7f74640b5741f665bb09c9d3f9a7}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+double@{D\+E\+F\+I\+N\+E\+\_\+double}}
+\index{D\+E\+F\+I\+N\+E\+\_\+double@{D\+E\+F\+I\+N\+E\+\_\+double}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+double(thresh, 0.\+0,""The n-\/best pruning threshold. Relative to 1-\/best."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+double (
+\begin{DoxyParamCaption}
+\item[{thresh}]{, }
+\item[{0.}]{0, }
+\item[{\char`\"{}The n-\/best pruning threshold. Relative to 1-\/best.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a51ab0545bb2214c70c3bc4b8958b2500}{}\label{phonetisaurus-g2prnn_8cc_a51ab0545bb2214c70c3bc4b8958b2500}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(nbest, 1,""Maximum number of hypotheses to return."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{nbest}]{, }
+\item[{1}]{, }
+\item[{\char`\"{}Maximum number of hypotheses to return.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a8ce5665997cc9fdf474932437140b4f9}{}\label{phonetisaurus-g2prnn_8cc_a8ce5665997cc9fdf474932437140b4f9}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(threads, 1,""Number of parallel threads (\+Open\+M\+P)."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{threads}]{, }
+\item[{1}]{, }
+\item[{\char`\"{}Number of parallel threads (Open\+MP).\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a78f0c9344cdc475aeff6a7b00d89e5c1}{}\label{phonetisaurus-g2prnn_8cc_a78f0c9344cdc475aeff6a7b00d89e5c1}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(kmax, 20,""State-\/local maximum queue size."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{kmax}]{, }
+\item[{20}]{, }
+\item[{\char`\"{}State-\/local maximum queue size.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a0feacf2109e0b1e83f06240d0354ff4e}{}\label{phonetisaurus-g2prnn_8cc_a0feacf2109e0b1e83f06240d0354ff4e}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}}
+\index{D\+E\+F\+I\+N\+E\+\_\+int32@{D\+E\+F\+I\+N\+E\+\_\+int32}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+int32(beam, 20,""The state-\/local beam width."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+int32 (
+\begin{DoxyParamCaption}
+\item[{beam}]{, }
+\item[{20}]{, }
+\item[{\char`\"{}The state-\/local beam width.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a39fd8f0112b58d6c13e35329686c90af}{}\label{phonetisaurus-g2prnn_8cc_a39fd8f0112b58d6c13e35329686c90af}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(rnnlm,"""",""The input Rnn\+L\+M model."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{rnnlm}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}The input Rnn\+LM model.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a4d6c8868221908bdaac95aeb694bf7d2}{}\label{phonetisaurus-g2prnn_8cc_a4d6c8868221908bdaac95aeb694bf7d2}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(wordlist,"""",""Input word list to evaluate."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{wordlist}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Input word list to evaluate.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a74b564a3305ef7fab8247f5cdfca26c9}{}\label{phonetisaurus-g2prnn_8cc_a74b564a3305ef7fab8247f5cdfca26c9}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(word,"""",""Single input word to evaluate."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{word}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}Single input word to evaluate.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a1a79fbeb46e8d58fc6589433af277428}{}\label{phonetisaurus-g2prnn_8cc_a1a79fbeb46e8d58fc6589433af277428}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(gdelim,""\texttt{"|}"",""The default multigram delimiter."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{gdelim}]{, }
+\item[{\char`\"{}$\vert$\char`\"{}}]{, }
+\item[{\char`\"{}The default multigram delimiter.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a74fff5c2a9beb815a6bd1f5a330520bb}{}\label{phonetisaurus-g2prnn_8cc_a74fff5c2a9beb815a6bd1f5a330520bb}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(gpdelim,""\rcurly{}"",""The default grapheme / phoneme delimiter."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{gpdelim}]{, }
+\item[{\char`\"{}\}\char`\"{}}]{, }
+\item[{\char`\"{}The default grapheme / phoneme delimiter.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_ab1f6e3b5a5387f2651c2abb5c65f39db}{}\label{phonetisaurus-g2prnn_8cc_ab1f6e3b5a5387f2651c2abb5c65f39db}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(gsep,"""",""The default grapheme delimiter for testing.  Typically \textquotesingle{}\textquotesingle{}."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{gsep}]{, }
+\item[{\char`\"{}\char`\"{}}]{, }
+\item[{\char`\"{}The default grapheme delimiter for testing. Typically \textquotesingle{}\textquotesingle{}.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_ab2cc4d61bb4340ded7b8c8cce8ef2998}{}\label{phonetisaurus-g2prnn_8cc_ab2cc4d61bb4340ded7b8c8cce8ef2998}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}}
+\index{D\+E\+F\+I\+N\+E\+\_\+string@{D\+E\+F\+I\+N\+E\+\_\+string}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{D\+E\+F\+I\+N\+E\+\_\+string(skip,""\+\_\+"",""The default null/skip token."")}]{\setlength{\rightskip}{0pt plus 5cm}D\+E\+F\+I\+N\+E\+\_\+string (
+\begin{DoxyParamCaption}
+\item[{skip}]{, }
+\item[{\char`\"{}\+\_\+\char`\"{}}]{, }
+\item[{\char`\"{}The default null/skip token.\char`\"{}}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a712966f3cc546a90beaf0ff6d307df76}{}\label{phonetisaurus-g2prnn_8cc_a712966f3cc546a90beaf0ff6d307df76}
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!Evaluate\+Word@{Evaluate\+Word}}
+\index{Evaluate\+Word@{Evaluate\+Word}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{Evaluate\+Word(string word, Legacy\+Rnn\+L\+M\+Hash \&h, Decodable \&s, int F\+L\+A\+G\+S\+\_\+beam, int F\+L\+A\+G\+S\+\_\+kmax, int F\+L\+A\+G\+S\+\_\+nbest, bool F\+L\+A\+G\+S\+\_\+reverse, string F\+L\+A\+G\+S\+\_\+gpdelim, string F\+L\+A\+G\+S\+\_\+gdelim, string F\+L\+A\+G\+S\+\_\+skip, double F\+L\+A\+G\+S\+\_\+thresh, string F\+L\+A\+G\+S\+\_\+gsep)}]{\setlength{\rightskip}{0pt plus 5cm}void Evaluate\+Word (
+\begin{DoxyParamCaption}
+\item[{string}]{word, }
+\item[{{\bf Legacy\+Rnn\+L\+M\+Hash} \&}]{h, }
+\item[{{\bf Decodable} \&}]{s, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+beam, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+kmax, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+nbest, }
+\item[{bool}]{F\+L\+A\+G\+S\+\_\+reverse, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gpdelim, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gdelim, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+skip, }
+\item[{double}]{F\+L\+A\+G\+S\+\_\+thresh, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gsep}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_aa3699879f92e8e27fdfbce625ba21ac2}{}\label{phonetisaurus-g2prnn_8cc_aa3699879f92e8e27fdfbce625ba21ac2}
+
+
+Definition at line 84 of file phonetisaurus-\/g2prnn.\+cc.
+
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!Evaluate\+Wordlist@{Evaluate\+Wordlist}}
+\index{Evaluate\+Wordlist@{Evaluate\+Wordlist}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{Evaluate\+Wordlist(vector$<$ string $>$ \&corpus, Legacy\+Rnn\+L\+M\+Hash \&h, Decodable \&s, int F\+L\+A\+G\+S\+\_\+beam, int F\+L\+A\+G\+S\+\_\+kmax, int F\+L\+A\+G\+S\+\_\+nbest, bool F\+L\+A\+G\+S\+\_\+reverse, string F\+L\+A\+G\+S\+\_\+gpdelim, string F\+L\+A\+G\+S\+\_\+gdelim, string F\+L\+A\+G\+S\+\_\+skip, double F\+L\+A\+G\+S\+\_\+thresh, string F\+L\+A\+G\+S\+\_\+gsep)}]{\setlength{\rightskip}{0pt plus 5cm}void Evaluate\+Wordlist (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$ \&}]{corpus, }
+\item[{{\bf Legacy\+Rnn\+L\+M\+Hash} \&}]{h, }
+\item[{{\bf Decodable} \&}]{s, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+beam, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+kmax, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+nbest, }
+\item[{bool}]{F\+L\+A\+G\+S\+\_\+reverse, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gpdelim, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gdelim, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+skip, }
+\item[{double}]{F\+L\+A\+G\+S\+\_\+thresh, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gsep}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a5209b9ab2d29f2b5dd99d644dd339969}{}\label{phonetisaurus-g2prnn_8cc_a5209b9ab2d29f2b5dd99d644dd339969}
+
+
+Definition at line 57 of file phonetisaurus-\/g2prnn.\+cc.
+
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!main@{main}}
+\index{main@{main}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{main(int argc, char $\ast$argv[])}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_a0ddf1224851353fc92bfbff6f499fa97}{}\label{phonetisaurus-g2prnn_8cc_a0ddf1224851353fc92bfbff6f499fa97}
+
+
+Definition at line 121 of file phonetisaurus-\/g2prnn.\+cc.
+
+\index{phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}!Threaded\+Evaluate\+Wordlist@{Threaded\+Evaluate\+Wordlist}}
+\index{Threaded\+Evaluate\+Wordlist@{Threaded\+Evaluate\+Wordlist}!phonetisaurus-\/g2prnn.\+cc@{phonetisaurus-\/g2prnn.\+cc}}
+\subsubsection[{Threaded\+Evaluate\+Wordlist(vector$<$ string $>$ \&corpus, R\+M\+A\+P \&rmap, Legacy\+Rnn\+L\+M\+Hash \&h, Decodable \&s, int F\+L\+A\+G\+S\+\_\+threads, int F\+L\+A\+G\+S\+\_\+beam, int F\+L\+A\+G\+S\+\_\+kmax, int F\+L\+A\+G\+S\+\_\+nbest, bool F\+L\+A\+G\+S\+\_\+reverse, string F\+L\+A\+G\+S\+\_\+gpdelim, string F\+L\+A\+G\+S\+\_\+gdelim, string F\+L\+A\+G\+S\+\_\+skip, double F\+L\+A\+G\+S\+\_\+thresh, string F\+L\+A\+G\+S\+\_\+gsep)}]{\setlength{\rightskip}{0pt plus 5cm}void Threaded\+Evaluate\+Wordlist (
+\begin{DoxyParamCaption}
+\item[{vector$<$ string $>$ \&}]{corpus, }
+\item[{{\bf R\+M\+AP} \&}]{rmap, }
+\item[{{\bf Legacy\+Rnn\+L\+M\+Hash} \&}]{h, }
+\item[{{\bf Decodable} \&}]{s, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+threads, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+beam, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+kmax, }
+\item[{int}]{F\+L\+A\+G\+S\+\_\+nbest, }
+\item[{bool}]{F\+L\+A\+G\+S\+\_\+reverse, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gpdelim, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gdelim, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+skip, }
+\item[{double}]{F\+L\+A\+G\+S\+\_\+thresh, }
+\item[{string}]{F\+L\+A\+G\+S\+\_\+gsep}
+\end{DoxyParamCaption}
+)}\hypertarget{phonetisaurus-g2prnn_8cc_aeda911220d69a88fc9cca5b1f3d870d7}{}\label{phonetisaurus-g2prnn_8cc_aeda911220d69a88fc9cca5b1f3d870d7}
+
+
+Definition at line 17 of file phonetisaurus-\/g2prnn.\+cc.
+

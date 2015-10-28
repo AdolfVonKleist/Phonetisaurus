@@ -1,0 +1,280 @@
+\hypertarget{class_legacy_rnn_l_m_hash}{}\section{Legacy\+Rnn\+L\+M\+Hash Class Reference}
+\label{class_legacy_rnn_l_m_hash}\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+
+
+{\ttfamily \#include $<$Legacy\+Rnn\+L\+M\+Hash.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_legacy_rnn_l_m_hash_a95c7d816f90cd7d38b7cb187d6cf2246}{Legacy\+Rnn\+L\+M\+Hash} (int class\+\_\+size)
+\item 
+\hyperlink{class_legacy_rnn_l_m_hash_a84da4bd0d52cf54a0fd98cdd496c58a3}{Legacy\+Rnn\+L\+M\+Hash} (int class\+\_\+size, const string g\+\_\+delim, const string gp\+\_\+delim)
+\item 
+void \hyperlink{class_legacy_rnn_l_m_hash_a29b25e1bec4ad47e57e07ac5f47e26f1}{Split} (const std\+::string \&s, char delim, std\+::vector$<$ std\+::string $>$ \&elems)
+\item 
+{\footnotesize template$<$typename I $>$ }\\int \hyperlink{class_legacy_rnn_l_m_hash_aa59043b40e1d9f6d8d6306d3c08a2814}{Hash\+Input} (I start, I end)
+\item 
+void \hyperlink{class_legacy_rnn_l_m_hash_a1fd0b060d136c90d6d8e03f82c9e859c}{Map\+Token} (string \&token)
+\item 
+int \hyperlink{class_legacy_rnn_l_m_hash_a25e420c7afd77b3c372d3362dc9d84af}{Hash\+Word} (std\+::string \&word) const 
+\item 
+int \hyperlink{class_legacy_rnn_l_m_hash_a038210ebadfce90db9fe7b9822a23dc0}{Find\+Word} (std\+::string \&word)
+\item 
+int \hyperlink{class_legacy_rnn_l_m_hash_a4bb3449f6fdc2fabdab847dec598dbea}{Get\+Word\+Id} (std\+::string \&word) const 
+\item 
+int \hyperlink{class_legacy_rnn_l_m_hash_a7a0cdd9aec9322262094fdb82050acf1}{Add\+Word\+To\+Vocab} (std\+::string \&word, int cn=1)
+\item 
+void \hyperlink{class_legacy_rnn_l_m_hash_ae35b969e55886797b92964154c31c07b}{Sort\+Vocab} ()
+\item 
+void \hyperlink{class_legacy_rnn_l_m_hash_ad961e5749a0493141a5f24e0712d9174}{Set\+Classes} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ size\+\_\+t $>$ \hyperlink{class_legacy_rnn_l_m_hash_aee87a3acc4cfc872c9e284af3599149c}{vocab\+\_\+hash\+\_\+}
+\item 
+std\+::vector$<$ \hyperlink{struct_vocab_word}{Vocab\+Word} $>$ \hyperlink{class_legacy_rnn_l_m_hash_ac3d37fb87e5a699ecba7549f65aec880}{vocab\+\_\+}
+\item 
+std\+::vector$<$ \hyperlink{struct_class_index}{Class\+Index} $>$ \hyperlink{class_legacy_rnn_l_m_hash_aa2976192716a5c8f289f3c9fe19f79ed}{class\+\_\+sizes\+\_\+}
+\item 
+std\+::unordered\+\_\+map$<$ int, std\+::vector$<$ int $>$ $>$ \hyperlink{class_legacy_rnn_l_m_hash_acfb8a7033158a75c62ceec1c06b44821}{imap}
+\item 
+fst\+::\+Symbol\+Table \hyperlink{class_legacy_rnn_l_m_hash_aae1c188827296cc340a68e100dc95695}{isyms}
+\item 
+int \hyperlink{class_legacy_rnn_l_m_hash_a32c4220e66eab108d7d92a91d41e75bb}{class\+\_\+size\+\_\+}
+\item 
+const char $\ast$ \hyperlink{class_legacy_rnn_l_m_hash_a0921a7ba3bae2b5fd9bb8c5a5dae987b}{g\+\_\+delim\+\_\+}
+\item 
+const char $\ast$ \hyperlink{class_legacy_rnn_l_m_hash_aa0df8057995fb6758849910fb5d0c1e2}{gp\+\_\+delim\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::vector$<$ unsigned int $>$ \hyperlink{class_legacy_rnn_l_m_hash_aab92e8f544bba90a0709f094c24d46dc}{primes\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 32 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Legacy\+Rnn\+L\+M\+Hash(int class\+\_\+size)}]{\setlength{\rightskip}{0pt plus 5cm}Legacy\+Rnn\+L\+M\+Hash\+::\+Legacy\+Rnn\+L\+M\+Hash (
+\begin{DoxyParamCaption}
+\item[{int}]{class\+\_\+size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a95c7d816f90cd7d38b7cb187d6cf2246}{}\label{class_legacy_rnn_l_m_hash_a95c7d816f90cd7d38b7cb187d6cf2246}
+
+
+Definition at line 34 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Legacy\+Rnn\+L\+M\+Hash(int class\+\_\+size, const string g\+\_\+delim, const string gp\+\_\+delim)}]{\setlength{\rightskip}{0pt plus 5cm}Legacy\+Rnn\+L\+M\+Hash\+::\+Legacy\+Rnn\+L\+M\+Hash (
+\begin{DoxyParamCaption}
+\item[{int}]{class\+\_\+size, }
+\item[{const string}]{g\+\_\+delim, }
+\item[{const string}]{gp\+\_\+delim}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a84da4bd0d52cf54a0fd98cdd496c58a3}{}\label{class_legacy_rnn_l_m_hash_a84da4bd0d52cf54a0fd98cdd496c58a3}
+
+
+Definition at line 39 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Add\+Word\+To\+Vocab@{Add\+Word\+To\+Vocab}}
+\index{Add\+Word\+To\+Vocab@{Add\+Word\+To\+Vocab}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Add\+Word\+To\+Vocab(std\+::string \&word, int cn=1)}]{\setlength{\rightskip}{0pt plus 5cm}int Legacy\+Rnn\+L\+M\+Hash\+::\+Add\+Word\+To\+Vocab (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{word, }
+\item[{int}]{cn = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a7a0cdd9aec9322262094fdb82050acf1}{}\label{class_legacy_rnn_l_m_hash_a7a0cdd9aec9322262094fdb82050acf1}
+
+
+Definition at line 119 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Find\+Word@{Find\+Word}}
+\index{Find\+Word@{Find\+Word}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Find\+Word(std\+::string \&word)}]{\setlength{\rightskip}{0pt plus 5cm}int Legacy\+Rnn\+L\+M\+Hash\+::\+Find\+Word (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{word}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a038210ebadfce90db9fe7b9822a23dc0}{}\label{class_legacy_rnn_l_m_hash_a038210ebadfce90db9fe7b9822a23dc0}
+
+
+Definition at line 94 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Get\+Word\+Id@{Get\+Word\+Id}}
+\index{Get\+Word\+Id@{Get\+Word\+Id}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Get\+Word\+Id(std\+::string \&word) const }]{\setlength{\rightskip}{0pt plus 5cm}int Legacy\+Rnn\+L\+M\+Hash\+::\+Get\+Word\+Id (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{word}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a4bb3449f6fdc2fabdab847dec598dbea}{}\label{class_legacy_rnn_l_m_hash_a4bb3449f6fdc2fabdab847dec598dbea}
+
+
+Definition at line 112 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Hash\+Input@{Hash\+Input}}
+\index{Hash\+Input@{Hash\+Input}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Hash\+Input(\+I start, I end)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename I $>$ int Legacy\+Rnn\+L\+M\+Hash\+::\+Hash\+Input (
+\begin{DoxyParamCaption}
+\item[{I}]{start, }
+\item[{I}]{end}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_aa59043b40e1d9f6d8d6306d3c08a2814}{}\label{class_legacy_rnn_l_m_hash_aa59043b40e1d9f6d8d6306d3c08a2814}
+
+
+Definition at line 54 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Hash\+Word@{Hash\+Word}}
+\index{Hash\+Word@{Hash\+Word}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Hash\+Word(std\+::string \&word) const }]{\setlength{\rightskip}{0pt plus 5cm}int Legacy\+Rnn\+L\+M\+Hash\+::\+Hash\+Word (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{word}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a25e420c7afd77b3c372d3362dc9d84af}{}\label{class_legacy_rnn_l_m_hash_a25e420c7afd77b3c372d3362dc9d84af}
+
+
+Definition at line 86 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Map\+Token@{Map\+Token}}
+\index{Map\+Token@{Map\+Token}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Map\+Token(string \&token)}]{\setlength{\rightskip}{0pt plus 5cm}void Legacy\+Rnn\+L\+M\+Hash\+::\+Map\+Token (
+\begin{DoxyParamCaption}
+\item[{string \&}]{token}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a1fd0b060d136c90d6d8e03f82c9e859c}{}\label{class_legacy_rnn_l_m_hash_a1fd0b060d136c90d6d8e03f82c9e859c}
+
+
+Definition at line 62 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Set\+Classes@{Set\+Classes}}
+\index{Set\+Classes@{Set\+Classes}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Set\+Classes()}]{\setlength{\rightskip}{0pt plus 5cm}void Legacy\+Rnn\+L\+M\+Hash\+::\+Set\+Classes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_ad961e5749a0493141a5f24e0712d9174}{}\label{class_legacy_rnn_l_m_hash_ad961e5749a0493141a5f24e0712d9174}
+
+
+Definition at line 139 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Sort\+Vocab@{Sort\+Vocab}}
+\index{Sort\+Vocab@{Sort\+Vocab}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Sort\+Vocab()}]{\setlength{\rightskip}{0pt plus 5cm}void Legacy\+Rnn\+L\+M\+Hash\+::\+Sort\+Vocab (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_ae35b969e55886797b92964154c31c07b}{}\label{class_legacy_rnn_l_m_hash_ae35b969e55886797b92964154c31c07b}
+
+
+Definition at line 126 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!Split@{Split}}
+\index{Split@{Split}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{Split(const std\+::string \&s, char delim, std\+::vector$<$ std\+::string $>$ \&elems)}]{\setlength{\rightskip}{0pt plus 5cm}void Legacy\+Rnn\+L\+M\+Hash\+::\+Split (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{s, }
+\item[{char}]{delim, }
+\item[{std\+::vector$<$ std\+::string $>$ \&}]{elems}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_legacy_rnn_l_m_hash_a29b25e1bec4ad47e57e07ac5f47e26f1}{}\label{class_legacy_rnn_l_m_hash_a29b25e1bec4ad47e57e07ac5f47e26f1}
+
+
+Definition at line 46 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!class\+\_\+size\+\_\+@{class\+\_\+size\+\_\+}}
+\index{class\+\_\+size\+\_\+@{class\+\_\+size\+\_\+}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{class\+\_\+size\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}int Legacy\+Rnn\+L\+M\+Hash\+::class\+\_\+size\+\_\+}\hypertarget{class_legacy_rnn_l_m_hash_a32c4220e66eab108d7d92a91d41e75bb}{}\label{class_legacy_rnn_l_m_hash_a32c4220e66eab108d7d92a91d41e75bb}
+
+
+Definition at line 185 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!class\+\_\+sizes\+\_\+@{class\+\_\+sizes\+\_\+}}
+\index{class\+\_\+sizes\+\_\+@{class\+\_\+sizes\+\_\+}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{class\+\_\+sizes\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf Class\+Index}$>$ Legacy\+Rnn\+L\+M\+Hash\+::class\+\_\+sizes\+\_\+}\hypertarget{class_legacy_rnn_l_m_hash_aa2976192716a5c8f289f3c9fe19f79ed}{}\label{class_legacy_rnn_l_m_hash_aa2976192716a5c8f289f3c9fe19f79ed}
+
+
+Definition at line 181 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!g\+\_\+delim\+\_\+@{g\+\_\+delim\+\_\+}}
+\index{g\+\_\+delim\+\_\+@{g\+\_\+delim\+\_\+}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{g\+\_\+delim\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ Legacy\+Rnn\+L\+M\+Hash\+::g\+\_\+delim\+\_\+}\hypertarget{class_legacy_rnn_l_m_hash_a0921a7ba3bae2b5fd9bb8c5a5dae987b}{}\label{class_legacy_rnn_l_m_hash_a0921a7ba3bae2b5fd9bb8c5a5dae987b}
+
+
+Definition at line 186 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!gp\+\_\+delim\+\_\+@{gp\+\_\+delim\+\_\+}}
+\index{gp\+\_\+delim\+\_\+@{gp\+\_\+delim\+\_\+}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{gp\+\_\+delim\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ Legacy\+Rnn\+L\+M\+Hash\+::gp\+\_\+delim\+\_\+}\hypertarget{class_legacy_rnn_l_m_hash_aa0df8057995fb6758849910fb5d0c1e2}{}\label{class_legacy_rnn_l_m_hash_aa0df8057995fb6758849910fb5d0c1e2}
+
+
+Definition at line 187 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!imap@{imap}}
+\index{imap@{imap}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{imap}]{\setlength{\rightskip}{0pt plus 5cm}std\+::unordered\+\_\+map$<$int, std\+::vector$<$int$>$ $>$ Legacy\+Rnn\+L\+M\+Hash\+::imap}\hypertarget{class_legacy_rnn_l_m_hash_acfb8a7033158a75c62ceec1c06b44821}{}\label{class_legacy_rnn_l_m_hash_acfb8a7033158a75c62ceec1c06b44821}
+
+
+Definition at line 182 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!isyms@{isyms}}
+\index{isyms@{isyms}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{isyms}]{\setlength{\rightskip}{0pt plus 5cm}fst\+::\+Symbol\+Table Legacy\+Rnn\+L\+M\+Hash\+::isyms}\hypertarget{class_legacy_rnn_l_m_hash_aae1c188827296cc340a68e100dc95695}{}\label{class_legacy_rnn_l_m_hash_aae1c188827296cc340a68e100dc95695}
+
+
+Definition at line 184 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!primes\+\_\+@{primes\+\_\+}}
+\index{primes\+\_\+@{primes\+\_\+}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{primes\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::vector$<$ unsigned int $>$ Legacy\+Rnn\+L\+M\+Hash\+::primes\+\_\+\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_legacy_rnn_l_m_hash_aab92e8f544bba90a0709f094c24d46dc}{}\label{class_legacy_rnn_l_m_hash_aab92e8f544bba90a0709f094c24d46dc}
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{
+  108641969, 116049371, 125925907, 133333309,
+  145678979, 175308587, 197530793, 234567803,
+  251851741, 264197411, 330864029, 399999781,
+  407407183, 459258997, 479012069, 545678687,
+  560493491, 607407037, 629629243, 656789717,
+  716048933, 718518067, 725925469, 733332871,
+  753085943, 755555077, 782715551, 790122953,
+  812345159, 814814293, 893826581, 923456189,
+  940740127, 953085797, 985184539, 990122807
+\}
+\end{DoxyCode}
+
+
+Definition at line 44 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!vocab\+\_\+@{vocab\+\_\+}}
+\index{vocab\+\_\+@{vocab\+\_\+}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{vocab\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf Vocab\+Word}$>$ Legacy\+Rnn\+L\+M\+Hash\+::vocab\+\_\+}\hypertarget{class_legacy_rnn_l_m_hash_ac3d37fb87e5a699ecba7549f65aec880}{}\label{class_legacy_rnn_l_m_hash_ac3d37fb87e5a699ecba7549f65aec880}
+
+
+Definition at line 180 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+\index{Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}!vocab\+\_\+hash\+\_\+@{vocab\+\_\+hash\+\_\+}}
+\index{vocab\+\_\+hash\+\_\+@{vocab\+\_\+hash\+\_\+}!Legacy\+Rnn\+L\+M\+Hash@{Legacy\+Rnn\+L\+M\+Hash}}
+\subsubsection[{vocab\+\_\+hash\+\_\+}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$size\+\_\+t$>$ Legacy\+Rnn\+L\+M\+Hash\+::vocab\+\_\+hash\+\_\+}\hypertarget{class_legacy_rnn_l_m_hash_aee87a3acc4cfc872c9e284af3599149c}{}\label{class_legacy_rnn_l_m_hash_aee87a3acc4cfc872c9e284af3599149c}
+
+
+Definition at line 179 of file Legacy\+Rnn\+L\+M\+Hash.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{_legacy_rnn_l_m_hash_8h}{Legacy\+Rnn\+L\+M\+Hash.\+h}\end{DoxyCompactItemize}

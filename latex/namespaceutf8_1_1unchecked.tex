@@ -1,0 +1,123 @@
+\hypertarget{namespaceutf8_1_1unchecked}{}\section{utf8\+:\+:unchecked Namespace Reference}
+\label{namespaceutf8_1_1unchecked}\index{utf8\+::unchecked@{utf8\+::unchecked}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classutf8_1_1unchecked_1_1iterator}{iterator}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator $>$ }\\octet\+\_\+iterator \hyperlink{namespaceutf8_1_1unchecked_acab3a56b1772ed871f36757883d63788}{append} (\hyperlink{namespaceutf8_a846259d2f173d524282583fc9d825b00}{uint32\+\_\+t} cp, octet\+\_\+iterator result)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator $>$ }\\\hyperlink{namespaceutf8_a846259d2f173d524282583fc9d825b00}{uint32\+\_\+t} \hyperlink{namespaceutf8_1_1unchecked_ac5932c0cbb2498a111d53d26fd82f260}{next} (octet\+\_\+iterator \&it)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator $>$ }\\\hyperlink{namespaceutf8_a846259d2f173d524282583fc9d825b00}{uint32\+\_\+t} \hyperlink{namespaceutf8_1_1unchecked_aaf5ddbe24f8dbb83390e2d33d75b9ea1}{peek\+\_\+next} (octet\+\_\+iterator it)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator $>$ }\\\hyperlink{namespaceutf8_a846259d2f173d524282583fc9d825b00}{uint32\+\_\+t} \hyperlink{namespaceutf8_1_1unchecked_ad2c0e4b9693713ac18ee543e214b3ef9}{prior} (octet\+\_\+iterator \&it)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator $>$ }\\\hyperlink{namespaceutf8_a846259d2f173d524282583fc9d825b00}{uint32\+\_\+t} \hyperlink{namespaceutf8_1_1unchecked_a454cdd8f6b6771bd0425be1ccd94f788}{previous} (octet\+\_\+iterator \&it)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator , typename distance\+\_\+type $>$ }\\void \hyperlink{namespaceutf8_1_1unchecked_a66ea3b93a81a8f961e7a1700d13efc57}{advance} (octet\+\_\+iterator \&it, distance\+\_\+type n)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator $>$ }\\std\+::iterator\+\_\+traits$<$ octet\+\_\+iterator $>$\+::difference\+\_\+type \hyperlink{namespaceutf8_1_1unchecked_a3796d7a15edc244a872a9ca559ea2693}{distance} (octet\+\_\+iterator first, octet\+\_\+iterator last)
+\item 
+{\footnotesize template$<$typename u16bit\+\_\+iterator , typename octet\+\_\+iterator $>$ }\\octet\+\_\+iterator \hyperlink{namespaceutf8_1_1unchecked_adfbd29a875d0aafeeaae511dc1aa5d77}{utf16to8} (u16bit\+\_\+iterator start, u16bit\+\_\+iterator end, octet\+\_\+iterator result)
+\item 
+{\footnotesize template$<$typename u16bit\+\_\+iterator , typename octet\+\_\+iterator $>$ }\\u16bit\+\_\+iterator \hyperlink{namespaceutf8_1_1unchecked_ae323b9faa6a47cb8d0aeaea44c1787eb}{utf8to16} (octet\+\_\+iterator start, octet\+\_\+iterator end, u16bit\+\_\+iterator result)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator , typename u32bit\+\_\+iterator $>$ }\\octet\+\_\+iterator \hyperlink{namespaceutf8_1_1unchecked_af4edb29ad18a1f389ac968a93629e9fb}{utf32to8} (u32bit\+\_\+iterator start, u32bit\+\_\+iterator end, octet\+\_\+iterator result)
+\item 
+{\footnotesize template$<$typename octet\+\_\+iterator , typename u32bit\+\_\+iterator $>$ }\\u32bit\+\_\+iterator \hyperlink{namespaceutf8_1_1unchecked_aa4b554922a06a7487118982ff41da590}{utf8to32} (octet\+\_\+iterator start, octet\+\_\+iterator end, u32bit\+\_\+iterator result)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!advance@{advance}}
+\index{advance@{advance}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{advance(octet\+\_\+iterator \&it, distance\+\_\+type n)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator , typename distance\+\_\+type $>$ void utf8\+::unchecked\+::advance (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator \&}]{it, }
+\item[{distance\+\_\+type}]{n}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_a66ea3b93a81a8f961e7a1700d13efc57}{}\label{namespaceutf8_1_1unchecked_a66ea3b93a81a8f961e7a1700d13efc57}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!append@{append}}
+\index{append@{append}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{append(uint32\+\_\+t cp, octet\+\_\+iterator result)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator $>$ octet\+\_\+iterator utf8\+::unchecked\+::append (
+\begin{DoxyParamCaption}
+\item[{{\bf uint32\+\_\+t}}]{cp, }
+\item[{octet\+\_\+iterator}]{result}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_acab3a56b1772ed871f36757883d63788}{}\label{namespaceutf8_1_1unchecked_acab3a56b1772ed871f36757883d63788}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!distance@{distance}}
+\index{distance@{distance}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{distance(octet\+\_\+iterator first, octet\+\_\+iterator last)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator $>$ std\+::iterator\+\_\+traits$<$octet\+\_\+iterator$>$\+::difference\+\_\+type utf8\+::unchecked\+::distance (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator}]{first, }
+\item[{octet\+\_\+iterator}]{last}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_a3796d7a15edc244a872a9ca559ea2693}{}\label{namespaceutf8_1_1unchecked_a3796d7a15edc244a872a9ca559ea2693}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!next@{next}}
+\index{next@{next}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{next(octet\+\_\+iterator \&it)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator $>$ {\bf uint32\+\_\+t} utf8\+::unchecked\+::next (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator \&}]{it}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_ac5932c0cbb2498a111d53d26fd82f260}{}\label{namespaceutf8_1_1unchecked_ac5932c0cbb2498a111d53d26fd82f260}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!peek\+\_\+next@{peek\+\_\+next}}
+\index{peek\+\_\+next@{peek\+\_\+next}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{peek\+\_\+next(octet\+\_\+iterator it)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator $>$ {\bf uint32\+\_\+t} utf8\+::unchecked\+::peek\+\_\+next (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator}]{it}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_aaf5ddbe24f8dbb83390e2d33d75b9ea1}{}\label{namespaceutf8_1_1unchecked_aaf5ddbe24f8dbb83390e2d33d75b9ea1}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!previous@{previous}}
+\index{previous@{previous}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{previous(octet\+\_\+iterator \&it)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator $>$ {\bf uint32\+\_\+t} utf8\+::unchecked\+::previous (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator \&}]{it}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespaceutf8_1_1unchecked_a454cdd8f6b6771bd0425be1ccd94f788}{}\label{namespaceutf8_1_1unchecked_a454cdd8f6b6771bd0425be1ccd94f788}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!prior@{prior}}
+\index{prior@{prior}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{prior(octet\+\_\+iterator \&it)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator $>$ {\bf uint32\+\_\+t} utf8\+::unchecked\+::prior (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator \&}]{it}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_ad2c0e4b9693713ac18ee543e214b3ef9}{}\label{namespaceutf8_1_1unchecked_ad2c0e4b9693713ac18ee543e214b3ef9}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!utf16to8@{utf16to8}}
+\index{utf16to8@{utf16to8}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{utf16to8(u16bit\+\_\+iterator start, u16bit\+\_\+iterator end, octet\+\_\+iterator result)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename u16bit\+\_\+iterator , typename octet\+\_\+iterator $>$ octet\+\_\+iterator utf8\+::unchecked\+::utf16to8 (
+\begin{DoxyParamCaption}
+\item[{u16bit\+\_\+iterator}]{start, }
+\item[{u16bit\+\_\+iterator}]{end, }
+\item[{octet\+\_\+iterator}]{result}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_adfbd29a875d0aafeeaae511dc1aa5d77}{}\label{namespaceutf8_1_1unchecked_adfbd29a875d0aafeeaae511dc1aa5d77}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!utf32to8@{utf32to8}}
+\index{utf32to8@{utf32to8}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{utf32to8(u32bit\+\_\+iterator start, u32bit\+\_\+iterator end, octet\+\_\+iterator result)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator , typename u32bit\+\_\+iterator $>$ octet\+\_\+iterator utf8\+::unchecked\+::utf32to8 (
+\begin{DoxyParamCaption}
+\item[{u32bit\+\_\+iterator}]{start, }
+\item[{u32bit\+\_\+iterator}]{end, }
+\item[{octet\+\_\+iterator}]{result}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_af4edb29ad18a1f389ac968a93629e9fb}{}\label{namespaceutf8_1_1unchecked_af4edb29ad18a1f389ac968a93629e9fb}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!utf8to16@{utf8to16}}
+\index{utf8to16@{utf8to16}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{utf8to16(octet\+\_\+iterator start, octet\+\_\+iterator end, u16bit\+\_\+iterator result)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename u16bit\+\_\+iterator , typename octet\+\_\+iterator $>$ u16bit\+\_\+iterator utf8\+::unchecked\+::utf8to16 (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator}]{start, }
+\item[{octet\+\_\+iterator}]{end, }
+\item[{u16bit\+\_\+iterator}]{result}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_ae323b9faa6a47cb8d0aeaea44c1787eb}{}\label{namespaceutf8_1_1unchecked_ae323b9faa6a47cb8d0aeaea44c1787eb}
+\index{utf8\+::unchecked@{utf8\+::unchecked}!utf8to32@{utf8to32}}
+\index{utf8to32@{utf8to32}!utf8\+::unchecked@{utf8\+::unchecked}}
+\subsubsection[{utf8to32(octet\+\_\+iterator start, octet\+\_\+iterator end, u32bit\+\_\+iterator result)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename octet\+\_\+iterator , typename u32bit\+\_\+iterator $>$ u32bit\+\_\+iterator utf8\+::unchecked\+::utf8to32 (
+\begin{DoxyParamCaption}
+\item[{octet\+\_\+iterator}]{start, }
+\item[{octet\+\_\+iterator}]{end, }
+\item[{u32bit\+\_\+iterator}]{result}
+\end{DoxyParamCaption}
+)}\hypertarget{namespaceutf8_1_1unchecked_aa4b554922a06a7487118982ff41da590}{}\label{namespaceutf8_1_1unchecked_aa4b554922a06a7487118982ff41da590}

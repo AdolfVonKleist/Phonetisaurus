@@ -1,0 +1,165 @@
+\hypertarget{class_rnn_l_m_decoder}{}\section{Rnn\+L\+M\+Decoder$<$ D $>$ Class Template Reference}
+\label{class_rnn_l_m_decoder}\index{Rnn\+L\+M\+Decoder$<$ D $>$@{Rnn\+L\+M\+Decoder$<$ D $>$}}
+
+
+{\ttfamily \#include $<$Rnn\+L\+M\+Decoder.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef D \hyperlink{class_rnn_l_m_decoder_a96cefe4263b117d36af4220f6716a788}{Decodable}
+\item 
+typedef vector$<$ vector$<$ \hyperlink{class_chunk}{Chunk} $>$ $>$ \hyperlink{class_rnn_l_m_decoder_af7ccd067ad2bf3f6a77183e312df3900}{Raw\+Results}
+\item 
+typedef Heap$<$ \hyperlink{class_token}{Token} $\ast$, \hyperlink{class_token_pointer_compare}{Token\+Pointer\+Compare}, false $>$ \hyperlink{class_rnn_l_m_decoder_ab653813a7dbee6c9ea6948f414d2b128}{Queue}
+\item 
+typedef unordered\+\_\+set$<$ \hyperlink{class_token}{Token}, \hyperlink{class_token_hash}{Token\+Hash}, \hyperlink{class_token_compare}{Token\+Compare} $>$ \hyperlink{class_rnn_l_m_decoder_a64098e6f9fe4998943ef0d20da2fe747}{Token\+Set}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_rnn_l_m_decoder_a0a57390cc6c638a482c0cd616c9f6aaf}{Rnn\+L\+M\+Decoder} (\hyperlink{class_rnn_l_m_decoder_a96cefe4263b117d36af4220f6716a788}{Decodable} \&decodable)
+\item 
+double \hyperlink{class_rnn_l_m_decoder_adfbb660643993579694cfcfe1a715fe3}{Heuristic} (int nstate, int nstates, double hcost)
+\item 
+Vector\+Fst$<$ Std\+Arc $>$ \hyperlink{class_rnn_l_m_decoder_afe4e4d5cb610b67ea0863dc2de8bcb17}{Word\+To\+Rnn\+L\+M\+Fst} (const vector$<$ string $>$ \&word)
+\item 
+\hyperlink{class_simple_result}{Simple\+Result} \hyperlink{class_rnn_l_m_decoder_a2154b3965af658c38969f763ce37f7ff}{Decode} (const vector$<$ string $>$ \&word, int beam, int k\+Max, int nbest, double thresh, const string \&gpdelim, const string \&gdelim, const string \&skip)
+\item 
+\hyperlink{class_rnn_l_m_decoder_af7ccd067ad2bf3f6a77183e312df3900}{Raw\+Results} \hyperlink{class_rnn_l_m_decoder_ad22f3912be851cffd68642f588604a7c}{Decode\+Raw} (const vector$<$ string $>$ \&word, int beam, int k\+Max, int nbest, double thresh=0.\+0)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_rnn_l_m_decoder_af7ccd067ad2bf3f6a77183e312df3900}{Raw\+Results} \hyperlink{class_rnn_l_m_decoder_a1f394450c2b0322b37e19bfb94a9f8b0}{results}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class D$>$\\*
+class Rnn\+L\+M\+Decoder$<$ D $>$}
+
+
+
+Definition at line 164 of file Rnn\+L\+M\+Decoder.\+h.
+
+
+
+\subsection{Member Typedef Documentation}
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Decodable@{Decodable}}
+\index{Decodable@{Decodable}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Decodable}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ typedef D {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::{\bf Decodable}}\hypertarget{class_rnn_l_m_decoder_a96cefe4263b117d36af4220f6716a788}{}\label{class_rnn_l_m_decoder_a96cefe4263b117d36af4220f6716a788}
+
+
+Definition at line 166 of file Rnn\+L\+M\+Decoder.\+h.
+
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Queue@{Queue}}
+\index{Queue@{Queue}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Queue}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ typedef Heap$<${\bf Token}$\ast$, {\bf Token\+Pointer\+Compare}, false$>$ {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::{\bf Queue}}\hypertarget{class_rnn_l_m_decoder_ab653813a7dbee6c9ea6948f414d2b128}{}\label{class_rnn_l_m_decoder_ab653813a7dbee6c9ea6948f414d2b128}
+
+
+Definition at line 168 of file Rnn\+L\+M\+Decoder.\+h.
+
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Raw\+Results@{Raw\+Results}}
+\index{Raw\+Results@{Raw\+Results}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Raw\+Results}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ typedef vector$<$vector$<${\bf Chunk}$>$ $>$ {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::{\bf Raw\+Results}}\hypertarget{class_rnn_l_m_decoder_af7ccd067ad2bf3f6a77183e312df3900}{}\label{class_rnn_l_m_decoder_af7ccd067ad2bf3f6a77183e312df3900}
+
+
+Definition at line 167 of file Rnn\+L\+M\+Decoder.\+h.
+
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Token\+Set@{Token\+Set}}
+\index{Token\+Set@{Token\+Set}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Token\+Set}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ typedef unordered\+\_\+set$<${\bf Token}, {\bf Token\+Hash}, {\bf Token\+Compare}$>$ {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::{\bf Token\+Set}}\hypertarget{class_rnn_l_m_decoder_a64098e6f9fe4998943ef0d20da2fe747}{}\label{class_rnn_l_m_decoder_a64098e6f9fe4998943ef0d20da2fe747}
+
+
+Definition at line 169 of file Rnn\+L\+M\+Decoder.\+h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Rnn\+L\+M\+Decoder(\+Decodable \&decodable)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::{\bf Rnn\+L\+M\+Decoder} (
+\begin{DoxyParamCaption}
+\item[{{\bf Decodable} \&}]{decodable}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_rnn_l_m_decoder_a0a57390cc6c638a482c0cd616c9f6aaf}{}\label{class_rnn_l_m_decoder_a0a57390cc6c638a482c0cd616c9f6aaf}
+
+
+Definition at line 171 of file Rnn\+L\+M\+Decoder.\+h.
+
+
+
+\subsection{Member Function Documentation}
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Decode@{Decode}}
+\index{Decode@{Decode}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Decode(const vector$<$ string $>$ \&word, int beam, int k\+Max, int nbest, double thresh, const string \&gpdelim, const string \&gdelim, const string \&skip)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ {\bf Simple\+Result} {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::Decode (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ string $>$ \&}]{word, }
+\item[{int}]{beam, }
+\item[{int}]{k\+Max, }
+\item[{int}]{nbest, }
+\item[{double}]{thresh, }
+\item[{const string \&}]{gpdelim, }
+\item[{const string \&}]{gdelim, }
+\item[{const string \&}]{skip}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_rnn_l_m_decoder_a2154b3965af658c38969f763ce37f7ff}{}\label{class_rnn_l_m_decoder_a2154b3965af658c38969f763ce37f7ff}
+
+
+Definition at line 206 of file Rnn\+L\+M\+Decoder.\+h.
+
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Decode\+Raw@{Decode\+Raw}}
+\index{Decode\+Raw@{Decode\+Raw}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Decode\+Raw(const vector$<$ string $>$ \&word, int beam, int k\+Max, int nbest, double thresh=0.\+0)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ {\bf Raw\+Results} {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::Decode\+Raw (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ string $>$ \&}]{word, }
+\item[{int}]{beam, }
+\item[{int}]{k\+Max, }
+\item[{int}]{nbest, }
+\item[{double}]{thresh = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_rnn_l_m_decoder_ad22f3912be851cffd68642f588604a7c}{}\label{class_rnn_l_m_decoder_ad22f3912be851cffd68642f588604a7c}
+
+
+Definition at line 243 of file Rnn\+L\+M\+Decoder.\+h.
+
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Heuristic@{Heuristic}}
+\index{Heuristic@{Heuristic}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Heuristic(int nstate, int nstates, double hcost)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ double {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::Heuristic (
+\begin{DoxyParamCaption}
+\item[{int}]{nstate, }
+\item[{int}]{nstates, }
+\item[{double}]{hcost}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_rnn_l_m_decoder_adfbb660643993579694cfcfe1a715fe3}{}\label{class_rnn_l_m_decoder_adfbb660643993579694cfcfe1a715fe3}
+
+
+Definition at line 174 of file Rnn\+L\+M\+Decoder.\+h.
+
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!Word\+To\+Rnn\+L\+M\+Fst@{Word\+To\+Rnn\+L\+M\+Fst}}
+\index{Word\+To\+Rnn\+L\+M\+Fst@{Word\+To\+Rnn\+L\+M\+Fst}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{Word\+To\+Rnn\+L\+M\+Fst(const vector$<$ string $>$ \&word)}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ Vector\+Fst$<$Std\+Arc$>$ {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::Word\+To\+Rnn\+L\+M\+Fst (
+\begin{DoxyParamCaption}
+\item[{const vector$<$ string $>$ \&}]{word}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_rnn_l_m_decoder_afe4e4d5cb610b67ea0863dc2de8bcb17}{}\label{class_rnn_l_m_decoder_afe4e4d5cb610b67ea0863dc2de8bcb17}
+
+
+Definition at line 181 of file Rnn\+L\+M\+Decoder.\+h.
+
+
+
+\subsection{Member Data Documentation}
+\index{Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}!results@{results}}
+\index{results@{results}!Rnn\+L\+M\+Decoder@{Rnn\+L\+M\+Decoder}}
+\subsubsection[{results}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class D$>$ {\bf Raw\+Results} {\bf Rnn\+L\+M\+Decoder}$<$ D $>$\+::results}\hypertarget{class_rnn_l_m_decoder_a1f394450c2b0322b37e19bfb94a9f8b0}{}\label{class_rnn_l_m_decoder_a1f394450c2b0322b37e19bfb94a9f8b0}
+
+
+Definition at line 315 of file Rnn\+L\+M\+Decoder.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{_rnn_l_m_decoder_8h}{Rnn\+L\+M\+Decoder.\+h}\end{DoxyCompactItemize}
