@@ -4,7 +4,9 @@
 Phonetisaurus G2P
 #### !WARNING: In Flux! ####
 A lot of things are changing.
-
+  * Last stable version from Google code (includes downloads):
+    * https://code.google.com/p/phonetisaurus/
+  
 #### Documentation: ####
   * http://adolfvonkleist.github.io/Phonetisaurus/
 
@@ -16,8 +18,7 @@ A lot of things are changing.
     * ```
  $ ./configure --enable-static --enable-shared --enable-far \
       --enable-lookahead-fsts --enable-const-fsts --enable-pdt \
-      --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9 \
-      --prefix=`pwd` CXX=g++-4.9
+      --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9
 ```
 
 ### Basic Build [Linux/OSX]: ###
