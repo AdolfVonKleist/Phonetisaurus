@@ -111,6 +111,7 @@ DEFINE_bool   (reverse, false, "Reverse input word.");
 DEFINE_bool   (print_scores, true, "Print scores in output.");
 
 int main (int argc, char* argv []) {
+  cerr << "GitRevision: " << GIT_REVISION << endl;
   string usage = "phonetisaurus-g2pfst - joint N-gram decoder.\n\n Usage: ";
   set_new_handler (FailedNewHandler);
   PhonetisaurusSetFlags (usage.c_str(), &argc, &argv, false);

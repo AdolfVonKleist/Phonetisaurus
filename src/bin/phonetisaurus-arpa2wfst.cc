@@ -44,6 +44,7 @@ DEFINE_string (tie, "|", "Character separating multi-token subsequences.");
 DEFINE_string (ofile, "", "Output file for writing. (STDOUT)");
 
 int main (int argc, char* argv []) {
+  cerr << "GitRevision: " << GIT_REVISION << endl;
   string usage = "arpa2wfsa - Transform an ARPA LM into an "
     "equivalent WFSA.\n\n Usage: ";
   set_new_handler (FailedNewHandler);

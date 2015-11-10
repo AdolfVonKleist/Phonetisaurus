@@ -119,7 +119,8 @@ DEFINE_double (thresh, 0.0, "The n-best pruning threshold. Relative to 1-best.")
 DEFINE_bool   (reverse, false, "Reverse the input word before decoding.");
 
 int main (int argc, char* argv []) {
-  string usage = "phonetisaurus-g2prnn --rnnlm=test.rnnlm "\
+  cerr << "GitRevision: " << GIT_REVISION << endl;
+  string usage = "phonetisaurus-g2prnn --rnnlm=test.rnnlm " \
     "--wordlist=test.words --nbest=5\n\n Usage: ";
   set_new_handler (FailedNewHandler);
   PhonetisaurusSetFlags (usage.c_str (), &argc, &argv, false);

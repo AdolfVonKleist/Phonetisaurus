@@ -261,6 +261,7 @@ DEFINE_double (thresh, 1e-10, "Delta threshold for EM training termination." );
 DEFINE_double (pthresh, -99, "Pruning threshold.  Use to prune unlikely N-best candidates when using multiple alignments.");
 
 int main( int argc, char* argv[] ){
+  cerr << "GitRevision: " << GIT_REVISION << endl;
   string usage = "phonetisaurus-align --input=dictionary --ofile=corpus.\n\n Usage: ";
   set_new_handler (FailedNewHandler);
   PhonetisaurusSetFlags (usage.c_str(), &argc, &argv, false);

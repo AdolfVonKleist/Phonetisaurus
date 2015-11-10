@@ -34,6 +34,7 @@ INSTALL_BIN = @INSTALL_BIN@
 INSTALL_LIB = @INSTALL_LIB@
 OPENFST_CXXFLAGS = @OPENFST_CXXFLAGS@
 OPENFST_LDFLAGS  = @OPENFST_LDFLAGS@
+GIT_REVISION := $(shell git describe --abbrev=6 --dirty --always --tags)
 
 CXX = @CXX@
 
@@ -94,25 +95,28 @@ $(BINDIR)/phonetisaurus-align: $(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o \
 	$(LIBDIR)/M2MFstAligner.o $(BINDIR)/phonetisaurus-align.cc
 	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) -I$(ROOT) \
 	$(LIBDIR)/util.o $(LIBDIR)/LatticePruner.o $(LIBDIR)/M2MFstAligner.o \
-	bin/phonetisaurus-align.cc \
+	bin/phonetisaurus-align.cc -DGIT_REVISION=\"$(GIT_REVISION)\" \
 	-o $(BINDIR)/phonetisaurus-align $(LIBS)
 
 $(BINDIR)/phonetisaurus-arpa2wfst: include/ARPA2WFST.h $(LIBDIR)/util.o
 	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) $(LIBS) $(LIBDIR)/util.o \
 	-I$(ROOT) bin/phonetisaurus-arpa2wfst.cc -L$(OPENFST_LDFLAGS) \
+	-DGIT_REVISION=\"$(GIT_REVISION)\" \
 	-o $(BINDIR)/phonetisaurus-arpa2wfst $(LIBS)
 
 $(BINDIR)/phonetisaurus-g2prnn: $(LIBDIR)/rnnlmlib.o bin/phonetisaurus-g2prnn.cc \
 	include/RnnLMDecoder.h include/LegacyRnnLMDecodable.h $(LIBDIR)/util.o
 	$(CXX) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -funroll-loops -I$(ROOT) \
 	-ffast-math $(LIBDIR)/util.o $(LIBDIR)/rnnlmlib.o \
+	-DGIT_REVISION=\"$(GIT_REVISION)\" \
 	bin/phonetisaurus-g2prnn.cc -o bin/phonetisaurus-g2prnn $(LIBS)
 
 $(BINDIR)/phonetisaurus-g2pfst: bin/phonetisaurus-g2pfst.cc \
 	include/PhonetisaurusScript.h include/PhonetisaurusRex.h $(LIBDIR)/util.o
 	$(CXX) $(EXTRA) $(LIBS) -L$(OPENFST_LDFLAGS) -I3rdparty/utfcpp \
-	-funroll-loops -I$(ROOT) -ffast-math $(LIBDIR)/util.o \
-	bin/phonetisaurus-g2pfst.cc -o bin/phonetisaurus-g2pfst $(LIBS)
+	-funroll-loops -I$(ROOT) -DGIT_REVISION=\"$(GIT_REVISION)\" \
+	-ffast-math $(LIBDIR)/util.o bin/phonetisaurus-g2pfst.cc \
+	-o bin/phonetisaurus-g2pfst $(LIBS)
 
 #RNNLM library
 bin/rnnlm: $(BINDIR)/rnnlm.cc $(LIBDIR)/rnnlmlib.o
