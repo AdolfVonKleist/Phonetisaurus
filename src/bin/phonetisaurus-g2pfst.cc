@@ -66,7 +66,7 @@ void EvaluateWordlist (PhonetisaurusScript& decoder, vector<string> corpus,
   }
 }
 
-void ThreadedEvalaateWordlist (string FLAGS_model, vector<string> corpus,
+void ThreadedEvaluateWordlist (string FLAGS_model, vector<string> corpus,
 			       int FLAGS_beam, int FLAGS_nbest, 
 			       bool FLAGS_reverse, string FLAGS_skip,
 			       double FLAGS_thresh, string FLAGS_gsep,
