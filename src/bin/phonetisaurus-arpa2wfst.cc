@@ -41,6 +41,7 @@ DEFINE_string (se, "</s>", "Sentence end token.");
 DEFINE_string (split, "}", "Character separating grapheme/phoneme info.");
 DEFINE_string (skip, "_", "Character indicating insertions/deletions.");
 DEFINE_string (tie, "|", "Character separating multi-token subsequences.");
+DEFINE_string (ssyms, "", "Output filename for state symbols tables (default: do not print).");
 DEFINE_string (ofile, "", "Output file for writing. (STDOUT)");
 
 int main (int argc, char* argv []) {
@@ -64,6 +65,11 @@ int main (int argc, char* argv []) {
   converter->arpa_to_wfst ();
   
   converter->arpafst.Write (FLAGS_ofile);
+
+  if (FLAGS_ssyms.compare ("") != 0) {
+    converter->ssyms->WriteText (FLAGS_ssyms);
+  }
+  
   delete converter;
 
   return 0;
