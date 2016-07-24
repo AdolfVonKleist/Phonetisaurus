@@ -2,6 +2,10 @@
 =========
 
 Phonetisaurus G2P
+
+#### OpenFst 1.5.3 ####
+If you are using OpenFst 1.5.3 please try using the eponymous branch for this.
+
 #### !WARNING: In Flux! ####
 A lot of things are changing.
   * Last stable version from Google code (includes downloads).  All ~2015 academic papers also refer to this:
@@ -14,7 +18,7 @@ A lot of things are changing.
   * phonetisaurus@gmail.com
 
 ### Dependencies: ###
-  * OpenFst (Prefer >= 1.4, compile with all extensions)
+  * OpenFst (Prefer >= 1.4, compile with all extensions, use [branch openfst-1.5.3](https://github.com/AdolfVonKleist/Phonetisaurus/tree/openfst-1.5.3) for 1.5.x OpenFst)
     * ``` $ ./configure --enable-static --enable-shared --enable-far \
       --enable-lookahead-fsts --enable-const-fsts --enable-pdt \
       --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9```
