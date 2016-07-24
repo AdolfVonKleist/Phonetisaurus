@@ -165,7 +165,7 @@ class RnnLMDecoder {
  public:
   typedef D Decodable;
   typedef vector<vector<Chunk> > RawResults;
-  typedef Heap<Token*, TokenPointerCompare, false> Queue;
+  typedef Heap<Token*, TokenPointerCompare> Queue;
   typedef unordered_set<Token, TokenHash, TokenCompare> TokenSet;
 
   RnnLMDecoder (Decodable& decodable) 

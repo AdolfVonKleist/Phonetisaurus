@@ -57,11 +57,11 @@ AS_IF([test -e "$with_openfst_libs""/libfst.so"],
 		     Did you specify --with-openfst-libs?])])])
 #Test all the extensions - tell the user how it *should* be compiled
 #	    -a -e "$with_openfst_libs/fst/libfstpdtscript.so" \
-AS_IF([test -e "$with_openfst_libs/fst/libfstconst.so" \
-	    -a -e "$with_openfst_libs/fst/libfstfar.so" \
-	    -a -e "$with_openfst_libs/fst/libfstngram.so" \
-	    -a -e "$with_openfst_libs/fst/libfstlookahead.so" \
- 	    -a -e "$with_openfst_libs/fst/libfstlinearscript.so"],
+AS_IF([test -e "$with_openfst_libs/libfstconst.so" \
+	    -a -e "$with_openfst_libs/libfstfar.so" \
+	    -a -e "$with_openfst_libs/libfstngram.so" \
+	    -a -e "$with_openfst_libs/libfstlookahead.so" \
+ 	    -a -e "$with_openfst_libs/libfstlinearscript.so"],
 	    [AC_MSG_RESULT([Found all required OpenFst extensions.])],
 	    [AS_IF([test -e "$with_openfst_libs/fst/libfstconst.dylib" \
 	                 -a -e "$with_openfst_libs/fst/libfstfar.dylib" \

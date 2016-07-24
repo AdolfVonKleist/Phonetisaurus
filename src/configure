@@ -4542,11 +4542,11 @@ fi
 fi
 #Test all the extensions - tell the user how it *should* be compiled
 #	    -a -e "$with_openfst_libs/fst/libfstpdtscript.so" \
-if test -e "$with_openfst_libs/fst/libfstconst.so" \
-	    -a -e "$with_openfst_libs/fst/libfstfar.so" \
-	    -a -e "$with_openfst_libs/fst/libfstngram.so" \
-	    -a -e "$with_openfst_libs/fst/libfstlookahead.so" \
- 	    -a -e "$with_openfst_libs/fst/libfstlinearscript.so"; then :
+if test -e "$with_openfst_libs/libfstconst.so" \
+	    -a -e "$with_openfst_libs/libfstfar.so" \
+	    -a -e "$with_openfst_libs/libfstngram.so" \
+	    -a -e "$with_openfst_libs/libfstlookahead.so" \
+ 	    -a -e "$with_openfst_libs/libfstlinearscript.so"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found all required OpenFst extensions." >&5
 $as_echo "Found all required OpenFst extensions." >&6; }
 else
