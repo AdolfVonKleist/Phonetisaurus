@@ -76,7 +76,13 @@ class PhonetisaurusScript {
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
 
-    model_ = *(VectorFst<StdArc>::Read(model));
+    // this is solving the memory leak problem
+    VectorFst<StdArc>* model_temp;
+    model_temp = (VectorFst<StdArc>::Read(model));
+    model_ = *model_temp;
+    delete model_temp;
+
+    //model_ = *(VectorFst<StdArc>::Read(model));
     ArcSort (&model_, ILabelCompare<StdArc> ());
     isyms_ = model_.InputSymbols ();
     osyms_ = model_.OutputSymbols ();
@@ -91,8 +97,13 @@ class PhonetisaurusScript {
     struct stat buffer;   
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
-
-    model_ = *(VectorFst<StdArc>::Read(model));
+    
+    // this is solving the memory leak problem
+    VectorFst<StdArc>* model_temp;
+    model_temp = (VectorFst<StdArc>::Read(model));
+    model_ = *model_temp;
+    delete model_temp;
+    //model_ = *(VectorFst<StdArc>::Read(model));
     ArcSort (&model_, ILabelCompare<StdArc> ());
     isyms_ = model_.InputSymbols ();
     osyms_ = model_.OutputSymbols ();
