@@ -26,7 +26,7 @@ def Phoneticize (model, args) :
         assert len (weights) == len (olabs)
 
         for index, ilab in enumerate (ilabs) :
-            print ("{0}:{1}:{2}".format (
+            print ("{0}:{1}:{2:0.2f}".format (
                 ilab, 
                 olabs [index],
                 weights [index]
