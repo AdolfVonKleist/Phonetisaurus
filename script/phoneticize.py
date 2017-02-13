@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import phonetisaurus
+from itertools import izip
 
 def Phoneticize (model, args) :
     """
@@ -18,18 +19,15 @@ def Phoneticize (model, args) :
         uniques = [model.FindOsym (u) for u in result.Uniques]
         print ("{0:0.2f}\t{1}".format (result.PathWeight, " ".join (uniques)))
         print ("-------")
-        ilabs   = [model.FindIsym (i) for i in result.ILabels]
-        olabs   = [model.FindOsym (o) for o in result.OLabels]
-        weights = [w for w in result.PathWeights]
 
-        assert len (ilabs) == len (olabs)
-        assert len (weights) == len (olabs)
-
-        for index, ilab in enumerate (ilabs) :
+        #Should always be equal length
+        for ilab, olab, weight in izip (result.ILabels,
+                                        result.OLabels,
+                                        result.PathWeights) :
             print ("{0}:{1}:{2:0.2f}".format (
-                ilab, 
-                olabs [index],
-                weights [index]
+                model.FindIsym (ilab),
+                model.FindOsym (olab),
+                weight
             ))
 
             
