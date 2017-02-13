@@ -135,7 +135,7 @@ $(LIBDIR)/rnnlmlib.o: 3rdparty/rnnlm/rnnlmlib.cpp 3rdparty/rnnlm/rnnlmlib.h
 #Bindings [fstg2p only]
 phonetisaurus-binding: $(PYLIB)/Phonetisaurus.so
 
-$(PYLIB)/Phonetisaurus.so: $(G2PSONAME) Phonetisaurus-binding.o $(LIBDIR)/util.o
+$(PYLIB)/Phonetisaurus.so: $(LIBDIR)/libphonetisaurus.so Phonetisaurus-binding.o $(LIBDIR)/util.o
 	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) -shared $(LIBS) -fPIC Phonetisaurus-binding.o $(LIBDIR)/util.o \
 	-o $(PYLIB)/Phonetisaurus.so -I3rdparty/sparsehash -I3rdparty/utfcpp \
 	-lpython$(VERSION) -L. -L$(LIBDIR) -lphonetisaurus -lfst -O3 $(LIBS)
