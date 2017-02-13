@@ -3,7 +3,8 @@
 
 Phonetisaurus G2P
 #### OpenFst 1.6.1 ####
-If you are using OpenFst 1.6.1 please try using the eponymous branch for this.
+If you are using OpenFst 1.6.1 please try using [branch openfst-1.6.1](https://github.com/AdolfVonKleist/Phonetisaurus/tree/openfst-1.6.1).
+
 This also includes some simple python bindings which may be used to extract individual
 multigram scores, alignments, and to dump the raw lattices in .fst format for each word.
 
