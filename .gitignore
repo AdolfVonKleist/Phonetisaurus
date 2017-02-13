@@ -5,10 +5,11 @@
 .*\.dylib$
 .*\.so
 .*-binding.cc
-bin/phonetisaurus-align
-bin/phonetisaurus-arpa2wfst
-bin/phonetisaurus-g2pfst
-bin/phonetisaurus-g2prnn
+src/bin/phonetisaurus-align
+src/bin/phonetisaurus-arpa2wfst
+src/bin/phonetisaurus-g2pfst
+src/bin/phonetisaurus-g2prnn
+src/bin/rnnlm
 .*\.pyc$
 models/
 .*\.egg-info/
@@ -30,5 +31,5 @@ src/.autoconf/config.status
 src/.autoconf/configure
 src/Makefile
 html/
-script/
 exp/
+phonetisaurus.egg-info/
