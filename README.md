@@ -13,8 +13,8 @@ A lot of things are changing.
 #### Contact: ####
   * phonetisaurus@gmail.com
 
-#### Scratch Build for OpenFst v1.6.1 and Ubuntu 14.04 ####
-This build was tested via AWS EC2 with a fresh Ubuntu 14.04 base, and m4.large instance.
+#### Scratch Build for OpenFst v1.6.1 and Ubuntu 14.04/16.04 ####
+This build was tested via AWS EC2 with a fresh Ubuntu 14.04 and 16.04 base, and m4.large instance.
 
 ```
 $ sudo apt-get update
