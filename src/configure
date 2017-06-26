@@ -4550,11 +4550,11 @@ if test -e "$with_openfst_libs/libfstconst.so" \
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found all required OpenFst extensions." >&5
 $as_echo "Found all required OpenFst extensions." >&6; }
 else
-  if test -e "$with_openfst_libs/fst/libfstconst.dylib" \
-	                 -a -e "$with_openfst_libs/fst/libfstfar.dylib" \
-			 -a -e "$with_openfst_libs/fst/libfstngram.dylib" \
-			 -a -e "$with_openfst_libs/fst/libfstlookahead.dylib" \
-			 -a -e "$with_openfst_libs/fst/libfstlinearscript.dylib"; then :
+  if test -e "$with_openfst_libs/libfstconst.dylib" \
+	     -a -e "$with_openfst_libs/libfstfar.dylib" \
+			 -a -e "$with_openfst_libs/libfstngram.dylib" \
+			 -a -e "$with_openfst_libs/libfstlookahead.dylib" \
+			 -a -e "$with_openfst_libs/libfstlinearscript.dylib"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found all required OSX OpenFst extensions." >&5
 $as_echo "Found all required OSX OpenFst extensions." >&6; }
 else
@@ -4572,6 +4572,9 @@ default_install_bin=/usr/local/bin
 if test "${with_install_bin+set}" = set; then :
   withval=$with_install_bin; INSTALL_BIN="$withval"; \
 	echo "Set user-defined install directory: $withval"
+elif test "${prefix+set}" = set; then :
+  withval=$prefix/bin; INSTALL_BIN="$withval"; \
+	echo "Set user-defined install directory: $withval"
 else
   INSTALL_BIN="$default_install_bin"; \
 	with_install_bin="$default_install_bin"; \
@@ -4585,6 +4588,9 @@ default_install_lib=/usr/local/lib
 # Check whether --with-install-lib was given.
 if test "${with_install_lib+set}" = set; then :
   withval=$with_install_lib; INSTALL_LIB="$withval"; \
+	echo "Set user-defined libraries install directory: $withval"
+elif test  "${prefix+set}" = set; then :
+  withval=$prefix/lib; INSTALL_LIB="$withval"; \
 	echo "Set user-defined libraries install directory: $withval"
 else
   INSTALL_LIB="$default_install_lib"; \
@@ -4612,19 +4618,12 @@ if test -e "$with_openfst_includes""/fst/minimize.h"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found OpenFst headers." >&5
 $as_echo "Found OpenFst headers." >&6; }
 else
-  as_fn_error $? "Couldn't find OpenFst headers in specified location." "$LINENO" 5
+  as_fn_error $? "Couldn't find OpenFst headers in specified location \
+($with_openfst_includes). Use the  --with-openfst-includes switch to specify \
+the includes location." "$LINENO" 5
 fi
 #Check whether the OpenFst patch has been applied. Throw a warning if not
-if test -n "`grep 'CyclicMinimizer(const ExpandedFst<A>& fst):' \
-	    $with_openfst_includes/fst/minimize.h`"; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Found patched OpenFst header.  Everything looks OK." >&5
-$as_echo "Found patched OpenFst header.  Everything looks OK." >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: OpenFst headers do not appear to be patched.  \
-Did you apply the Kaldi OpenFst patch?  Might be problematic when using with Kaldi." >&5
-$as_echo "$as_me: WARNING: OpenFst headers do not appear to be patched.  \
-Did you apply the Kaldi OpenFst patch?  Might be problematic when using with Kaldi." >&2;}
-fi
+#Since 1.6.2 Kaldi does not patch the binaries.
 
 
 ac_config_files="$ac_config_files Makefile:.autoconf/Makefile.in"
