@@ -325,5 +325,5 @@ int main( int argc, char* argv[] ){
     write_alignments (&aligner, FLAGS_ofile, pthresh, FLAGS_nbest,
 		      FLAGS_fb, FLAGS_penalize);
 
-  return 1;
+  return 0;
 }
