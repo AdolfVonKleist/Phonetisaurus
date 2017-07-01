@@ -153,11 +153,11 @@ Phonetisaurus-binding.cc: phonetisaurus-module.py
 
 #Installation
 install: all
-	install -c $(BINDIR)/phonetisaurus-align $(INSTALL_BIN)/
-	install -c $(BINDIR)/phonetisaurus-arpa2wfst $(INSTALL_BIN)/
-	install -c $(BINDIR)/phonetisaurus-g2prnn $(INSTALL_BIN)/
-	install -c $(BINDIR)/phonetisaurus-g2pfst $(INSTALL_BIN)/
-	install -c $(BINDIR)/rnnlm $(INSTALL_BIN)/
+	install -D -m 755 $(BINDIR)/phonetisaurus-align $(INSTALL_BIN)/phonetisaurus-align
+	install -D -m 755 $(BINDIR)/phonetisaurus-arpa2wfst $(INSTALL_BIN)/phonetisaurus-arpa2wfst
+	install -D -m 755 $(BINDIR)/phonetisaurus-g2prnn $(INSTALL_BIN)/phonetisaurus-g2prnn
+	install -D -m 755 $(BINDIR)/phonetisaurus-g2pfst $(INSTALL_BIN)/phonetisaurus-g2pfst
+	install -D -m 755 $(BINDIR)/rnnlm $(INSTALL_BIN)/rnnlm
 	install -c $(LIBDIR)/libphonetisaurus.so $(INSTALL_LIB)/
 
 #Uninstall
