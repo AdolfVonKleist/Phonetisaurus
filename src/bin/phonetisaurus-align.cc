@@ -8,24 +8,24 @@
   modification, are permitted #provided that the following conditions
   are met:
 
-  * Redistributions of source code must retain the above copyright 
+  * Redistributions of source code must retain the above copyright
     notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above 
-    copyright notice, this list of #conditions and the following 
-    disclaimer in the documentation and/or other materials provided 
+    * Redistributions in binary form must reproduce the above
+    copyright notice, this list of #conditions and the following
+    disclaimer in the documentation and/or other materials provided
     with the distribution.
 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
- "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
- LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
- FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
- COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
- HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
- STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 */
@@ -75,14 +75,14 @@ int load_input_file (M2MFstAligner* aligner, string input_file,
 void write_alignments (M2MFstAligner* aligner, string ofile_name,
 		       StdArc::Weight threshold, int nbest,
 		       bool fb, bool penalize) {
-  /* 
-     Write the raw alignments to a file in text-based corpus format. 
+  /*
+     Write the raw alignments to a file in text-based corpus format.
 
      NOTE: Although N-best and other pruning strategies are supported,
            the final format is that of a standard text corpus.  All relative
 	   token and pronunciation scores will be stripped.  In general
-	   this means that, unless you are very lucky with your combined 
-	   pruning strategy the un-ranked N-best hypotheses will result in a 
+	   this means that, unless you are very lucky with your combined
+	   pruning strategy the un-ranked N-best hypotheses will result in a
 	   lower-quality joint N-gram model.
 
 	   This approach is best used with simple 1-best.
@@ -102,12 +102,12 @@ void write_alignments (M2MFstAligner* aligner, string ofile_name,
     RmEpsilon (tfst);
     //Skip empty results.  This should only happen
     // in the following situations:
-    //  1. seq1_del=false && len(seq1)<len(seq2) 
+    //  1. seq1_del=false && len(seq1)<len(seq2)
     //  2. seq2_del=false && len(seq1)>len(seq2)
-    //In both 1.and 2. the issue is that we need to 
+    //In both 1.and 2. the issue is that we need to
     // insert a 'skip' in order to guarantee at least
     // one valid alignment path through seq1*seq2, but
-    // user params didn't allow us to.  
+    // user params didn't allow us to.
     //Probably better to insert these where necessary
     // during initialization, regardless of user prefs.
     if (tfst->NumStates () > 0) {
@@ -139,8 +139,6 @@ void write_alignments (M2MFstAligner* aligner, string ofile_name,
     }
     delete tfst;
   }
-
-  return;
 }
 
 void compileNBestFarArchive (M2MFstAligner* aligner,
@@ -150,7 +148,7 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
   /*
     Generic method for compiling an FstARchive from a vector of FST lattices.
     The 'nbest' and 'threshold' parameters may be used to heuristically prune
-    the individual input lattices.  
+    the individual input lattices.
 
     TODO: Forward-Backward pruning for the lattices for one last variation.
   */
@@ -169,7 +167,7 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
   LatticePruner pruner (aligner->penalties, threshold, nbest, fb, penalize);
 
   for (unsigned int i = 0; i < fsts->size (); i++) {
-    //Maybe the alignment params did not permit any 
+    //Maybe the alignment params did not permit any
     // valid alignment.  If so, do not bother with additional
     // post-processing, don't add to the archive, do not pass go!
     if (fsts->at (i).NumStates () == 0) continue;
@@ -186,7 +184,7 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
     //Map back to the Log semiring
     Map (*tfst, lfst, StdToLogMapper ());
 
-    //Perform posterior normalization of the N-best lattice by pushing weights 
+    //Perform posterior normalization of the N-best lattice by pushing weights
     //  in the log semiring and then removing the final weight.
     //When N=1, this will also have the effect of removing all weights.
     //  The .far result here will be identical to the non-lattice 'write_alignments()'.
@@ -203,7 +201,7 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
     // as the empty fst will cause ngramcount to fail.
     if (pfst->NumStates () == 0) continue;
 
-      
+
     //Finally map back to the Tropical semiring for the last time
     Map (*pfst, ffst, LogToStdMapper ());
 
@@ -227,8 +225,6 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
   }
   //Cleanup the archive writer
   delete far_writer;
-
-  return;
 }
 
 
@@ -257,7 +253,7 @@ DEFINE_string (s1_char_delim, "",  "Sequence one input delimeter." );
 DEFINE_string (s2_char_delim, " ",  "Sequence two input delimeter." );
 DEFINE_string (model_file, "", "FST-format alignment model to load." );
 DEFINE_string (write_model, "", "Write out the alignment model in OpenFst format to filename." );
-DEFINE_double (thresh, 1e-10, "Delta threshold for EM training termination." ); 
+DEFINE_double (thresh, 1e-10, "Delta threshold for EM training termination." );
 DEFINE_double (pthresh, -99, "Pruning threshold.  Use to prune unlikely N-best candidates when using multiple alignments.");
 
 int main( int argc, char* argv[] ){
@@ -266,7 +262,7 @@ int main( int argc, char* argv[] ){
   set_new_handler (FailedNewHandler);
   PhonetisaurusSetFlags (usage.c_str(), &argc, &argv, false);
   M2MFstAligner aligner;
-  
+
   if( FLAGS_load_model==true ){
     aligner = *(new M2MFstAligner (FLAGS_model_file, FLAGS_penalize,
 				   FLAGS_penalize_em, FLAGS_restrict));
@@ -276,7 +272,7 @@ int main( int argc, char* argv[] ){
     case 0:
       cerr << "Please provide a valid input file." << endl;
     case -1:
-      return -1;
+      return 1;
     }
   }else{
     aligner = *(new M2MFstAligner (FLAGS_seq1_del, FLAGS_seq2_del,
@@ -292,7 +288,7 @@ int main( int argc, char* argv[] ){
     case 0:
       cerr << "Please provide a valid input file." << endl;
     case -1:
-      return -1;
+      return 1;
     }
 
     cerr << "Starting EM..." << endl;
@@ -309,15 +305,15 @@ int main( int argc, char* argv[] ){
     aligner.maximization (true);
   }
 
-  StdArc::Weight pthresh = FLAGS_pthresh == -99.0 
-    ? LogWeight::Zero().Value()			  
+  StdArc::Weight pthresh = FLAGS_pthresh == -99.0
+    ? LogWeight::Zero().Value()
     : FLAGS_pthresh;
   if (FLAGS_write_model.compare ("") != 0) {
     cerr << "Writing alignment model in OpenFst format to file: "
 	 << FLAGS_write_model << endl;
     aligner.write_model (FLAGS_write_model);
   }
-  
+
   if (FLAGS_lattice == true)
     compileNBestFarArchive (&aligner, &aligner.fsas, FLAGS_ofile, pthresh,
 			    FLAGS_nbest, FLAGS_fb, FLAGS_penalize);
@@ -325,5 +321,5 @@ int main( int argc, char* argv[] ){
     write_alignments (&aligner, FLAGS_ofile, pthresh, FLAGS_nbest,
 		      FLAGS_fb, FLAGS_penalize);
 
-  return 1;
+  return 0;
 }
