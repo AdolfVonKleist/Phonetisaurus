@@ -122,9 +122,9 @@ $ ./phoneticize.py -m ~/example/cmudict.o8.fst -w testing
 ```
 
 ### Dependencies: ###
-  * OpenFst (Prefer >= 1.4, compile with all extensions, use [branch openfst-1.5.3](https://github.com/AdolfVonKleist/Phonetisaurus/tree/openfst-1.5.3) for 1.5.x OpenFst)
-    * ``` $ ./configure --enable-static --enable-shared --enable-far \
-      --enable-lookahead-fsts --enable-const-fsts --enable-pdt \
+  * OpenFst (Prefer >= 1.4, compile with all extensions)
+    * ``` $ ./configure --enable-static --enable-shared --enable-far
+      --enable-lookahead-fsts --enable-const-fsts --enable-pdt
       --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9```
 
 ### Basic Build [Linux/OSX]: ###
