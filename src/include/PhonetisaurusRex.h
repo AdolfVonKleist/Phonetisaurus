@@ -241,7 +241,7 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
   // distance from 'superfinal' to the final state is 'Weight::One()',
   // hence 'distance[superfinal]' is not needed.
   StateId superfinal = -1;
-  ShortestPathCompare<StateId, Weight>
+  fst::internal::ShortestPathCompare<StateId, Weight>
     compare(pairs, distance, superfinal, delta);
   vector<StateId> heap;
   // 'r[s + 1]', 's' state in 'fst', is the number of states in 'ofst'

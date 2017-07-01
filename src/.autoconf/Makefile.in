@@ -26,6 +26,10 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 # OF THE POSSIBILITY OF SUCH DAMAGE.
+VERSION=2.7
+PYTHON_H=/usr/include/python$(VERSION)
+PYLIB=../phonetisaurus
+
 ACLOCAL_AMFLAGS = $(ACLOCAL_FLAGS) -I m4
 BINDIR=bin
 LIBDIR=lib
@@ -76,7 +80,7 @@ OBJS  := $(LIBDIR)/util.o \
 
 vpath %.cc $(LIBDIR)/
 $(LIBDIR)/%.o: %.cc
-	$(CXX) $(EXTRA) -I. -c $(<) -o $(@)
+	$(CXX) $(EXTRA) -fPIC -I. -c $(<) -o $(@)
 
 all: phonetisaurus-align phonetisaurus-arpa2wfst phonetisaurus-g2prnn \
 	rnnlm phonetisaurus-g2pfst
@@ -128,6 +132,25 @@ $(LIBDIR)/rnnlmlib.o: 3rdparty/rnnlm/rnnlmlib.cpp 3rdparty/rnnlm/rnnlmlib.h
 	-funroll-loops -ffast-math -lm -w -c 3rdparty/rnnlm/rnnlmlib.cpp \
 	-o $(LIBDIR)/rnnlmlib.o
 
+#Bindings [fstg2p only]
+phonetisaurus-binding: $(PYLIB)/Phonetisaurus.so
+
+$(PYLIB)/Phonetisaurus.so: $(LIBDIR)/libphonetisaurus.so Phonetisaurus-binding.o $(LIBDIR)/util.o
+	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) -shared $(LIBS) -fPIC Phonetisaurus-binding.o $(LIBDIR)/util.o \
+	-o $(PYLIB)/Phonetisaurus.so -I3rdparty/sparsehash -I3rdparty/utfcpp \
+	-lpython$(VERSION) -L. -L$(LIBDIR) -lphonetisaurus -lfst -O3 $(LIBS)
+
+$(LIBDIR)/libphonetisaurus.so: Phonetisaurus-binding.o $(LIBDIR)/util.o
+	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) -Wl,-soname,libphonetisaurus.so.0 -shared -lfst Phonetisaurus-binding.o \
+	$(LIBDIR)/util.o -I. -o $(LIBDIR)/libphonetisaurus.so -O3 -fPIC -funroll-loops -ffast-math $(LIBS)
+
+Phonetisaurus-binding.o: Phonetisaurus-binding.cc
+	$(CXX) $(EXTRA) -L$(OPENFST_LDFLAGS) -fPIC -funroll-loops -ffast-math  \
+	-I. -Iinclude -L$(LIBDIR) -I3rdparty/utfcpp -I$(PYTHON_H) $(LIBS) -c $(<) -o $(@)
+
+Phonetisaurus-binding.cc: phonetisaurus-module.py
+	python phonetisaurus-module.py > Phonetisaurus-binding.cc
+
 #Installation
 install: all
 	install -c $(BINDIR)/phonetisaurus-align $(INSTALL_BIN)/
@@ -135,6 +158,7 @@ install: all
 	install -c $(BINDIR)/phonetisaurus-g2prnn $(INSTALL_BIN)/
 	install -c $(BINDIR)/phonetisaurus-g2pfst $(INSTALL_BIN)/
 	install -c $(BINDIR)/rnnlm $(INSTALL_BIN)/
+	install -c $(LIBDIR)/libphonetisaurus.so $(INSTALL_LIB)/
 
 #Uninstall
 uninstall:
@@ -143,6 +167,7 @@ uninstall:
 	rm $(INSTALL_BIN)/phonetisaurus-g2prnn
 	rm $(INSTALL_BIN)/phonetisaurus-g2pfst
 	rm $(INSTALL_BIN)/rnnlm
+	rm $(INSTALL_LIB)/libphonetisaurus.so
 
 #Test the configure outputs
 test:
