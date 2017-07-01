@@ -153,6 +153,8 @@ Phonetisaurus-binding.cc: phonetisaurus-module.py
 
 #Installation
 install: all
+	mkdir -p $(INSTALL_BIN)
+	mkdir -p $(INSTALL_LIB)
 	install -c $(BINDIR)/phonetisaurus-align $(INSTALL_BIN)/
 	install -c $(BINDIR)/phonetisaurus-arpa2wfst $(INSTALL_BIN)/
 	install -c $(BINDIR)/phonetisaurus-g2prnn $(INSTALL_BIN)/
