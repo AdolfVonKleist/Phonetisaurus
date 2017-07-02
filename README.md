@@ -1,5 +1,4 @@
 ## Phonetisaurus G2P ##
-=========
 
 This repository contains scripts suitable for training, evaluating and using grapheme-to-phoneme
 models for speech recognition using the OpenFst framework.  The current build requires OpenFst
