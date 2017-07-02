@@ -2,27 +2,24 @@
 =========
 
 Phonetisaurus G2P
-#### OpenFst 1.6.1 ####
-If you are using OpenFst 1.6.1 please try using [branch openfst-1.6.1](https://github.com/AdolfVonKleist/Phonetisaurus/tree/openfst-1.6.1).
 
-This also includes some simple python bindings which may be used to extract individual
+This repository contains scripts suitable for training, evaluating and using grapheme-to-phoneme
+models for speech recognition using the OpenFst framework.  The current build requires OpenFst
+version 1.6.0 or later, and the examples below use version 1.6.2.
+
+The repository includes C++ binaries suitable for training, compiling, and evaluating G2P models.
+It also some simple python bindings which may be used to extract individual
 multigram scores, alignments, and to dump the raw lattices in .fst format for each word.
 
-#### OpenFst 1.5.3 ####
-If you are using OpenFst 1.5.3 please try using the eponymous branch for this.
-
-#### !WARNING: In Flux! ####
-A lot of things are changing.
-  * Last stable version from Google code (includes downloads).  All ~2015 academic papers also refer to this:
-    * https://code.google.com/p/phonetisaurus/
-  
-#### Documentation: ####
-  * http://adolfvonkleist.github.io/Phonetisaurus/
+Standalone distributions related to previous INTERSPEECH papers, as well as the complete, exported
+final version of the old google-code repository are available via ```git-lfs``` in a separate
+repository:
+  * https://github.com/AdolfVonKleist/phonetisaurus-downloads
 
 #### Contact: ####
   * phonetisaurus@gmail.com
 
-#### Scratch Build for OpenFst v1.6.1 and Ubuntu 14.04/16.04 ####
+#### Scratch Build for OpenFst v1.6.2 and Ubuntu 14.04/16.04 ####
 This build was tested via AWS EC2 with a fresh Ubuntu 14.04 and 16.04 base, and m4.large instance.
 
 ```
@@ -34,15 +31,14 @@ $ sudo apt-get install python-setuptools python-dev
 # mitlm (to build a quick play model)
 $ sudo apt-get install gfortran
 ```
-Next grab and install OpenFst-1.6.1 (10m-15m):
+Next grab and install OpenFst-1.6.2 (10m-15m):
 ```
-$ wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.6.1.tar.gz
+$ wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
 $ tar -xvzf openfst-1.6.1.tar.gz
 $ cd openfst-1.6.1
-$ ./configure --enable-static --enable-shared --enable-far \
-    --enable-lookahead-fsts --enable-const-fsts --enable-pdt \
-    --enable-ngram-fsts --enable-linear-fsts
-$ make -j 8
+# Minimal configure, compatible with current defaults for Kaldi
+$ ./configure --enable-static --enable-shared --enable-far --enable-ngram-fsts
+$ make -j 4
 # Now wait a while...
 $ sudo make install
 $ cd
@@ -52,12 +48,10 @@ $ echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/lib/
 $ source ~/.bashrc
 ```
 
-Checkout the Phonetisaurus 1.6.1 branch:
+Checkout the latest Phonetisaurus from master
 ```
 $ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
-$ cd Phonetisaurus/
-$ git checkout openfst-1.6.1
-$ cd src
+$ cd Phonetisaurus/src
 $ ./configure
 $ make
 $ sudo make install
@@ -121,36 +115,22 @@ $ ./phoneticize.py -m ~/example/cmudict.o8.fst -w testing
   <eps>:<eps>:0.01
 ```
 
-### Dependencies: ###
-  * OpenFst (Prefer >= 1.4, compile with all extensions)
-    * ``` $ ./configure --enable-static --enable-shared --enable-far
-      --enable-lookahead-fsts --enable-const-fsts --enable-pdt
-      --enable-ngram-fsts --enable-linear-fsts CC=gcc-4.9```
-
-### Basic Build [Linux/OSX]: ###
-Use the existing setup.  This should be fine for most Linux distributions
-as well as newer versions of OSX.
-```
- $ cd src/
- $ ./configure
- $ make
-```
-
 Use a special location for OpenFst, parallel build with 2 cores
 ```
- $ ./configure --with-openfst-libs=/home/ubuntu/openfst-1.4.1/lib \
-          --with-openfst-includes=/home/ubuntu/openfst-1.4.1/include
+ $ ./configure --with-openfst-libs=/home/ubuntu/openfst-1.6.2/lib \
+          --with-openfst-includes=/home/ubuntu/openfst-1.6.2/include
  $ make -j 2 all
 ```
 
-Use custom g++ under OSX (note: OpenFst must also be compiled with this
-custom g++ alternative)
+Use custom g++ under OSX (Note: OpenFst must also be compiled with this
+custom g++ alternative [untested with v1.6.2])
 ```
- $ ./configure --with-openfst-libs=/home/osx/openfst-1.4.1gcc/lib \
-          --with-openfst-includes=/home/osx/openfst-1.4.1gcc/include \
+ $ ./configure --with-openfst-libs=/home/osx/openfst-1.6.2gcc/lib \
+          --with-openfst-includes=/home/osx/openfst-1.6.2gcc/include \
 	  CXX=g++-4.9
  $ make -j 2 all
 ```
+
 #### Rebuild configure ####
 If you need to rebuild the configure script you can do so:
 ```
