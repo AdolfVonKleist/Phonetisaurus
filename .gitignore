@@ -34,3 +34,4 @@ src/Makefile
 html/
 exp/
 phonetisaurus.egg-info/
+config.log
