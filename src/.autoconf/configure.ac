@@ -57,22 +57,16 @@ AS_IF([test -e "$with_openfst_libs""/libfst.so"],
 		     Did you specify --with-openfst-libs?])])])
 #Test all the extensions - tell the user how it *should* be compiled
 #	    -a -e "$with_openfst_libs/fst/libfstpdtscript.so" \
-AS_IF([test -e "$with_openfst_libs/libfstconst.so" \
-	    -a -e "$with_openfst_libs/libfstfar.so" \
-	    -a -e "$with_openfst_libs/libfstngram.so" \
-	    -a -e "$with_openfst_libs/libfstlookahead.so" \
- 	    -a -e "$with_openfst_libs/libfstlinearscript.so"],
+#--enable-static --enable-shared --enable-far --enable-ngram-fsts
+AS_IF([test -e "$with_openfst_libs/libfstfar.so" \
+	    -a -e "$with_openfst_libs/libfstngram.so"],
 	    [AC_MSG_RESULT([Found all required OpenFst extensions.])],
-	    [AS_IF([test -e "$with_openfst_libs/fst/libfstconst.dylib" \
-	                 -a -e "$with_openfst_libs/fst/libfstfar.dylib" \
-			 -a -e "$with_openfst_libs/fst/libfstngram.dylib" \
-			 -a -e "$with_openfst_libs/fst/libfstlookahead.dylib" \
-			 -a -e "$with_openfst_libs/fst/libfstlinearscript.dylib"],
+	    [AS_IF([test -e "$with_openfst_libs/fst/libfstfar.dylib" \
+			 -a -e "$with_openfst_libs/fst/libfstngram.dylib"],
 			 [AC_MSG_RESULT([Found all required OSX OpenFst extensions.])],
 			 [AC_MSG_ERROR([Can't find one or more extensions.  OpenFst should \
 			 have been configured with the following flags: \
-			 --enable-static --enable-shared --enable-far --enable-lookahead-fsts \
-			 --enable-const-fsts --enable-pdt --enable-ngram-fsts --enable-linear-fsts])])])
+			 --enable-static --enable-shared --enable-far --enable-ngram-fsts])])])
 
 #Set the default install directories
 default_install_bin=/usr/local/bin
