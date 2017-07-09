@@ -162,6 +162,16 @@ $ ./phoneticize.py -m ~/example/cmudict.o8.fst -w testing
   <eps>:<eps>:0.01
 ```
 
+Test the G2P servlet [requires compilation of bindings and module install]:
+```
+$ nohup script/g2pserver.py -m ~/train/model.fst -l ~/cmudict.formatted.dict &
+$ curl -s -F "wordlist=@words.list" http://localhost:8080/phoneticize/list
+test    T EH1 S T
+right   R AY1 T
+junkify JH AH1 NG K AH0 F AY2
+junkify JH AH1 NG K IH0 F AY2
+```
+
 Use a special location for OpenFst, parallel build with 2 cores
 ```
  $ ./configure --with-openfst-libs=/home/ubuntu/openfst-1.6.2/lib \
