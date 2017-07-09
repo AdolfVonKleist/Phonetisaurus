@@ -1,0 +1,308 @@
+#!/usr/bin/env python
+# -*- mode: python; coding: utf-8 -*-
+from __future__ import print_function
+import os, logging, subprocess, time, re
+from datetime import datetime
+from collections import defaultdict
+import tempfile
+
+class G2PModelTester () :
+    """G2P Model training wrapper class.
+
+    Phonetisaurus G2P modeling training wrapper class.
+    This wraps the alignment, joint n-gram training, and ARPA to
+    WFST conversion steps into one command.
+    """
+    
+    def __init__ (self, model, **kwargs) :
+        self.model = model
+        self.lexicon_file = kwargs.get ("lexicon", None)
+        self.nbest = kwargs.get ("nbest", 1)
+        self.thresh = kwargs.get ("thresh", 99)
+        self.beam = kwargs.get ("beam", 10000)
+        self.greedy = kwargs.get ("greedy", False)
+        self.verbose = kwargs.get ("verbose", False)
+        self.logger = self.setupLogger ()
+
+    def setupLogger (self) :
+        """Setup the logger and logging level.
+
+        Setup the logger and logging level.  We only support
+        verbose and non-verbose mode.
+
+        Args:
+            verbose (bool): Verbose mode, or not.
+
+        Returns:
+            Logger: A configured logger instance.
+        """
+        
+        level = logging.DEBUG if self.verbose else logging.INFO
+        logging.basicConfig (
+            level=level,
+            format="\033[94m%(levelname)s:%(name)s:"\
+            "%(asctime)s\033[0m:  %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S"
+        )
+
+        return logging.getLogger ("phonetisaurus-apply")
+
+    def _loadLexicon (self) :
+        """Load the lexicon from a file.
+
+        Load the reference lexicon from a file, and store it
+        in a defaultdict (list).
+        """
+        
+        _lexicon = defaultdict (list)
+        if not self.lexicon_file :
+            return _lexicon
+
+        self.logger.debug ("Loading lexicon from file...")
+        with open (self.lexicon_file, "r") as ifp :
+            for line in ifp :
+                line = line.decode ("utf8").strip ()
+                word, pron = re.split (ur"\t", line)
+                _lexicon [word].append (pron)
+
+        return _lexicon
+    
+    def checkPhonetisaurusConfig (self) :
+        """Run some basic checks before training.
+
+        Run some basic checks regarding the $PATH, environment,
+        and provided data before starting training.
+
+        Raises:
+            EnvironmentError: raised if binaries are not found.
+        """
+
+        self.logger.debug ("Checking command configuration...")
+        for program in ["phonetisaurus-g2pfst"] :
+            if not self.which (program) :
+                raise EnvironmentError, "Phonetisaurus command, '{0}', "\
+                    "not found in path.".format (program)
+
+        if self.lexicon_file and not os.path.exists (self.lexicon_file) :
+            self.logger.error ("Could not find provided lexicon file.")
+            sys.exit (1)
+            
+        for key,val in sorted (vars (self).iteritems ()) :
+            self.logger.debug (u"{0}:  {1}".format (key, val))
+            
+        self.lexicon = self._loadLexicon ()
+        
+        return
+    
+    def which (self, program) :
+        """Basic 'which' implementation for python.
+
+        Basic 'which' implementation for python from stackoverflow:
+          * https://stackoverflow.com/a/377028/6739158
+
+        Args:
+            program (str): The program name to search the $PATH for.
+
+        Returns:
+            path/None: The path to the executable, or None.
+        """
+
+        def is_exe (fpath) :
+            return os.path.isfile (fpath) and os.access (fpath, os.X_OK)
+
+        fpath, fname = os.path.split (program)
+        if fpath:
+            if is_exe (program):
+                return program
+        else:
+            for path in os.environ["PATH"].split (os.pathsep) :
+                path = path.strip ('"')
+                exe_file = os.path.join (path, program)
+                if is_exe (exe_file):
+                    return exe_file
+
+        return None
+
+    def makeG2PCommand (self, word_list) :
+        """Build the G2P command.
+
+        Build the G2P command from the provided arguments.
+
+        Returns:
+            list: The command in subprocess list format.
+        """
+
+        command = [
+            u"phonetisaurus-g2pfst",
+            u"--model={0}".format (self.model),
+            u"--nbest={0}".format (self.nbest),
+            u"--beam={0}".format (self.beam),
+            u"--thresh={0}".format (self.thresh),
+            u"--wordlist={0}".format (word_list)
+        ]
+        
+        self.logger.debug (u" ".join (command))
+
+        return command
+
+    def runG2PCommand (self, word_list_file) :
+        """Generate and run the actual G2P command.
+        
+        Generate and run the actual G2P command.  Each synthesized
+        entry will be yielded back on-the-fly via the subprocess
+        stdout readline method.
+
+        Args:
+            word_list_file (str): The input word list.
+        """
+        g2p_command = self.makeG2PCommand (word_list_file)
+        
+        self.logger.debug ("Applying G2P model...")
+
+        with open (os.devnull, "w") as devnull :
+            proc = subprocess.Popen (
+                g2p_command,
+                stdout=subprocess.PIPE,
+                stderr=devnull if not self.verbose else None
+            )
+            
+            for line in iter (proc.stdout.readline, "") :
+                parts = re.split (ur"\t", line.decode ("utf8").strip ())
+                if not len (parts) == 3 :
+                    self.logger.warning (
+                        u"No pronunciation for word: '{0}'".format (parts [0])
+                    )
+                    continue
+                
+                yield parts
+
+        return
+
+    def applyG2POnly (self, word_list_file) :
+        """Apply the G2P model to a word list.
+
+        Apply the G2P model to a word list.  No filtering or application
+        of a reference lexicon is used here.
+
+        Args:
+            word_list_file (str): The input word list.
+        """
+        for word, score, pron in self.runG2PCommand (word_list_file) :
+            line = u""
+            if self.verbose :
+                line = u"{0}\t{1:.2f}\t{2}".format (
+                    word, float (score), pron
+                )
+            else :
+                line = u"{0}\t{1}".format (word, pron)
+            print (line.encode ("utf8"))
+        
+        return
+
+    def applyG2PWithLexicon (self, word_list_file) :
+        """Apply the G2P model to a word list, combined with lexicon.
+
+        Apply the G2P model to a word list, but combine this with 
+        a reference lexicon.  Words for which a reference entry exists
+        will not be sent to the G2P, unless the additional '--greedy'
+        flag is set to True.
+
+        Args:
+            word_list_file (str): The input word list.
+        """
+        target_lexicon = defaultdict (list)
+        tmpwordlist = tempfile.NamedTemporaryFile (delete=False)
+
+        #First, find any words in the target list for which we already
+        # have a canonical pronunciation in the reference lexicon.
+        with open (word_list_file, "r") as ifp :
+            for word in ifp :
+                word = word.decode ("utf8").strip ()
+                if word in self.lexicon :
+                    target_lexicon [word] = [(0.0,pron)
+                                             for pron in self.lexicon [word]]
+                    #In greedy mode we still send words to the G2P, even
+                    # if we have canonical entries in the reference lexicon.
+                    if self.greedy :
+                        print (word.encode ("utf8"), file=tmpwordlist)
+                else :
+                    print (word.encode ("utf8"), file=tmpwordlist)
+        tmpwordlist.close ()
+
+        #Second, iterate through the G2P output, and filter against
+        # any possible duplicates previously found in the reference lexicon.
+        for word, score, pron in self.runG2PCommand (tmpwordlist.name) :
+            prons = set ([p for s,p in target_lexicon [word]])
+            if pron in prons :
+                continue
+            target_lexicon [word].append ((score, pron))
+
+        #Finally, sort everything that is left and print it.
+        for word in sorted (target_lexicon.keys ()) :
+            for score, pron in target_lexicon [word] :
+                line = u""
+                if self.verbose :
+                    line = u"{0}\t{1:.2f}\t{2}".format (
+                        word, float (score), pron
+                    )
+                else :
+                    line = u"{0}\t{1}".format (word, pron)
+                print (line.encode ("utf8"))
+        
+        os.unlink (tmpwordlist.name)
+        return
+    
+    def ApplyG2PModel (self, word_list_file) :
+        """Apply the G2P model to a word list.
+
+        Apply the G2P model to a word list.
+
+        Args:
+            word_list_file (str): The input word list.
+        """
+        self.checkPhonetisaurusConfig ()
+        
+        if not os.path.exists (word_list_file) \
+           or not os.path.isfile (word_list_file) :
+            raise IOError, "Word list file not found."
+
+        if len (self.lexicon) == 0 :
+            self.applyG2POnly (word_list_file)
+        else :
+            self.applyG2PWithLexicon (word_list_file)
+        
+        return
+    
+if __name__ == "__main__" :
+    import sys, argparse
+
+    example = "{0} --model train/model.fst --word test".format (sys.argv [0])
+    
+    parser  = argparse.ArgumentParser (description=example)
+    parser.add_argument ("--model", "-m", help="Phonetisaurus G2P fst model.",
+                         required=True)
+    parser.add_argument ("--lexicon", "-l", help="Optional reference lexicon.",
+                         required=False)
+    parser.add_argument ("--nbest", "-n", help="Nbest highest order.",
+                         default=1, type=int)
+    parser.add_argument ("--beam", "-b", help="Search 'beam'.",
+                         default=10000, type=int)
+    parser.add_argument ("--thresh", "-t", help="Pruning threshold for n-best.",
+                         default=99.0, type=float)
+    parser.add_argument ("--greedy", "-g", help="Use the G2P even if a "
+                         "reference lexicon has been provided.", default=False,
+                         action="store_true")
+    parser.add_argument ("--word_list", "-wl", help="Input word or word list to apply "
+                        "G2P model to.", type=str)
+    
+    parser.add_argument ("--verbose", "-v", help="Verbose mode.",
+                         default=False, action="store_true")
+    args = parser.parse_args ()
+
+    tester = G2PModelTester (
+        args.model,
+        **{key:val for key,val in args.__dict__.iteritems ()
+           if not key in ["model","word_list"]}
+    )
+
+    tester.ApplyG2PModel (args.word_list)

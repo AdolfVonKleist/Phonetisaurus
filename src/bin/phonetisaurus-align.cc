@@ -63,8 +63,7 @@ int load_input_file (M2MFstAligner* aligner, string input_file,
       lines++;
     }
     infile.close ();
-  }
-  else {
+  } else {
     cerr << "Failed to open input file: " << input_file << endl;
     return -1;
   }
@@ -213,7 +212,7 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
       set_syms = true;
     }
 
-    sprintf (keybuf, "%0*d", generate_keys, i+1);
+    snsprintf (keybuf, "%0*d", generate_keys, i+1);
     key = keybuf;
 
     //Write the final result to the FARchive
