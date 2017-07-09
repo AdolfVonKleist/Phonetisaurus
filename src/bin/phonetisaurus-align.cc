@@ -212,7 +212,7 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
       set_syms = true;
     }
 
-    snsprintf (keybuf, "%0*d", generate_keys, i+1);
+    sprintf (keybuf, "%0*d", generate_keys, i+1);
     key = keybuf;
 
     //Write the final result to the FARchive

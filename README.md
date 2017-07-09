@@ -73,7 +73,7 @@ $ sudo make install
 $ cd
 ```
 
-Train a quick toy model with the cmudict:
+Grab a copy of the latest version of CMUdict and clean it up a bit:
 ```
 $ mkdir example
 $ cd example
@@ -86,6 +86,56 @@ $ cat cmudict.dict \
               $w = shift (@_); 
               $_ = $w."\t".join (" ", @_)."\n";' \
   > cmudict.formatted.dict
+```
+
+Train a complete model with default parameters using the wrapper script:
+```
+$ phonetisaurus_train --lexicon cmudict.formatted.dict
+INFO:phonetisaurus-train:2017-07-09 16:35:31:  Checking command configuration...
+INFO:phonetisaurus-train:2017-07-09 16:35:31:  Checking lexicon for reserved characters: '}', '|', '_'...
+INFO:phonetisaurus-train:2017-07-09 16:35:31:  Aligning lexicon...
+INFO:phonetisaurus-train:2017-07-09 16:37:44:  Training joint ngram model...
+INFO:phonetisaurus-train:2017-07-09 16:37:46:  Converting ARPA format joint n-gram model to WFST format...
+INFO:phonetisaurus-train:2017-07-09 16:37:59:  G2P training succeeded: train/model.fst
+```
+
+Generate pronunciations for a word list using the wrapper script:
+```
+$ phonetisaurus_apply --model train/model.fst --word_list test.wlist
+test  T EH1 S T
+jumbotron  JH AH1 M B OW0 T R AA0 N
+excellent  EH1 K S AH0 L AH0 N T
+eggselent  EH1 G S L AH0 N T
+```
+
+Generate pronunciations for a word list using the wrapper script.
+Filter against a reference lexicon, add n-best, and run in verbose mode,
+and generate :
+```
+$ phonetisaurus_apply --model train/model.fst --word_list test.wlist -n 2 -g -v -l cmudict.formatted.dict
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  Checking command configuration...
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  beam:  10000
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  greedy:  True
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  lexicon_file:  cmudict.formatted.dict
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  model:  train/model.fst
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  nbest:  2
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  thresh:  99.0
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  verbose:  True
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  Loading lexicon from file...
+DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  Applying G2P model...
+GitRevision: kaldi-1-g5028ba-dirty
+eggselent  26.85  EH1 G S L AH0 N T
+eggselent  28.12  EH1 G Z L AH0 N T
+excellent  0.00  EH1 K S AH0 L AH0 N T
+excellent  19.28  EH1 K S L EH1 N T
+jumbotron  0.00  JH AH1 M B OW0 T R AA0 N
+jumbotron  17.30  JH AH1 M B OW0 T R AA2 N
+test  0.00  T EH1 S T
+test  11.56  T EH2 S T
+```
+
+Align, estimate, and convert a joint n-gram model step-by-step:
+```
 # Align the dictionary (5m-10m)
 $ phonetisaurus-align --input=cmudict.formatted.dict \
   --ofile=cmudict.formatted.corpus --seq1_del=false
@@ -97,7 +147,7 @@ $ phonetisaurus-arpa2wfst --lm=cmudict.o8.arpa --ofile=cmudict.o8.fst
 $ cd
 ```
 
-Test the model with the wrapper script:
+Test the manual model with the wrapper script:
 ```
 $ cd Phonetisaurus/script
 $ ./phoneticize.py -m ~/example/cmudict.o8.fst -w testing
