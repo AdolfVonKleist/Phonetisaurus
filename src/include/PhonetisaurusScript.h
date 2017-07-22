@@ -117,7 +117,9 @@ class PhonetisaurusScript {
   // The actual phoneticizer routine
   vector<PathData> Phoneticize (const string& word, int nbest = 1, 
 				int beam = 10000, float threshold = 99,
-				bool write_fsts = false) {
+				bool write_fsts = false,
+				bool accumulate = false,
+				double pmass = -1.0) {
     VectorFst<StdArc>* fst = new VectorFst<StdArc> ();
     vector<int> entry = tokenize2ints ((string*) &word, &delim_, isyms_);
     Entry2FSA (entry, fst, imax_, invimap_);
@@ -154,14 +156,27 @@ class PhonetisaurusScript {
 	    state_threshold);
 
     ShortestPathSpecialized (*ifst, &ofst, &distance, 
-			     &path_filter, beam, opts);
+			     &path_filter, beam, opts, accumulate);
 
     vector<PathData> paths;
+    float total = 0.0;
+    if (pmass > 0.0) {
+      for (size_t i = 0; i < path_filter.ordered_paths.size(); i++) {
+	const vector<int>& u = path_filter.ordered_paths [i];
+	const Path& orig = path_filter.path_map [u];
+	total = Plus (LogWeight (total), LogWeight (orig.PathWeight)).Value ();
+      }
+    }
+    
     for (size_t i = 0; i < path_filter.ordered_paths.size(); i++) {
-      const vector<int>& u = path_filter.ordered_paths[i];
-      const Path& orig     = path_filter.path_map[u];
-      PathData path = PathData (orig.PathWeight, orig.PathWeights, 
-			  orig.ILabels, orig.OLabels, orig.unique_olabels);
+      const vector<int>& u = path_filter.ordered_paths [i];
+      const Path& orig = path_filter.path_map [u];
+      float pweight = orig.PathWeight;
+      if (pmass > 0.0) pweight = pweight - total;
+      PathData path = PathData (
+		  pweight, orig.PathWeights, 
+		  orig.ILabels, orig.OLabels, orig.unique_olabels
+		);
       paths.push_back (path);
     }
 

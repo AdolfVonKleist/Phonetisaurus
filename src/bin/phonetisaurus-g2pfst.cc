@@ -32,9 +32,6 @@
 #include <fst/fstlib.h>
 #include <include/PhonetisaurusScript.h>
 #include <include/util.h>
-#ifdef _GNUC_
-#include <omp.h>
-#endif
 using namespace fst;
 
 typedef unordered_map<int, vector<PathData> > RMAP;
@@ -57,58 +54,31 @@ void PrintPathData (const vector<PathData>& results, string FLAGS_word,
 void EvaluateWordlist (PhonetisaurusScript& decoder, vector<string> corpus,
 		       int FLAGS_beam, int FLAGS_nbest, bool FLAGS_reverse,
 		       string FLAGS_skip, double FLAGS_thresh, string FLAGS_gsep,
-		       bool FLAGS_write_fsts, bool FLAGS_print_scores) {
+		       bool FLAGS_write_fsts, bool FLAGS_print_scores,
+		       bool FLAGS_accumulate, double FLAGS_pmass) {
   for (int i = 0; i < corpus.size (); i++) {
     vector<PathData> results = decoder.Phoneticize (corpus [i], FLAGS_nbest,
 						    FLAGS_beam, FLAGS_thresh,
-						    FLAGS_write_fsts);
+						    FLAGS_write_fsts,
+						    FLAGS_accumulate, FLAGS_pmass);
     PrintPathData (results, corpus [i], decoder.osyms_, FLAGS_print_scores);
   }
 }
 
-void ThreadedEvaluateWordlist (string FLAGS_model, vector<string> corpus,
-			       int FLAGS_beam, int FLAGS_nbest, 
-			       bool FLAGS_reverse, string FLAGS_skip,
-			       double FLAGS_thresh, string FLAGS_gsep,
-			       bool FLAGS_write_fsts, int FLAGS_threads) {
-  int csize = corpus.size ();
-  RMAP rmap;
-  SymbolTable osyms;
-  
-#pragma omp parallel for
-  for (int x = 0; x < FLAGS_threads; x++) {
-    PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
-    if (x == 0)
-      osyms = *decoder.osyms_;
-    int start = x * (csize / FLAGS_threads);
-    int end   = (x == FLAGS_threads - 1) ? csize \
-      : start + (csize / FLAGS_threads);
-    for (int i = start; i < end; i++) {
-      vector<PathData> results = decoder.Phoneticize (corpus [i], FLAGS_nbest,
-						    FLAGS_beam, FLAGS_thresh,
-						    FLAGS_write_fsts);
-      rmap [i] = results;
-    }
-  }
-
-  for (int i = 0; i < csize; i++) {
-    const vector<PathData> results = rmap [i];
-    PrintPathData (results, corpus [i], &osyms);
-  }
-}
 
 DEFINE_string (model, "", "Input FST G2P model.");
 DEFINE_string (word, "", "Input word to phoneticize.");
 DEFINE_string (wordlist, "", "Input wordlist to phoneticize");
 DEFINE_string (gsep, "", "Grapheme separator.");
 DEFINE_string (skip, "_", "Phoneme skip marker.");
-DEFINE_int32  (nbest, 1, "N-best hypotheses to output.");
-DEFINE_int32  (beam, 10000, "Decoder beam.");
-DEFINE_int32  (threads, 1, "Number of parallel threads.");
+DEFINE_int32 (nbest, 1, "N-best hypotheses to output.");
+DEFINE_int32 (beam, 10000, "Decoder beam.");
 DEFINE_double (thresh, 99.0, "N-best comparison threshold.");
-DEFINE_bool   (write_fsts, false, "Write the output FSTs for debugging.");
-DEFINE_bool   (reverse, false, "Reverse input word.");
-DEFINE_bool   (print_scores, true, "Print scores in output.");
+DEFINE_double (pmass, -1.0, "Percent of probability mass.");
+DEFINE_bool (write_fsts, false, "Write the output FSTs for debugging.");
+DEFINE_bool (reverse, false, "Reverse input word.");
+DEFINE_bool (print_scores, true, "Print scores in output.");
+DEFINE_bool (accumulate, false, "Accumulate weights for unique output prons.");
 
 int main (int argc, char* argv []) {
   cerr << "GitRevision: " << GIT_REVISION << endl;
@@ -128,7 +98,6 @@ int main (int argc, char* argv []) {
     }
   }
 
-  
   bool use_wordlist = false;
   if (FLAGS_wordlist.compare ("") != 0) {
     std::ifstream wordlist_ifp (FLAGS_wordlist);
@@ -145,34 +114,22 @@ int main (int argc, char* argv []) {
     cout << "Either --wordlist or --word must be set!" << endl;
   }
 
-  #ifndef __GNUC__
-  omp_set_num_threads (FLAGS_threads);
-  #endif
-
-  
   if (use_wordlist == true) {
     vector<string> corpus;
     LoadWordList (FLAGS_wordlist, &corpus);
     
-    if (FLAGS_threads > 1) {
-      cout << "TODO: Current OpenMP parallel output is non-deterministic." << endl;
-      /*
-      ThreadedEvalaateWordlist (FLAGS_model, corpus, FLAGS_beam,
-				FLAGS_nbest, FLAGS_reverse, FLAGS_skip,
-				FLAGS_thresh, FLAGS_gsep, FLAGS_write_fsts,
-				FLAGS_threads);
-      */
-    } else {
-      PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
-      EvaluateWordlist (decoder, corpus, FLAGS_beam, FLAGS_nbest,
-			FLAGS_reverse, FLAGS_skip, FLAGS_thresh,
-			FLAGS_gsep, FLAGS_write_fsts, FLAGS_print_scores);
-    }
+    PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
+    EvaluateWordlist (
+	    decoder, corpus, FLAGS_beam, FLAGS_nbest, FLAGS_reverse,
+	    FLAGS_skip, FLAGS_thresh, FLAGS_gsep, FLAGS_write_fsts,
+	    FLAGS_print_scores, FLAGS_accumulate, FLAGS_pmass
+	  );
   } else {
     PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
-    vector<PathData> results = decoder.Phoneticize (FLAGS_word, FLAGS_nbest,
-						    FLAGS_beam, FLAGS_thresh,
-						    FLAGS_write_fsts);
+    vector<PathData> results = decoder.Phoneticize (
+		         FLAGS_word, FLAGS_nbest, FLAGS_beam, FLAGS_thresh,
+			 FLAGS_write_fsts, FLAGS_accumulate, FLAGS_pmass
+		       );
     PrintPathData (results, FLAGS_word, decoder.osyms_, FLAGS_print_scores);
   }
   

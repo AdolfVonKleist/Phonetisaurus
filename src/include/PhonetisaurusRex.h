@@ -148,6 +148,7 @@ struct Path {
   // expanded so the path is a list of monophones.
   vector<int> unique_olabels;
 };
+typedef unordered_map<vector<int>, Path, VectorIntHash>::iterator piter;
     
 template <class Arc>
 class IdentityPathFilter {
@@ -155,7 +156,7 @@ class IdentityPathFilter {
   IdentityPathFilter () {}
   unordered_map<vector<int>, Path, VectorIntHash> path_map;
   vector<vector<int> > ordered_paths;
-
+  
   void Extend (Path* path, const Arc& arc) {
     // Skip any completely empty arcs
     if (arc.ilabel == 0 && arc.olabel == 0 
@@ -212,6 +213,7 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
                    size_t beam,
   	           size_t nbest,
 		   PathFilter* path_filter,
+	           bool accumulate = false,
                    float delta = kDelta,
                    typename Arc::Weight weight_threshold = Arc::Weight::Zero (),
 		   typename Arc::StateId state_threshold = kNoStateId) {
@@ -302,15 +304,21 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
 	}
       }
 
-      if (path_filter->path_map.find (one_path.unique_olabels) 
-	  == path_filter->path_map.end ()) {
+      piter pit = path_filter->path_map.find (one_path.unique_olabels);
+      if (pit == path_filter->path_map.end ()) {
 	path_filter->path_map.insert(
 	  pair<vector<int>, Path> (one_path.unique_olabels, one_path));
 	path_filter->ordered_paths.push_back (one_path.unique_olabels);
 
 	if (path_filter->ordered_paths.size () >= nbest)
 	  break;
+      } else if (accumulate == true) {
+	pit->second.PathWeight = Plus (
+		 LogWeight (pit->second.PathWeight),
+		 LogWeight (one_path.PathWeight)
+	       ).Value ();
       }
+       
     }
 
     if ((p.first == superfinal) && (r [p.first + 1] == beam)) 
@@ -355,7 +363,8 @@ void ShortestPathSpecialized(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
                   vector<typename Arc::Weight> *distance,
 		  PathFilter* path_filter,
 		  size_t beam,
-                  ShortestPathOptions<Arc, Queue, ArcFilter> &opts) {
+		  ShortestPathOptions<Arc, Queue, ArcFilter> &opts,
+		  bool accumulate = false) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Weight Weight;
   typedef ReverseArc<Arc> ReverseArc;
@@ -392,8 +401,11 @@ void ShortestPathSpecialized(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
   distance->insert (distance->begin(), d);
   
   //Specialize the 'uniqueness' property for our needs
-  NShortestPathSpecialized (rfst, ofst, *distance, beam, nbest, path_filter, opts.delta,
-		opts.weight_threshold, opts.state_threshold);
+  NShortestPathSpecialized (
+   	       rfst, ofst, *distance, beam, nbest,
+	       path_filter, accumulate, opts.delta,
+	       opts.weight_threshold, opts.state_threshold
+	      );
 
   distance->erase (distance->begin());
 }
