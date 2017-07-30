@@ -21,7 +21,9 @@ def _phoneticize (model, args) :
         args.nbest,
         args.beam,
         args.thresh,
-        args.write_fsts
+        args.write_fsts,
+        args.accumulate,
+        args.pmass
     )
 
     pronunciations = []
@@ -38,15 +40,20 @@ def _loadLexicon (lexiconfile) :
 
 def _defaultArgs (userargs) :
     args = namedtuple ('args', [
-        'token', 'nbest', 'beam', 'thresh', 'write_fsts'
+        'token', 'nbest', 'beam', 'thresh', 'write_fsts',
+        'accumulate', 'pmass'
     ])
 
     args.token  = ""
     args.nbest  = int (userargs.get ("nbest", 2))
     args.beam   = int (userargs.get ("beam", 500))
     args.thresh = float (userargs.get ("thresh", 10.))
+    args.pmass = float (userargs.get ("pmass", 0.0))
     args.write_fsts = False
-
+    args.accumulate = userargs.get (
+        "accumulate",
+        False
+    )
     return args
 ###############################
 

@@ -12,7 +12,9 @@ def Phoneticize (model, args) :
         args.nbest, 
         args.beam, 
         args.thresh, 
-        args.write_fsts
+        args.write_fsts,
+        args.accumulate,
+        args.pmass
     )
 
     for result in results :
@@ -51,8 +53,13 @@ if __name__ == "__main__" :
                          default=500, type=int)
     parser.add_argument ("--thresh", "-t", help="NBest threshold.",
                          default=10., type=float)
-    parser.add_argument ("--write_fsts", "-wf", help="Write decoded fsts to disk",
-                         default=False, action="store_true")
+    parser.add_argument ("--write_fsts", "-wf", help="Write decoded fsts "
+                         "to disk", default=False, action="store_true")
+    parser.add_argument ("--accumulate", "-a", help="Accumulate probs across "
+                         "unique pronunciations.", type=bool, default=False,
+                         action="store_true")
+    parser.add_argument ("--pmass", "-p", help="Target probability mass.",
+                         default=0.0, type=float)
     parser.add_argument ("--verbose", "-v", help="Verbose mode.",
                          default=False, action="store_true")
     args = parser.parse_args ()

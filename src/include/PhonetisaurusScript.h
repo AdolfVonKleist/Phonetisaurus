@@ -119,7 +119,7 @@ class PhonetisaurusScript {
 				int beam = 10000, float threshold = 99,
 				bool write_fsts = false,
 				bool accumulate = false,
-				double pmass = -1.0) {
+				double pmass = 99.0) {
     VectorFst<StdArc>* fst = new VectorFst<StdArc> ();
     vector<int> entry = tokenize2ints ((string*) &word, &delim_, isyms_);
     Entry2FSA (entry, fst, imax_, invimap_);
@@ -127,9 +127,9 @@ class PhonetisaurusScript {
     fst->SetInputSymbols (isyms_);
     fst->SetOutputSymbols (isyms_);
 
-    //Useful for debugging
+    //Useful for debugging; print the input word machine
     if (write_fsts)
-      fst->Write (word+".fst");
+      fst->Write (word + ".fst");
 
     VectorFst<StdArc> ofst;
     
@@ -138,10 +138,10 @@ class PhonetisaurusScript {
     AnyArcFilter<StdArc> arc_filter;
     vector<StdArc::Weight> distance;
     
-    //ComposeFst<StdArc>* ifst = new ComposeFst<StdArc>(*fst, model_);
     VectorFst<StdArc>* ifst = new VectorFst<StdArc>();
     Compose(*fst, model_, ifst);
-    //Useful for debugging
+    
+    //Useful for debugging; print the g2p lattice
     if (write_fsts)
       ifst->Write (word+".lat.fst");
 
@@ -159,25 +159,38 @@ class PhonetisaurusScript {
 			     &path_filter, beam, opts, accumulate);
 
     vector<PathData> paths;
-    float total = 0.0;
-    if (pmass > 0.0) {
+    float total = 99.0;
+    if (pmass < 99.0) {
       for (size_t i = 0; i < path_filter.ordered_paths.size(); i++) {
 	const vector<int>& u = path_filter.ordered_paths [i];
 	const Path& orig = path_filter.path_map [u];
 	total = Plus (LogWeight (total), LogWeight (orig.PathWeight)).Value ();
       }
     }
-    
+
+    LogWeight nbest_pmass = 99.0;
     for (size_t i = 0; i < path_filter.ordered_paths.size(); i++) {
       const vector<int>& u = path_filter.ordered_paths [i];
       const Path& orig = path_filter.path_map [u];
       float pweight = orig.PathWeight;
-      if (pmass > 0.0) pweight = pweight - total;
+      if (pmass < 99.0) {
+	pweight = pweight - total;
+	nbest_pmass = Plus (
+			LogWeight (nbest_pmass),
+			LogWeight (pweight)
+		      ).Value ();
+      }
+
       PathData path = PathData (
 		  pweight, orig.PathWeights, 
 		  orig.ILabels, orig.OLabels, orig.unique_olabels
 		);
       paths.push_back (path);
+      
+      //We are greedy with this, in order to ensure that if pmass =~ -log (.8),
+      //and we have h1 = -log (.5), and h2 = -log (.4) that we get both.
+      if (pmass < 99.0 && nbest_pmass.Value () < pmass)
+	break;
     }
 
     // Make sure that we clean up

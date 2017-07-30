@@ -21,6 +21,9 @@ class G2PModelTester () :
         self.thresh = kwargs.get ("thresh", 99)
         self.beam = kwargs.get ("beam", 10000)
         self.greedy = kwargs.get ("greedy", False)
+        self.accumulate = kwargs.get ("accumulate", False)
+        self.pmass = kwargs.get ("pmass", 0.0)
+        self.probs = kwargs.get ("probs", False)
         self.verbose = kwargs.get ("verbose", False)
         self.logger = self.setupLogger ()
 
@@ -138,6 +141,9 @@ class G2PModelTester () :
             u"--nbest={0}".format (self.nbest),
             u"--beam={0}".format (self.beam),
             u"--thresh={0}".format (self.thresh),
+            u"--accumulate={0}".format (str (self.accumulate).lower ()),
+            u"--pmass={0}".format (self.pmass),
+            u"--nlog_probs={0}".format (str(not self.probs).lower ()),
             u"--wordlist={0}".format (word_list)
         ]
         
@@ -283,7 +289,8 @@ if __name__ == "__main__" :
                          required=True)
     parser.add_argument ("--lexicon", "-l", help="Optional reference lexicon.",
                          required=False)
-    parser.add_argument ("--nbest", "-n", help="Nbest highest order.",
+    parser.add_argument ("--nbest", "-n", help="Maximum number of hypotheses "
+                         "to produce.  Overridden if --pmass is set.",
                          default=1, type=int)
     parser.add_argument ("--beam", "-b", help="Search 'beam'.",
                          default=10000, type=int)
@@ -292,6 +299,15 @@ if __name__ == "__main__" :
     parser.add_argument ("--greedy", "-g", help="Use the G2P even if a "
                          "reference lexicon has been provided.", default=False,
                          action="store_true")
+    parser.add_argument ("--accumulate", "-a", help="Accumulate probabilities "
+                         "across unique pronunciations.", default=False,
+                         action="store_true")
+    parser.add_argument ("--pmass", "-p", help="Select the maximum number of "
+                         "hypotheses summing to P total mass for a word.",
+                         default=0.0, type=float)
+    parser.add_argument ("--probs", "-pr", help="Print exp(-val) "
+                         "instead of default -log values.", default=False,
+                         action="store_true")
     parser.add_argument ("--word_list", "-wl", help="Input word or word list to apply "
                         "G2P model to.", type=str)
     
@@ -299,6 +315,9 @@ if __name__ == "__main__" :
                          default=False, action="store_true")
     args = parser.parse_args ()
 
+    # If pmass is set, override nbest default
+    if args.pmass > 0.0 : args.nbest = 100
+    
     tester = G2PModelTester (
         args.model,
         **{key:val for key,val in args.__dict__.iteritems ()
