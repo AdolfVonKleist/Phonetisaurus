@@ -37,7 +37,7 @@ prepare: openfst_1.6.2_amd64-trusty.deb
 	wget $(openfst); sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
 
 test: prepare test.cc
-	g++ -std=c++11 -o test test.cc
+	$(CXX) -std=c++11 -o test test.cc
 
 clean:
 	rm test
