@@ -31,13 +31,14 @@ openfst=https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/
 
 all: test
 
-.PHONY: test clean
+.PHONY: test clean openfst
 
-prepare: openfst_1.6.2_amd64-trusty.deb
+openfst_1.6.2_amd64-trusty.deb:
 	wget $(openfst); sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
 
-test: prepare test.cc
-	$(CXX) -std=c++11 -o test test.cc
+test: openfst_1.6.2_amd64-trusty.deb test.cc
+	$(CXX) -lfst -std=c++11 -o test test.cc -lfst
+	./test
 
 clean:
-	rm test
+	rm test test.fst
