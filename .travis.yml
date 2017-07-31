@@ -15,5 +15,9 @@ matrix:
       env:
         - COMPILER=g++-4.9
 
+before_install:
+  - wget https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/openfst_1.6.2_amd64-trusty.deb
+  - sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
+
 script:
   make CXX=$COMPILER -j2
