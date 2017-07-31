@@ -34,7 +34,7 @@ all: test
 .PHONY: test clean openfst
 
 openfst_1.6.2_amd64-trusty.deb:
-	wget $(openfst); sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
+	wget $(openfst); dpkg -i openfst_1.6.2_amd64-trusty.deb
 
 test: openfst_1.6.2_amd64-trusty.deb test.cc
 	$(CXX) -lfst -std=c++11 -o test test.cc -lfst
