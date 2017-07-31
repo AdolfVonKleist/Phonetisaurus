@@ -27,16 +27,11 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
 # OF THE POSSIBILITY OF SUCH DAMAGE.
 
-openfst=https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/openfst_1.6.2_amd64-trusty.deb
-
 all: test
 
 .PHONY: test clean openfst
 
-openfst_1.6.2_amd64-trusty.deb:
-	wget $(openfst); dpkg -i openfst_1.6.2_amd64-trusty.deb
-
-test: openfst_1.6.2_amd64-trusty.deb test.cc
+test: test.cc
 	$(CXX) -lfst -std=c++11 -o test test.cc -lfst
 	./test
 
