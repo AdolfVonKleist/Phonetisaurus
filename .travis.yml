@@ -11,7 +11,7 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-4.9']
+          packages: ['g++-4.9','zlib1g-dev','wget']
       env:
         - COMPILER=g++-4.9
 
