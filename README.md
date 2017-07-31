@@ -162,32 +162,6 @@ junkify  0.64  JH AH1 NG K AH0 F AY2
 junkify  0.23  JH AH1 NG K IH0 F AY2
 ```
 
-Do the same as above but set a threshold value for reference transcriptions:
-```
-phonetisaurus_apply --model train/model.fst --word_list Phonetisaurus/script/words.list -v -a -p 0.85 -pr
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  Checking command configuration...
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  accumulate:  True
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  beam:  10000
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  greedy:  False
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  lexicon_file:  None
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  logger:  <logging.Logger object at 0x7fdaa93d2410>
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  model:  train/model.fst
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  nbest:  100
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  pmass:  0.85
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  probs:  True
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  thresh:  99.0
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  verbose:  True
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  phonetisaurus-g2pfst --model=train/model.fst --nbest=100 --beam=10000 --thresh=99.0 --accumulate=true --pmass=0.85 --nlog_probs=false --wordlist=Phonetisaurus/script/words.list
-DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  Applying G2P model...
-GitRevision: kaldi-2-g6e7c04-dirty
-test  0.68  T EH1 S T
-test  0.21  T EH2 S T
-right  0.81  R AY1 T
-right  0.13  R AY0 T
-junkify  0.64  JH AH1 NG K AH0 F AY2
-junkify  0.23  JH AH1 NG K IH0 F AY2
-```
-
 Align, estimate, and convert a joint n-gram model step-by-step:
 ```
 # Align the dictionary (5m-10m)
