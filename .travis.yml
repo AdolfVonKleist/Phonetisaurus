@@ -1,0 +1,19 @@
+language: cpp
+
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-4.9']
+      env:
+        - COMPILER=g++-4.9
+
+script:
+  make CXX=$COMPILER -j2
