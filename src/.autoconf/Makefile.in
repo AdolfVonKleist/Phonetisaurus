@@ -59,7 +59,7 @@ endif
 
 ifeq ($(UNAME), Linux)
 LIBS=-lfst -ldl -lm -lrt -fopenmp
-CXX += -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
+CXXFLAGS = -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
 CFLAGS += -D_GNUC_
 endif
 
@@ -179,5 +179,6 @@ test:
 #Cleanup
 clean: 
 	$(RM) -r $(OUT) $(TMP) .autoconf/config.log \
-	.autoconf/config.status .autoconf/autom4te.cache/
+	.autoconf/config.status .autoconf/autom4te.cache/ \
+	Phonetisaurus-binding.cc Phonetisaurus-binding.o
 
