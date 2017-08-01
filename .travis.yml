@@ -1,0 +1,23 @@
+language: cpp
+
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-4.9','zlib1g-dev','wget','python-dev']
+      env:
+        - COMPILER=g++-4.9
+
+before_install:
+  - wget https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/openfst_1.6.2_amd64-trusty.deb
+  - sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
+
+script:
+  cd src && ./configure && make CXX=$COMPILER -j2 && make CXX=$COMPILER -j2 phonetisaurus-binding && bin/phonetisaurus-g2pfst --help && cd ../ && python setup.py build

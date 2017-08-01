@@ -1,4 +1,5 @@
 ## Phonetisaurus G2P ##
+[![Build Status](https://travis-ci.org/AdolfVonKleist/Phonetisaurus.svg?branch=master)](https://travis-ci.org/AdolfVonKleist/Phonetisaurus)
 
 This repository contains scripts suitable for training, evaluating and using grapheme-to-phoneme
 models for speech recognition using the OpenFst framework.  The current build requires OpenFst
