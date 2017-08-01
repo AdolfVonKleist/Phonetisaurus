@@ -11,7 +11,7 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-4.9','zlib1g-dev','wget']
+          packages: ['g++-4.9','zlib1g-dev','wget','python-dev']
       env:
         - COMPILER=g++-4.9
 
@@ -20,4 +20,4 @@ before_install:
   - sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
 
 script:
-  make CXX=$COMPILER -j2
+  cd src; ./configure; make CXX=$COMPILER -j2; make install
