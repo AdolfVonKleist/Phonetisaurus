@@ -20,4 +20,4 @@ before_install:
   - sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
 
 script:
-  cd src; ./configure; make CXX=$COMPILER -j2; make CXX=$COMPILER -j2 phonetisaurus-binding; bin/phonetisaurus-g2pfst --help; cd ../; python setup.py build
+  cd src && ./configure && make CXX=$COMPILER -j2 && make CXX=$COMPILER -j2 phonetisaurus-binding && bin/phonetisaurus-g2pfst --help && cd ../ && python setup.py build
