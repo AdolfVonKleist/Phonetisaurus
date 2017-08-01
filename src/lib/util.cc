@@ -242,7 +242,7 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
     //Fake this
     cout << "  --help: type = bool, default = false" << endl;
     cout << "  show usage information" << endl;
-    exit(1);
+    exit (0);
   }
 #endif
 }
