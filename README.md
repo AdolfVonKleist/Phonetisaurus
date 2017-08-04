@@ -55,10 +55,11 @@ $ make
 $ sudo make install
 ```
 
-Compile the python bindings if you want to:
+Compile the python bindings if you want to (you can also make _just_ the 
+binding if you only want to decode in python with an existing model):
 ```
 $ make phonetisaurus-binding
-$ sudo make install
+$ sudo make install-binding-lib
 $ cd ..
 $ sudo python setup.py install
 $ cd

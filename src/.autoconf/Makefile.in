@@ -158,16 +158,18 @@ install: all
 	install -D -m 755 $(BINDIR)/phonetisaurus-g2prnn $(INSTALL_BIN)/phonetisaurus-g2prnn
 	install -D -m 755 $(BINDIR)/phonetisaurus-g2pfst $(INSTALL_BIN)/phonetisaurus-g2pfst
 	install -D -m 755 $(BINDIR)/rnnlm $(INSTALL_BIN)/rnnlm
+
+install-binding-lib: phonetisaurus-binding
 	install -c $(LIBDIR)/libphonetisaurus.so $(INSTALL_LIB)/
 
 #Uninstall
 uninstall:
-	rm $(INSTALL_BIN)/phonetisaurus-align
-	rm $(INSTALL_BIN)/phonetisaurus-arpa2wfst
-	rm $(INSTALL_BIN)/phonetisaurus-g2prnn
-	rm $(INSTALL_BIN)/phonetisaurus-g2pfst
-	rm $(INSTALL_BIN)/rnnlm
-	rm $(INSTALL_LIB)/libphonetisaurus.so
+	rm -f $(INSTALL_BIN)/phonetisaurus-align \
+	 $(INSTALL_BIN)/phonetisaurus-arpa2wfst \
+	 $(INSTALL_BIN)/phonetisaurus-g2prnn \
+	 $(INSTALL_BIN)/phonetisaurus-g2pfst \
+	 $(INSTALL_BIN)/rnnlm \
+	 $(INSTALL_LIB)/libphonetisaurus.so
 
 #Test the configure outputs
 test:
