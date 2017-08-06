@@ -14,17 +14,17 @@
 //
 // Copyright 2005-2010 Google, Inc.
 // Author: allauzen@google.com (Cyril Allauzen)
-// 
+//
 // 2014-04-20
 // Author: josef.robert.novak@gmail.com (Josef Novak)
-// Refactored in order support a 'filter' template argument which 
+// Refactored in order support a 'filter' template argument which
 // has the effect of disambiguating the n-best based on some user-
 // supplied/determined criteria.
 //
 // In the case of the G2P this allows us to (fairly) efficiently
-// extract just the n-best unique pronunciations, given some 
+// extract just the n-best unique pronunciations, given some
 // user-defined concept of 'unique' - e.g. not including epsilons
-// or deletions, and ensuring that tied subsequences map to the 
+// or deletions, and ensuring that tied subsequences map to the
 // same unique sequence.
 //
 // The underlying n-best algorithm is fundamentally unchanged from
@@ -33,13 +33,16 @@
 //
 // \file
 // Functions to find shortest paths in an FST.
-#ifndef PHONETISAURUS_REX_H__
-#define PHONETISAURUS_REX_H__
+#ifndef SRC_INCLUDE_PHONETISAURUSREX_H_
+#define SRC_INCLUDE_PHONETISAURUSREX_H_
+#include <include/util.h>
 #include <fst/fstlib.h>
 #include <unordered_map>
 #include <unordered_set>
 #include <functional>
-#include <include/util.h>
+#include <string>
+#include <vector>
+#include <utility>
 using namespace fst;
 
 struct VectorIntHash {
@@ -48,8 +51,8 @@ struct VectorIntHash {
     hash<int> hash_fn;
 
     for (size_t i = 0; i < v.size(); i++)
-      result ^= hash_fn (v[i]) + 0x9e3779b9 + (result << 6) 
-	+ (result >> 2);
+      result ^= hash_fn (v[i]) + 0x9e3779b9 + (result << 6)
+        + (result >> 2);
     return result;
   }
 };
@@ -57,8 +60,8 @@ struct VectorIntHash {
 inline bool operator==(const vector<int>& x, const vector<int>& y) {
   if (x.size() != y.size())
     return false;
-  for (size_t i = 0; i < x.size(); i++) 
-    if (x[i] != y[i]) 
+  for (size_t i = 0; i < x.size(); i++)
+    if (x[i] != y[i])
       return false;
   return true;
 }
@@ -68,7 +71,7 @@ typedef unordered_map<vector<int>, int, VectorIntHash> SymbolMapM21;
 typedef unordered_set<int> VetoSet;
 
 int LoadClusters (const SymbolTable* syms, SymbolMap12M* clusters,
-		  SymbolMapM21* invclusters) {
+                  SymbolMapM21* invclusters) {
   /*
     Compute the set of 'clustered' graphemes learned during
     the alignment process. This information is encoded in
@@ -80,7 +83,7 @@ int LoadClusters (const SymbolTable* syms, SymbolMap12M* clusters,
     string sym = syms->Find (i);
     vector<int> cluster;
     if (sym.find(tie) != string::npos) {
-      char* tmpstring = (char *)sym.c_str();
+      char* tmpstring = const_cast<char *> (sym.c_str());
       char* p = strtok (tmpstring, tie.c_str());
       while (p) {
         cluster.push_back (syms->Find(p));
@@ -94,14 +97,14 @@ int LoadClusters (const SymbolTable* syms, SymbolMap12M* clusters,
       cluster.push_back (i);
       clusters->insert(pair<int, vector<int> >(i, cluster));
       invclusters->insert(pair<vector<int>, int>(cluster, i));
-    }      
+    }
   }
   return max_len;
 }
 
 template <class Arc>
 void Entry2FSA (const vector<int>& word, VectorFst<Arc>* fsa, size_t maxlen,
-                const SymbolMapM21& invmap, bool superfinal=false) {
+                const SymbolMapM21& invmap, bool superfinal = false) {
   fsa->AddState ();
   fsa->SetStart (0);
   size_t j;
@@ -119,7 +122,6 @@ void Entry2FSA (const vector<int>& word, VectorFst<Arc>* fsa, size_t maxlen,
       j++;
     }
     fsa->AddState ();
-
   }
 
   if (superfinal) {
@@ -141,26 +143,26 @@ struct Path {
   // The original vector of olabels
   vector<int> OLabels;
   // The hash-key vector of olabels
-  // This one is filtered so we only 
+  // This one is filtered so we only
   // store unique pronunciations in the final
-  // n-best list.  For example, epsilon labels are 
-  // removed, and any tied token subsequences are 
+  // n-best list.  For example, epsilon labels are
+  // removed, and any tied token subsequences are
   // expanded so the path is a list of monophones.
   vector<int> unique_olabels;
 };
 typedef unordered_map<vector<int>, Path, VectorIntHash>::iterator piter;
-    
+
 template <class Arc>
 class IdentityPathFilter {
  public:
   IdentityPathFilter () {}
   unordered_map<vector<int>, Path, VectorIntHash> path_map;
   vector<vector<int> > ordered_paths;
-  
+
   void Extend (Path* path, const Arc& arc) {
     // Skip any completely empty arcs
-    if (arc.ilabel == 0 && arc.olabel == 0 
-	&& arc.weight == Arc::Weight::One())
+    if (arc.ilabel == 0 && arc.olabel == 0
+        && arc.weight == Arc::Weight::One())
       return;
 
     if (arc.olabel != 0 && arc.olabel != 1 && arc.olabel != 2)
@@ -176,22 +178,22 @@ class IdentityPathFilter {
 template <class Arc>
 class M2MPathFilter {
  public:
-  M2MPathFilter (const SymbolMap12M& label_map, const VetoSet& veto_set) 
+  M2MPathFilter (const SymbolMap12M& label_map, const VetoSet& veto_set)
     : label_map_(label_map), veto_set_(veto_set) { }
   unordered_map<vector<int>, Path, VectorIntHash> path_map;
   vector<vector<int> > ordered_paths;
 
   void Extend (Path* path, const Arc& arc) {
     if (arc.ilabel == 0 && arc.olabel == 0
-	&& arc.weight == Arc::Weight::One())
+        && arc.weight == Arc::Weight::One())
       return;
 
     SymbolMap12M::const_iterator iter = label_map_.find (arc.olabel);
     if (iter != label_map_.end()) {
       const vector<int>& tokens = iter->second;
       for (int i = 0; i < tokens.size(); i++)
-	if (veto_set_.find (tokens[i]) == veto_set_.end()) 
-	  path->unique_olabels.push_back (tokens[i]);
+        if (veto_set_.find (tokens[i]) == veto_set_.end())
+          path->unique_olabels.push_back (tokens[i]);
     }
 
     path->ILabels.push_back (arc.ilabel);
@@ -208,25 +210,24 @@ class M2MPathFilter {
 
 template<class Arc, class RevArc, class PathFilter>
 void NShortestPathSpecialized (const Fst<RevArc> &ifst,
-		   MutableFst<Arc> *ofst,
+                               MutableFst<Arc> *ofst,
                    const vector<typename Arc::Weight> &distance,
                    size_t beam,
-  	           size_t nbest,
-		   PathFilter* path_filter,
-	           bool accumulate = false,
+                   size_t nbest,
+                   PathFilter* path_filter,
+                   bool accumulate = false,
                    float delta = kDelta,
                    typename Arc::Weight weight_threshold = Arc::Weight::Zero (),
-		   typename Arc::StateId state_threshold = kNoStateId) {
+                   typename Arc::StateId state_threshold = kNoStateId) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Weight Weight;
   typedef pair<StateId, Weight> Pair;
-  //typedef typename RevArc::Weight RevWeight;
 
   if (nbest <= 0) return;
   if ((Weight::Properties () & (kPath | kSemiring)) != (kPath | kSemiring)) {
     FSTERROR() << "NShortestPath: Weight needs to have the "
-	       << "path property and be distributive: "
-	       << Weight::Type ();
+               << "path property and be distributive: "
+               << Weight::Type ();
     ofst->SetProperties (kError, kError);
     return;
   }
@@ -286,42 +287,41 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
     ++r[p.first + 1];
 
     // This is extended to 'filter' for unique paths based
-    // on some sort of user-defined function.  Unlike the 
-    // existing 'unique' functionality in the original this 
+    // on some sort of user-defined function.  Unlike the
+    // existing 'unique' functionality in the original this
     // provides for an arbitrary definition of uniqueness, and
-    // by avoiding determinization ensures that ngram-weights 
+    // by avoiding determinization ensures that ngram-weights
     // will not be moved or smeared
     if (p.first == superfinal) {
       ofst->AddArc(ofst->Start (), Arc (0, 0, Weight::One (), state));
       StateId tstate = state;
       Path one_path;
       while (ofst->Final (tstate) == Weight::Zero ()) {
-	for (ArcIterator<Fst<Arc> > aiter (*ofst, tstate); 
-	     !aiter.Done (); aiter.Next ()) {
-	  const Arc& tarc = aiter.Value ();
-	  tstate = tarc.nextstate;
-	  path_filter->Extend (&one_path, tarc);
-	}
+        for (ArcIterator<Fst<Arc> > aiter (*ofst, tstate);
+             !aiter.Done (); aiter.Next ()) {
+          const Arc& tarc = aiter.Value ();
+          tstate = tarc.nextstate;
+          path_filter->Extend (&one_path, tarc);
+        }
       }
 
       piter pit = path_filter->path_map.find (one_path.unique_olabels);
       if (pit == path_filter->path_map.end ()) {
-	path_filter->path_map.insert(
-	  pair<vector<int>, Path> (one_path.unique_olabels, one_path));
-	path_filter->ordered_paths.push_back (one_path.unique_olabels);
+        path_filter->path_map.insert(
+          pair<vector<int>, Path> (one_path.unique_olabels, one_path));
+        path_filter->ordered_paths.push_back (one_path.unique_olabels);
 
-	if (path_filter->ordered_paths.size () >= nbest)
-	  break;
+        if (path_filter->ordered_paths.size () >= nbest)
+          break;
       } else if (accumulate == true) {
-	pit->second.PathWeight = Plus (
-		 LogWeight (pit->second.PathWeight),
-		 LogWeight (one_path.PathWeight)
-	       ).Value ();
+        pit->second.PathWeight = Plus (
+                 LogWeight (pit->second.PathWeight),
+                 LogWeight (one_path.PathWeight)
+           ).Value ();
       }
-       
     }
 
-    if ((p.first == superfinal) && (r [p.first + 1] == beam)) 
+    if ((p.first == superfinal) && (r [p.first + 1] == beam))
       break;
 
     if (r [p.first + 1] > beam) continue;
@@ -361,10 +361,10 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
 template<class Arc, class Queue, class ArcFilter, class PathFilter>
 void ShortestPathSpecialized(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
                   vector<typename Arc::Weight> *distance,
-		  PathFilter* path_filter,
-		  size_t beam,
-		  ShortestPathOptions<Arc, Queue, ArcFilter> &opts,
-		  bool accumulate = false) {
+                  PathFilter* path_filter,
+                  size_t beam,
+                  const ShortestPathOptions<Arc, Queue, ArcFilter> &opts,
+                  bool accumulate = false) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Weight Weight;
   typedef ReverseArc<Arc> ReverseArc;
@@ -399,14 +399,14 @@ void ShortestPathSpecialized(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
       d = Plus (d, Times (arc.weight.Reverse(), (*distance)[s]));
   }
   distance->insert (distance->begin(), d);
-  
-  //Specialize the 'uniqueness' property for our needs
+
+  // Specialize the 'uniqueness' property for our needs
   NShortestPathSpecialized (
-   	       rfst, ofst, *distance, beam, nbest,
-	       path_filter, accumulate, opts.delta,
-	       opts.weight_threshold, opts.state_threshold
-	      );
+              rfst, ofst, *distance, beam, nbest,
+              path_filter, accumulate, opts.delta,
+              opts.weight_threshold, opts.state_threshold
+            );
 
   distance->erase (distance->begin());
 }
-#endif // PHONETISAURUS_REX_H__
+#endif  // SRC_INCLUDE_PHONETISAURUSREX_H_
