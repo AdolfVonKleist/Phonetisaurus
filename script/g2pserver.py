@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os, re, phonetisaurus, json
-from bottle import route, run, template, request
+from bottle import route, run, template, request, response
 from itertools import izip
 from collections import namedtuple, defaultdict
 
@@ -85,6 +85,8 @@ def PhoneticizeList () :
         else :
             for pronunciation in _phoneticize (_g2pmodel, default_args) :
                 lexicon.append (u"{0}\t{1}".format (word, pronunciation))
+
+    response.set_header('Access-Control-Allow-Origin', '*')
 
     return u"\n".join (lexicon).encode ("utf8")
 

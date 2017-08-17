@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>G2P</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+
+    <style>
+        .jumbotron {
+            background-color: darkgreen;
+            color: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 2);
+        }
+        #wordlist {
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+  <div class="jumbotron">
+    <div class="container">
+        <h1>
+            Grapheme-to-phoneme conversion
+        </h1>
+        <p>Using the <a href="https://github.com/AdolfVonKleist/Phonetisaurus">Phonetisaurus</a> toolkit</p>
+    </div>
+</div>
+
+<div class="container">
+   <p>Enter a list of words (one per line) below and click "Convert":</p>
+   <textarea class="form-control" id="wordlist"></textarea>
+   <button class="btn btn-primary btn-lg col-md-6" type="submit" onclick="convert()" id="convertbtn">Convert</button>
+   <button class="btn btn-lg col-md-6" type="submit" onclick="undo()">Undo</button>
+</div>
+
+<script type="text/javascript">
+
+    var server='localhost:8080'
+
+    var undo_text='';
+
+    function convert() {
+
+        $('#convertbtn').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Converting...')
+
+        var text=$('#wordlist').val();
+        undo_text=text;
+        var fd = new FormData();
+        var file = new Blob([text], {type: 'plain/text'});
+        fd.append('wordlist', file, 'fileName.txt');
+
+        $.ajax({
+          url: 'http://'+server+'/phoneticize/list',
+          method: 'post',
+          data: fd,
+          processData: false,
+          contentType: false
+        }).done(function(data){
+            $('#wordlist').val(data);
+            $('#convertbtn').html('Convert');
+        });
+    }
+
+    function undo() {
+        $('#wordlist').val(undo_text);
+    }
+</script>
+
+</body>
+</html>
