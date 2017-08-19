@@ -35,3 +35,5 @@ html/
 exp/
 phonetisaurus.egg-info/
 config.log
+config.status
+autom4te.cache
