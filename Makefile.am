@@ -39,3 +39,21 @@ endif
 rnnlm_SOURCES = src/bin/rnnlm.cc src/3rdparty/rnnlm/rnnlmlib.cpp src/3rdparty/rnnlm/rnnlmlib.h
 rnnlm_CXXFLAGS = $(OPENFST_CXXFLAGS) -I$(top_srcdir)/src/3rdparty/rnnlm -funroll-loops -ffast-math
 rnnlm_LDADD = $(OPENFST_LDFLAGS)
+
+if WANT_PYTHON
+if HAVE_PYTHON
+
+Phonetisaurus-binding.cc: $(top_srcdir)/src/phonetisaurus-module.py
+	$(PYTHON) -B $(top_srcdir)/src/phonetisaurus-module.py > Phonetisaurus-binding.cc
+
+CLEANFILES = Phonetisaurus-binding.cc
+
+if HAVE_PYTHON_DEV
+pyexec_LTLIBRARIES = Phonetisaurus.la
+nodist_Phonetisaurus_la_SOURCES = Phonetisaurus-binding.cc src/lib/util.cc src/include/util.h
+Phonetisaurus_la_CXXFLAGS = $(OPENFST_CXXFLAGS) $(PYTHON_CPPFLAGS) -I$(top_srcdir)/src/3rdparty/utfcpp -funroll-loops -ffast-math
+Phonetisaurus_la_LIBADD = $(OPENFST_LDFLAGS) $(PYTHON_LIBS)
+Phonetisaurus_la_LDFLAGS = -avoid-version -module
+endif
+endif
+endif
