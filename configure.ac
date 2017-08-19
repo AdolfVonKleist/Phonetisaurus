@@ -15,6 +15,29 @@ AM_MAINTAINER_MODE
 AM_PROG_AR
 LT_INIT
 
+AC_ARG_ENABLE(python,
+        AS_HELP_STRING([--enable-python], [Compile with Python support]),
+        [case "${enableval}" in
+          yes) enable_python=true ;;
+          no) enable_python=false ;;
+          *) AC_MSG_ERROR(bad value ${enableval} for --enable-python) ;;
+        esac], [enable_python=false])
+AM_CONDITIONAL(WANT_PYTHON, test x"$enable_python" = xtrue)
+
+AS_IF([test x"$enable_python" = xtrue], [
+AM_PATH_PYTHON([2.7],, [:])
+])
+AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
+AC_SUBST([PYTHON])
+if test x"$PYTHON" != x && test "$PYTHON" != ":"; then
+   PYTHON_CPPFLAGS=
+   PYTHON_LIBS=
+   AX_PYTHON_DEVEL([>= '$PYTHON_VERSION'])
+fi
+AM_CONDITIONAL([HAVE_PYTHON_DEV], [test x"$PYTHON" != x && test "$PYTHON" != :])
+AC_SUBST([PYTHON_CPPFLAGS])
+AC_SUBST([PYTHON_LIBS])
+
 AC_LANG(C++)
 # Checks for programs.
 AC_PROG_CXX
