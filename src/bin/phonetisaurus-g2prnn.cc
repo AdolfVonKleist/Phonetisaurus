@@ -5,7 +5,7 @@
 #include <include/RnnLMDecoder.h>
 #include <include/util.h>
 #include "utf8.h"
-#ifdef _GNUC_
+#ifdef _OPENMP
 #include <omp.h>
 #endif
 using namespace fst;
@@ -153,7 +153,7 @@ int main (int argc, char* argv []) {
     cout << "Either --wordlist or --word must be set!" << endl;
   }
  
-#ifndef __GNUC__    
+#ifndef _OPENMP
   omp_set_num_threads (FLAGS_threads);
 #endif
   vector<string> corpus;
