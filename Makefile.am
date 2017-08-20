@@ -1,8 +1,67 @@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I .autoconf/m4
 
-bin_SCRIPTS =                          \
-	src/bin/phonetisaurus_apply    \
+EXTRA_DIST=               	                       			  \
+	$(srcdir)/LICENSE						  \
+	$(srcdir)/README.md						  \
+	$(srcdir)/docs/doxygen.cfg					  \
+	$(srcdir)/docs/mainpage.dox					  \
+	$(srcdir)/src/3rdparty/rnnlm/COPYRIGHT.txt			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8/checked.h			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8/core.h			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8/unchecked.h			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8.h				  \
+	$(srcdir)/src/configure						  \
+	$(srcdir)/src/lib/feature-reader.cc				  \
+	$(srcdir)/src/include/RnnLMPy.h					  \
+	$(srcdir)/python/phonetisaurus-module.py			  \
+	$(srcdir)/python/script/phoneticize.py				  \
+	$(srcdir)/python/script/demo.html				  \
+	$(srcdir)/python/script/words.list				  \
+	$(srcdir)/python/script/g2pserver.py				  \
+	$(srcdir)/python/phonetisaurus/__init__.py			  \
+	$(srcdir)/python/pybindgen/__init__.py				  \
+	$(srcdir)/python/pybindgen/cppclass_typehandlers.py		  \
+	$(srcdir)/python/pybindgen/cppexception.py			  \
+	$(srcdir)/python/pybindgen/cppmethod.py				  \
+	$(srcdir)/python/pybindgen/enum.py				  \
+	$(srcdir)/python/pybindgen/wscript				  \
+	$(srcdir)/python/pybindgen/cppclass.py				  \
+	$(srcdir)/python/pybindgen/cppclass_container.py		  \
+	$(srcdir)/python/pybindgen/settings.py				  \
+	$(srcdir)/python/pybindgen/function.py				  \
+	$(srcdir)/python/pybindgen/utils.py				  \
+	$(srcdir)/python/pybindgen/module.py				  \
+	$(srcdir)/python/pybindgen/typehandlers/__init__.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/codesink.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/ctypeparser/__init__.py	  \
+	$(srcdir)/python/pybindgen/typehandlers/ctypeparser/tokenizer.py  \
+	$(srcdir)/python/pybindgen/typehandlers/stringtype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/pyobjecttype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/inttype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/doubletype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/voidtype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/floattype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/base.py			  \
+	$(srcdir)/python/pybindgen/typehandlers/booltype.py		  \
+	$(srcdir)/python/pybindgen/cppattribute.py			  \
+	$(srcdir)/python/pybindgen/gccxmlparser.py			  \
+	$(srcdir)/python/pybindgen/overloading.py			  \
+	$(srcdir)/python/pybindgen/pytypeobject.py			  \
+	$(srcdir)/python/pybindgen/container.py				  \
+	$(srcdir)/python/pybindgen/converter_functions.py		  \
+	$(srcdir)/python/pybindgen/version.py				  \
+	$(srcdir)/python/pybindgen/wrapper_registry.py			  \
+	$(srcdir)/python/setup.py					  \
+        $(srcdir)/test/g014b2b/g014b2b.ref				  \
+        $(srcdir)/test/g014b2b/g014b2b.train				  \
+        $(srcdir)/test/g014b2b/g014b2b.words				  \
+        $(srcdir)/test/check-nbest-wer.py
+
+
+
+dist_bin_SCRIPTS =                          \
+	src/bin/phonetisaurus_apply         \
 	src/bin/phonetisaurus_train
 
 bin_PROGRAMS =                         \
