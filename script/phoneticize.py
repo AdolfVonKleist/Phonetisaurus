@@ -25,18 +25,7 @@ def Phoneticize (model, args) :
 
     for result in results :
         uniques = [model.FindOsym (u) for u in result.Uniques]
-        print ("{0:0.2f}\t{1}".format (result.PathWeight, " ".join (uniques)))
-        print ("-------")
-
-        #Should always be equal length
-        for ilab, olab, weight in izip (result.ILabels,
-                                        result.OLabels,
-                                        result.PathWeights) :
-            print ("{0}:{1}:{2:0.2f}".format (
-                model.FindIsym (ilab),
-                model.FindOsym (olab),
-                weight
-            ))
+        print(args.token + '\t' + ''.join(uniques))
 
     return
 
@@ -81,8 +70,6 @@ if __name__ == "__main__" :
     else :
         with open (args.wlist, "r") as ifp :
             for word in ifp :
-                word = word.decode ("utf8").strip ()
+                word = word.strip ()
                 args.token = word
                 Phoneticize (model, args)
-                print "-----------------------"
-                print ""
