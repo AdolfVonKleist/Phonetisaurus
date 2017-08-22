@@ -129,6 +129,14 @@ AX_OPENMP([AC_DEFINE(HAVE_OPENMP,1,[Define if OpenMP is enabled])] [have_openmp=
 AM_CONDITIONAL(OPENMP, [test x"$have_openmp" = xtrue])
 AC_SUBST([OPENMP_CXXFLAGS])
 AC_SUBST([OPENMP_LDFLAGS])
+AC_ARG_ENABLE(openmp,
+        AS_HELP_STRING([--enable-openmp], [Compile with OpenMP support]),
+        [case "${enableval}" in
+          yes) enable_openmp=true ;;
+          no) enable_openmp=false ;;
+          *) AC_MSG_ERROR(bad value ${enableval} for --enable-openmp) ;;
+        esac], [enable_openmp=false])
+AM_CONDITIONAL(WANT_OPENMP, test x"$enable_openmp" = xtrue)
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
