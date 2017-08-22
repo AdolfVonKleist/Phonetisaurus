@@ -23,7 +23,9 @@ void ThreadedEvaluateWordlist (vector<string>& corpus, RMAP& rmap,
 			       double FLAGS_thresh, string FLAGS_gsep) {
   int csize = corpus.size ();
 
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
   for (int x = 0; x < FLAGS_threads; x++) {
     RnnLMDecoder<Decodable> decoder (s);
 
