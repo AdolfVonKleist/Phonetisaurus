@@ -3,15 +3,21 @@ import phonetisaurus
 from itertools import izip
 
 def Phoneticize (model, args) :
-    """
-    Python wrapper function for g2p.
+    """Python wrapper function for g2p bindings.
+
+    Python wrapper function for g2p bindings.  Most basic possible example.
+    Intended as a template for doing something more useful.
+
+    Args:
+        model (str): The g2p fst model to load.
+        args (obj): The argparse object with user specified options.
     """
 
     results = model.Phoneticize (
-        args.token, 
-        args.nbest, 
-        args.beam, 
-        args.thresh, 
+        args.token,
+        args.nbest,
+        args.beam,
+        args.thresh,
         args.write_fsts,
         args.accumulate,
         args.pmass
@@ -32,8 +38,7 @@ def Phoneticize (model, args) :
                 weight
             ))
 
-            
-    return 
+    return
 
 
 if __name__ == "__main__" :
@@ -46,7 +51,6 @@ if __name__ == "__main__" :
     group   = parser.add_mutually_exclusive_group (required=True)
     group.add_argument ("--word", "-w", help="Input word in lower case.")
     group.add_argument ("--wlist", "-wl", help="Provide a wordlist.")
-                        
     parser.add_argument ("--nbest", "-n", help="NBest",
                          default=1, type=int)
     parser.add_argument ("--beam", "-b", help="Search beam",
@@ -56,7 +60,7 @@ if __name__ == "__main__" :
     parser.add_argument ("--write_fsts", "-wf", help="Write decoded fsts "
                          "to disk", default=False, action="store_true")
     parser.add_argument ("--accumulate", "-a", help="Accumulate probs across "
-                         "unique pronunciations.", type=bool, default=False,
+                         "unique pronunciations.", default=False,
                          action="store_true")
     parser.add_argument ("--pmass", "-p", help="Target probability mass.",
                          default=0.0, type=float)
@@ -82,5 +86,3 @@ if __name__ == "__main__" :
                 Phoneticize (model, args)
                 print "-----------------------"
                 print ""
-
-                

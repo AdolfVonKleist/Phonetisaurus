@@ -75,6 +75,8 @@ class M2MFstAligner {
   bool penalize;
   bool penalize_em;
   bool restrict;
+  bool grow;
+
   // vector<LogWeight> alpha, beta;
   // This will be used during decoding to clean the paths
   set<int> skipSeqs;
@@ -100,7 +102,7 @@ class M2MFstAligner {
                  unsigned int seq2_max,
                  string seq1_sep, string seq2_sep, string s1s2_sep,
                  string eps, string _skip, bool _penalize,
-                 bool penalize_em, bool restrict);
+                 bool penalize_em, bool restrict, bool grow);
   // We've already got a model to go on
   M2MFstAligner (string model_file, bool penalize, bool penalize_em,
                  bool restrict);
@@ -113,6 +115,8 @@ class M2MFstAligner {
   //  encoding all possible alignments between the two sequences
   void Sequences2FST (VectorFst<LogArc>* fst, vector<string>* seq1,
                             vector<string>* seq2);
+  void Sequences2FST (VectorFst<LogArc>* fst, int s1m, int s2m,
+                      vector<string>* seq1, vector<string>* seq2);
   void Sequences2FSTNoInit (VectorFst<LogArc>* fst, vector<string>* seq1,
                             vector<string>* seq2);
 
