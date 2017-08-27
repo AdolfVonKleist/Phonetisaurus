@@ -8,32 +8,34 @@
   modification, are permitted #provided that the following conditions
   are met:
 
-  * Redistributions of source code must retain the above copyright 
+  * Redistributions of source code must retain the above copyright
     notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above 
-    copyright notice, this list of #conditions and the following 
-    disclaimer in the documentation and/or other materials provided 
+  * Redistributions in binary form must reproduce the above
+    copyright notice, this list of #conditions and the following
+    disclaimer in the documentation and/or other materials provided
     with the distribution.
 
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
- "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
- LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
- FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
- COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
- INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
- HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
- STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 */
-#ifndef ARPA2WFST_H
-#define ARPA2WFST_H
+#ifndef SRC_INCLUDE_ARPA2WFST_H_
+#define SRC_INCLUDE_ARPA2WFST_H_
 #include <float.h>
 #include <fst/fstlib.h>
-#include "util.h"
+#include <string>
+#include <vector>
+#include "./util.h"
 using namespace fst;
 
 class ARPA2WFST {
@@ -51,40 +53,40 @@ class ARPA2WFST {
        * There are no explicit sentence-end (</s>) arcs
        * There is no explicit </s> state
        * NGrams ending in </s> are designated as final
-            states, and any probability is assigned 
+            states, and any probability is assigned
             to the final weight of said state.
-  */  
-	
- public: 
+  */
+
+ public:
   ifstream   arpa_lm_fp;
   string     arpa_lm_file;
   string     line;
   size_t     max_order;
   size_t     current_order;
 
-  //Default values
-  string     eps;      //epsilon symbol
-  string     sb;       //sentence begin tag
-  string     se;       //sentence end tag
-  string     split;    //delimiter separating input/output syms in G2P ARPA file
-  string     skip;     //graphemic null
-  string     tie;      //tie for clusters
+  // Default values
+  string     eps;      // epsilon symbol
+  string     sb;       // sentence begin tag
+  string     se;       // sentence end tag
+  string     split;    // delimiter separating input/output in G2P ARPA file
+  string     skip;     // graphemic null
+  string     tie;      // tie for clusters
 
-  //WFST stuff
+  // WFST stuff
   VectorFst<StdArc>  arpafst;
   SymbolTable*   ssyms;
   SymbolTable*   isyms;
   SymbolTable*   osyms;
-	
+
   ARPA2WFST (string lm, string eps, string sb, string se,
-	     string split, string skip, string tie)
+             string split, string skip, string tie)
       : eps (eps), sb (sb), se (se), split (split), skip (skip), tie (tie) {
     arpa_lm_fp.open (lm.c_str ());
     arpa_lm_file  = lm;
     current_order = 0;
     max_order     = 0;
 
-    //Initialize the fst and symbol tables
+    // Initialize the fst and symbol tables
     ssyms = new SymbolTable ("ssyms");
     isyms = new SymbolTable ("isyms");
     osyms = new SymbolTable ("osyms");
@@ -149,90 +151,92 @@ class ARPA2WFST {
 
     if (arpa_lm_fp.is_open ()) {
       while (arpa_lm_fp.good ()) {
-	getline (arpa_lm_fp, line);
-	if (current_order > 0 && line.compare ("") != 0 \
-	    && line.compare (0,1,"\\") != 0) {
-	  //Split the input using '\s+' as a delimiter
-	  vector<string> ngram;
-	  istringstream iss (line);
-	  copy (istream_iterator<string>(iss),
-		istream_iterator<string>(),
-		back_inserter<vector<string> >(ngram));
-	  double prob = atof (ngram.front ().c_str ());
-	  ngram.erase (ngram.begin ());
-	  double bow  = 0.0;
-	  if (ngram.size () > current_order) {
-	    bow = atof (ngram.back ().c_str ());
-	    ngram.pop_back ();
-	  }
-	  //We have a unigram model
-	  if (max_order == 1) {
-	    //Assume unigram ARPA model has a <s>
-	    // sentence-begin line.  Is this true?
-	    if (ngram.front ().compare (sb) == 0)
-	      continue;
-	    else if (ngram.front ().compare (se) == 0) {
-	      _make_final (sb, log10_2tropical (prob));
-	    }else
-	      _make_arc (sb, sb, ngram.at (0), prob);
-	    //We have a higher order model
-	  }else if (current_order == 1) {
-	    if (ngram.front ().compare (sb) == 0) {
-	      _make_arc (sb, eps, eps, bow);
-	    }else if (ngram.back ().compare (se) == 0) {
-	      _make_final (eps, prob);
-	    }else{
-	      _make_arc (eps, ngram.front (), ngram.front (), prob);
-	      _make_arc (ngram.front (), eps, eps, bow);
-	    }
-	  }else if (current_order < max_order) {
-	    string isym = ngram.back ();
-	    string s_st = _join (ngram.begin (), ngram.end () - 1);
-	    if (isym.compare (se) == 0) {
-	      _make_final (s_st, prob);
-	    }else{
-	      string e_st = _join (ngram.begin (), ngram.end ());
-	      string b_st = _join (ngram.begin () + 1, ngram.end ());
-	      _make_arc (s_st, e_st, isym, prob);
-	      _make_arc (e_st, b_st, eps, bow);
-	    }
-	  }else if (current_order == max_order) {
-	    string isym = ngram.back ();
-	    string s_st = _join (ngram.begin (), ngram.end () - 1);
-	    if (isym.compare (se) == 0) {
-	      _make_final (s_st, prob);
-	    }else{
-	      string e_st = _join (ngram.begin() + 1, ngram.end ());
-	      _make_arc (s_st, e_st, isym, prob);
-	    }
-	  }
-	}else if (line.size() > 4 && line.compare (0, 5, "ngram") == 0) {
-	  for (size_t i = 0; i < line.size (); i++)
-	    if (line.compare (i, 1, "=") == 0)
-	      line.at (i) = ' ';
-	  vector<string> parts;
-	  istringstream iss (line);
-	  copy (istream_iterator<string>(iss),
-		istream_iterator<string>(),
-		back_inserter<vector<string> >(parts));
-	  //Make sure there is at least one n-gram for max order!
-	  if (atoi (parts [2].c_str()) > 0)
-	    max_order = (size_t)atoi (parts [1].c_str ()) > max_order \
-	      ? atoi (parts [1].c_str ()) : max_order;
-	  //cerr << "MaxOrder: " << max_order << endl;
-	  //max_order = (size_t)atoi(&line[6])>max_order ? atoi(&line[6]) : max_order;
-	}else if (line.compare ("\\data\\") == 0) {
-	  continue;
-	}else if (line.compare ("\\end\\") == 0) {
-	  break;
-	}else if (line.size() > 0 && line.compare (0, 1, "\\") == 0) {
-	  line.replace (0, 1, "");
-	  if (line.compare ( 1, 1, "-" ) == 0)
-	    line.replace (1, 7, "");
-	  else //Will work up to N=99.
-	    line.replace (2, 7, "");
-	  current_order = atoi (&line [0]);
-	}
+        getline (arpa_lm_fp, line);
+        if (current_order > 0 && line.compare ("") != 0 \
+            && line.compare (0, 1, "\\") != 0) {
+          // Split the input using '\s+' as a delimiter
+          vector<string> ngram;
+          istringstream iss (line);
+          copy (istream_iterator<string>(iss),
+                istream_iterator<string>(),
+                back_inserter<vector<string> >(ngram));
+          double prob = atof (ngram.front ().c_str ());
+          ngram.erase (ngram.begin ());
+          double bow  = 0.0;
+          if (ngram.size () > current_order) {
+            bow = atof (ngram.back ().c_str ());
+            ngram.pop_back ();
+          }
+          // We have a unigram model
+          if (max_order == 1) {
+            // Assume unigram ARPA model has a <s>
+            // sentence-begin line.  Is this true?
+            if (ngram.front ().compare (sb) == 0) {
+              continue;
+            } else if (ngram.front ().compare (se) == 0) {
+              _make_final (sb, log10_2tropical (prob));
+            } else {
+              _make_arc (sb, sb, ngram.at (0), prob);
+            }
+            // We have a higher order model
+          }else if (current_order == 1) {
+            if (ngram.front ().compare (sb) == 0) {
+              _make_arc (sb, eps, eps, bow);
+            }else if (ngram.back ().compare (se) == 0) {
+              _make_final (eps, prob);
+            }else{
+              _make_arc (eps, ngram.front (), ngram.front (), prob);
+              _make_arc (ngram.front (), eps, eps, bow);
+            }
+          }else if (current_order < max_order) {
+            string isym = ngram.back ();
+            string s_st = _join (ngram.begin (), ngram.end () - 1);
+            if (isym.compare (se) == 0) {
+              _make_final (s_st, prob);
+            }else{
+              string e_st = _join (ngram.begin (), ngram.end ());
+              string b_st = _join (ngram.begin () + 1, ngram.end ());
+              _make_arc (s_st, e_st, isym, prob);
+              _make_arc (e_st, b_st, eps, bow);
+            }
+          }else if (current_order == max_order) {
+            string isym = ngram.back ();
+            string s_st = _join (ngram.begin (), ngram.end () - 1);
+            if (isym.compare (se) == 0) {
+              _make_final (s_st, prob);
+            }else{
+              string e_st = _join (ngram.begin() + 1, ngram.end ());
+              _make_arc (s_st, e_st, isym, prob);
+            }
+          }
+        }else if (line.size() > 4 && line.compare (0, 5, "ngram") == 0) {
+          for (size_t i = 0; i < line.size (); i++)
+            if (line.compare (i, 1, "=") == 0)
+              line.at (i) = ' ';
+          vector<string> parts;
+          istringstream iss (line);
+          copy (istream_iterator<string>(iss),
+                istream_iterator<string>(),
+                back_inserter<vector<string> >(parts));
+          // Make sure there is at least one n-gram for max order!
+          if (atoi (parts [2].c_str()) > 0)
+            max_order = (size_t)atoi (parts [1].c_str ()) > max_order \
+              ? atoi (parts [1].c_str ()) : max_order;
+          // cerr << "MaxOrder: " << max_order << endl;
+          // max_order = (size_t)atoi(&line[6])>max_order ?
+          // atoi(&line[6]) : max_order;
+        }else if (line.compare ("\\data\\") == 0) {
+          continue;
+        }else if (line.compare ("\\end\\") == 0) {
+          break;
+        }else if (line.size() > 0 && line.compare (0, 1, "\\") == 0) {
+          line.replace (0, 1, "");
+          if (line.compare (1, 1, "-" ) == 0)
+            line.replace (1, 7, "");
+          else  // Will work up to N=99.
+            line.replace (2, 7, "");
+          current_order = atoi (&line [0]);
+        }
       }
       arpa_lm_fp.close();
 
@@ -266,9 +270,9 @@ class ARPA2WFST {
 
     return val;
   }
-	
+
   void _make_arc (string istate, string ostate, string isym, double weight) {
-    //Build up an arc for the WFST.  Weights default to the Log semiring.
+    // Build up an arc for the WFST.  Weights default to the Log semiring.
     int is_id = ssyms->Find (istate);
     int os_id = ssyms->Find (ostate);
     if (is_id == -1) {
@@ -291,12 +295,12 @@ class ARPA2WFST {
       io[1] = eps;
       */
       arpafst.AddArc (is_id, StdArc (isyms->AddSymbol (io [0]),
-				     osyms->AddSymbol (io [1]),
-				     weight, os_id));
+                                     osyms->AddSymbol (io [1]),
+                                     weight, os_id));
     }else{
       arpafst.AddArc (is_id, StdArc (isyms->AddSymbol (isym),
-				     osyms->AddSymbol (isym),
-				     weight, os_id));
+                                     osyms->AddSymbol (isym),
+                                     weight, os_id));
     }
 
     return;
@@ -311,20 +315,20 @@ class ARPA2WFST {
     int sid = ssyms->Find (fstate);
     if (sid == -1) {
       sid = arpafst.AddState ();
-      ssyms->AddSymbol (fstate,sid);
+      ssyms->AddSymbol (fstate, sid);
     }
     arpafst.SetFinal (sid, weight);
 
     return;
   }
 
-  string _join (vector<string>::iterator start, 
-		vector<string>::iterator end) {
-    //Join the elements of a string vector into a single string
+  string _join (vector<string>::iterator start,
+                vector<string>::iterator end) {
+    // Join the elements of a string vector into a single string
     stringstream ss;
-    for (vector<string>::iterator it=start; it<end; it++) {
+    for (vector<string>::iterator it = start; it < end; it++) {
       if (it != start)
-	ss << ",";
+        ss << ",";
       ss << *it;
     }
     return ss.str ();
@@ -348,22 +352,21 @@ class ARPA2WFST {
       string sym = syms->Find (i);
       vector<string> parts  = tokenize_utf8_string (&sym, &tie);
       if (parts.size() > 1) {
-	for (unsigned int j = 0; j < parts.size (); j++) {
-	  if (syms->Find (parts [j]) == -1) {
-	    //Add the missing symbol
-	    int k = syms->AddSymbol (parts [j]);
-	    //Add a backoff loop mapped to the 'skip'
-	    if (input == true)
-	      arpafst.AddArc (1, StdArc (k, 2, 99, 1));
-	    else
-	      arpafst.AddArc (1, StdArc (2, k, 99, 1));
-	  }
-	}
+        for (unsigned int j = 0; j < parts.size (); j++) {
+          if (syms->Find (parts [j]) == -1) {
+            // Add the missing symbol
+            int k = syms->AddSymbol (parts [j]);
+            // Add a backoff loop mapped to the 'skip'
+            if (input == true)
+              arpafst.AddArc (1, StdArc (k, 2, 99, 1));
+            else
+              arpafst.AddArc (1, StdArc (2, k, 99, 1));
+          }
+        }
       }
     }
-
   }
 };
 
-#endif // ARPA2WFST_H //
+#endif  // SRC_INCLUDE_ARPA2WFST_H_
 

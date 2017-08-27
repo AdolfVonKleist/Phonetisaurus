@@ -1,11 +1,11 @@
-#ifndef LEGACY_RNNLM_HASH_H__
-#define LEGACY_RNNLM_HASH_H__
+#ifndef SRC_INCLUDE_LEGACYRNNLMHASH_H_
+#define SRC_INCLUDE_LEGACYRNNLMHASH_H_
 
+#include <math.h>
 #include <fst/fstlib.h>
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include <math.h>
 #include <sstream>
 
 
@@ -14,9 +14,9 @@ typedef double real;
 struct VocabWord {
  public:
   VocabWord () {}
-  VocabWord (std::string word_) : cn (1), word (word_) {}
+  explicit VocabWord (std::string word_) : cn (1), word (word_) {}
   VocabWord (std::string word_, int cn_) : cn (cn_), word (word_) {}
-  int    cn;   //Unigram count
+  int    cn;   // Unigram count
   std::string word;
   real   prob;
   int    class_index;
@@ -31,19 +31,21 @@ struct ClassIndex {
 
 class LegacyRnnLMHash {
  public:
-  LegacyRnnLMHash (int class_size) 
+  explicit LegacyRnnLMHash (int class_size)
     : class_size_ (class_size), g_delim_("|"), gp_delim_("}") {
     vocab_hash_.resize (100000000);
   }
 
-  LegacyRnnLMHash (int class_size, const string g_delim, const string gp_delim) 
-    : class_size_ (class_size), g_delim_(g_delim.c_str ()), gp_delim_(gp_delim.c_str ()) {
+  LegacyRnnLMHash (int class_size, const string g_delim, const string gp_delim)
+    : class_size_ (class_size), g_delim_(g_delim.c_str ()),
+      gp_delim_(gp_delim.c_str ()) {
     vocab_hash_.resize (100000000);
   }
 
   static const std::vector<unsigned int> primes_;
 
-  void Split (const std::string& s, char delim, std::vector<std::string>& elems) {
+  void Split (const std::string& s, char delim,
+              std::vector<std::string>& elems) {
     std::stringstream ss (s);
     std::string item;
     while (getline (ss, item, delim))
@@ -55,18 +57,18 @@ class LegacyRnnLMHash {
     size_t hash = 0;
     for (I it = start; it != end; ++it)
       hash = hash * 237 + isyms.Find (*it);
-    
+
     return hash;
   }
 
   void MapToken (string& token) {
     std::vector<std::string> gp;
     std::vector<std::string> graphs;
-    //std::vector<std::string> phones;
+    // std::vector<std::string> phones;
 
     Split (token, *gp_delim_, gp);
     Split (gp [0], *g_delim_, graphs);
-    //Split (gp [1], *g_delim, phones);
+    // Split (gp [1], *g_delim, phones);
 
     size_t hash = 0;
     for (int i = 0; i < graphs.size (); i++)
@@ -93,7 +95,7 @@ class LegacyRnnLMHash {
 
   int FindWord (std::string& word) {
     size_t hash = HashWord (word);
-    
+
     if (vocab_hash_[hash] == -1)
       return -1;
 
@@ -102,8 +104,8 @@ class LegacyRnnLMHash {
 
     for (size_t i = 0; i < vocab_.size (); i++) {
       if (word.compare (vocab_[i].word) == 0) {
-	vocab_hash_[hash] = i;
-	return i;
+        vocab_hash_[hash] = i;
+        return i;
       }
     }
     return -1;
@@ -128,14 +130,14 @@ class LegacyRnnLMHash {
     for (int i = 1; i < vocab_.size (); i++) {
       int max = i;
       for (int j = i + 1; j < vocab_.size (); j++)
-	if (vocab_[max].cn < vocab_[j].cn)
-	  max = j;
+        if (vocab_[max].cn < vocab_[j].cn)
+          max = j;
       VocabWord swap = vocab_[max];
       vocab_[max] = vocab_[i];
       vocab_[i]   = swap;
     }
   }
-  
+
   void SetClasses () {
     double df = 0;
     double dd = 0;
@@ -145,17 +147,17 @@ class LegacyRnnLMHash {
     for (int i = 0; i < vocab_.size (); i++)
       b += vocab_[i].cn;
     for (int i = 0; i < vocab_.size (); i++)
-      dd += sqrt (vocab_[i].cn / (double)b);
+      dd += sqrt (vocab_[i].cn / static_cast<double> (b));
     for (int i = 0; i < vocab_.size (); i++) {
-      df += sqrt (vocab_[i].cn / (double)b) / dd;
+      df += sqrt (vocab_[i].cn / static_cast<double> (b)) / dd;
       if (df > 1)
-	df = 1;
-      if (df > (a + 1) / (double)class_size_) {
-	vocab_[i].class_index = a;
-	if (a < class_size_ - 1)
-	  a++;
+        df = 1;
+      if (df > (a + 1) / static_cast<double> (class_size_)) {
+        vocab_[i].class_index = a;
+        if (a < class_size_ - 1)
+          a++;
       } else {
-	vocab_[i].class_index = a;
+        vocab_[i].class_index = a;
       }
     }
 
@@ -163,15 +165,15 @@ class LegacyRnnLMHash {
     int c = 0;
     for (int i = 0; i < vocab_.size (); i++) {
       if (i == 0) {
-	class_sizes_[c].begin = i;
+        class_sizes_[c].begin = i;
       }
 
       if (i + 1 == vocab_.size ()) {
-	class_sizes_[c].end = i;
+        class_sizes_[c].end = i;
       } else if (vocab_[i].class_index < vocab_[i + 1].class_index) {
-	class_sizes_[c].end = i;
-	c++;
-	class_sizes_[c].begin = i + 1;
+        class_sizes_[c].end = i;
+        c++;
+        class_sizes_[c].begin = i + 1;
       }
     }
   }
@@ -180,7 +182,7 @@ class LegacyRnnLMHash {
   std::vector<VocabWord> vocab_;
   std::vector<ClassIndex> class_sizes_;
   std::unordered_map<int, std::vector<int> > imap;
-  //std::unordered_map<int, std::vector<int> > omap;
+  // std::unordered_map<int, std::vector<int> > omap;
   fst::SymbolTable isyms;
   int class_size_;
   const char* g_delim_;
@@ -199,7 +201,7 @@ const std::vector<unsigned int> LegacyRnnLMHash::primes_ = {
   940740127, 953085797, 985184539, 990122807
 };
 
-//const char* LegacyRnnLMHash::g_delim  = "|";
-//const char* LegacyRnnLMHash::gp_delim = "}";
+// const char* LegacyRnnLMHash::g_delim  = "|";
+// const char* LegacyRnnLMHash::gp_delim = "}";
 
-#endif // LEGACY_RNNLM_HASH_H__
+#endif  // SRC_INCLUDE_LEGACYRNNLMHASH_H_

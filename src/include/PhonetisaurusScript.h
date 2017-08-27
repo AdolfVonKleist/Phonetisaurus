@@ -29,17 +29,18 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 // \file
-// This implements the scripting interface for the FST-based 
+// This implements the scripting interface for the FST-based
 // decoder.  The associated classes are suitable for
-// construction of command-line utilities and bindings for 
+// construction of command-line utilities and bindings for
 // scripting languages such as Python.
 //
-#ifndef PHONETISAURUSSCRIPT_H__
-#define PHONETISAURUSSCRIPT_H__
+#ifndef SRC_INCLUDE_PHONETISAURUSSCRIPT_H_
+#define SRC_INCLUDE_PHONETISAURUSSCRIPT_H_
 #include "PhonetisaurusRex.h"
 #include <sys/types.h>
 #include <sys/stat.h>
-
+#include <string>
+#include <vector>
 /*! \struct PathData
     \brief Response data.
 
@@ -48,9 +49,9 @@
 */
 struct PathData {
   PathData () {}
-  PathData (float PathWeight_, const vector<float>& PathWeights_, 
-	const vector<int>& ILabels_, const vector<int>& OLabels_, 
-	const vector<int>& Uniques_) 
+  PathData (float PathWeight_, const vector<float>& PathWeights_,
+       const vector<int>& ILabels_, const vector<int>& OLabels_,
+       const vector<int>& Uniques_)
     : PathWeight (PathWeight_), PathWeights (PathWeights_),
       ILabels (ILabels_), OLabels (OLabels_), Uniques(Uniques_) {}
 
@@ -65,14 +66,14 @@ struct PathData {
 /*! \class PhonetisaurusScript
     \brief A wrapper class encapsulating the FST G2P decoder.
 
-    A wrapper class for the FST G2P decoder.  Suitable for 
+    A wrapper class for the FST G2P decoder.  Suitable for
     incorporation into commandline binaries and bindings
-    for various scripting languages.  
+    for various scripting languages.
 */
 class PhonetisaurusScript {
  public:
-  PhonetisaurusScript (string model) : delim_("") { 
-    struct stat buffer;   
+  explicit PhonetisaurusScript (string model) : delim_("") {
+    struct stat buffer;
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
 
@@ -82,7 +83,7 @@ class PhonetisaurusScript {
     model_ = *model_temp;
     delete model_temp;
 
-    //model_ = *(VectorFst<StdArc>::Read(model));
+    // model_ = *(VectorFst<StdArc>::Read(model));
     ArcSort (&model_, ILabelCompare<StdArc> ());
     isyms_ = model_.InputSymbols ();
     osyms_ = model_.OutputSymbols ();
@@ -93,17 +94,17 @@ class PhonetisaurusScript {
     veto_set_.insert (2);
   }
 
-  PhonetisaurusScript (string model, string delim) : delim_(delim) { 
-    struct stat buffer;   
+  PhonetisaurusScript (string model, string delim) : delim_(delim) {
+    struct stat buffer;
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
-    
+
     // this is solving the memory leak problem
     VectorFst<StdArc>* model_temp;
     model_temp = (VectorFst<StdArc>::Read(model));
     model_ = *model_temp;
     delete model_temp;
-    //model_ = *(VectorFst<StdArc>::Read(model));
+    // model_ = *(VectorFst<StdArc>::Read(model));
     ArcSort (&model_, ILabelCompare<StdArc> ());
     isyms_ = model_.InputSymbols ();
     osyms_ = model_.OutputSymbols ();
@@ -115,33 +116,36 @@ class PhonetisaurusScript {
   }
 
   // The actual phoneticizer routine
-  vector<PathData> Phoneticize (const string& word, int nbest = 1, 
-				int beam = 10000, float threshold = 99,
-				bool write_fsts = false,
-				bool accumulate = false,
-				double pmass = 99.0) {
+  vector<PathData> Phoneticize (const string& word, int nbest = 1,
+                      int beam = 10000, float threshold = 99,
+                      bool write_fsts = false,
+                      bool accumulate = false,
+                      double pmass = 99.0) {
     VectorFst<StdArc>* fst = new VectorFst<StdArc> ();
-    vector<int> entry = tokenize2ints ((string*) &word, &delim_, isyms_);
+    vector<int> entry = tokenize2ints (
+                          const_cast<string*> (&word),
+                          &delim_, isyms_
+                        );
     Entry2FSA (entry, fst, imax_, invimap_);
-      
+
     fst->SetInputSymbols (isyms_);
     fst->SetOutputSymbols (isyms_);
 
-    //Useful for debugging; print the input word machine
+    // Useful for debugging; print the input word machine
     if (write_fsts)
       fst->Write (word + ".fst");
 
     VectorFst<StdArc> ofst;
-    
+
     StdArc::Weight weight_threshold = threshold;
     StdArc::StateId state_threshold = kNoStateId;
     AnyArcFilter<StdArc> arc_filter;
     vector<StdArc::Weight> distance;
-    
+
     VectorFst<StdArc>* ifst = new VectorFst<StdArc>();
     Compose(*fst, model_, ifst);
-    
-    //Useful for debugging; print the g2p lattice
+
+    // Useful for debugging; print the g2p lattice
     if (write_fsts)
       ifst->Write (word+".lat.fst");
 
@@ -152,19 +156,19 @@ class PhonetisaurusScript {
     ShortestPathOptions<StdArc, AutoQueue<StdArc::StateId>,
                       AnyArcFilter<StdArc> >
       opts (&state_queue, arc_filter, nbest, false, false,
-	    kDelta, false, weight_threshold,
-	    state_threshold);
+            kDelta, false, weight_threshold,
+            state_threshold);
 
-    ShortestPathSpecialized (*ifst, &ofst, &distance, 
-			     &path_filter, beam, opts, accumulate);
+    ShortestPathSpecialized (*ifst, &ofst, &distance,
+                             &path_filter, beam, opts, accumulate);
 
     vector<PathData> paths;
     float total = 99.0;
     if (pmass < 99.0) {
       for (size_t i = 0; i < path_filter.ordered_paths.size(); i++) {
-	const vector<int>& u = path_filter.ordered_paths [i];
-	const Path& orig = path_filter.path_map [u];
-	total = Plus (LogWeight (total), LogWeight (orig.PathWeight)).Value ();
+        const vector<int>& u = path_filter.ordered_paths [i];
+        const Path& orig = path_filter.path_map [u];
+        total = Plus (LogWeight (total), LogWeight (orig.PathWeight)).Value ();
       }
     }
 
@@ -174,23 +178,23 @@ class PhonetisaurusScript {
       const Path& orig = path_filter.path_map [u];
       float pweight = orig.PathWeight;
       if (pmass < 99.0) {
-	pweight = pweight - total;
-	nbest_pmass = Plus (
-			LogWeight (nbest_pmass),
-			LogWeight (pweight)
-		      ).Value ();
+        pweight = pweight - total;
+        nbest_pmass = Plus (
+                        LogWeight (nbest_pmass),
+                        LogWeight (pweight)
+                      ).Value ();
       }
 
       PathData path = PathData (
-		  pweight, orig.PathWeights, 
-		  orig.ILabels, orig.OLabels, orig.unique_olabels
-		);
+                  pweight, orig.PathWeights,
+                  orig.ILabels, orig.OLabels, orig.unique_olabels
+                );
       paths.push_back (path);
-      
-      //We are greedy with this, in order to ensure that if pmass =~ -log (.8),
-      //and we have h1 = -log (.5), and h2 = -log (.4) that we get both.
+
+      // We are greedy with this, in order to ensure that if pmass =~ -log (.8),
+      // and we have h1 = -log (.5), and h2 = -log (.4) that we get both.
       if (pmass < 99.0 && nbest_pmass.Value () < pmass)
-	break;
+        break;
     }
 
     // Make sure that we clean up
@@ -216,7 +220,6 @@ class PhonetisaurusScript {
     return osyms_->Find (symbol);
   }
 
-  
   const SymbolTable* isyms_;
   const SymbolTable* osyms_;
 
@@ -229,4 +232,4 @@ class PhonetisaurusScript {
   VetoSet veto_set_;
   string delim_;
 };
-#endif // PHONETISUARUSSCRIPT_H__
+#endif  // SRC_INCLUDE_PHONETISAURUSSCRIPT_H_

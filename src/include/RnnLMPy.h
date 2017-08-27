@@ -35,11 +35,13 @@
 /// the evaluations utilizes the -independent convention from
 /// the original rnnlm tool.  This is all we are interested in
 /// for G2P evaluations.
-#ifndef RNNLMPY_H__
-#define RNNLMPY_H__
+#ifndef SRC_INCLUDE_RNNLMPY_H_
+#define SRC_INCLUDE_RNNLMPY_H_
 
 #include <fst/fstlib.h>
-#include "rnnlmlib.h"
+#include <string>
+#include <vector>
+#include "./rnnlmlib.h"
 
 using namespace fst;
 
@@ -52,12 +54,12 @@ typedef struct UttResult {
 
 class RnnLMPy {
  public:
-  RnnLMPy (string rnnlm_file) {
+  explicit RnnLMPy (string rnnlm_file) {
     srand (1);
     rnnlm_.setLambda (0.75);
     rnnlm_.setRegularization (0.0000001);
     rnnlm_.setDynamic (false);
-    rnnlm_.setRnnLMFile ((char*)rnnlm_file.c_str());
+    rnnlm_.setRnnLMFile (const_cast<char*> (rnnlm_file.c_str()));
     rnnlm_.setRandSeed (1);
     rnnlm_.useLMProb (false);
     rnnlm_.setDebugMode (1);
@@ -81,68 +83,69 @@ class RnnLMPy {
     UttResult result;
     string delim = "}";
 
-    last_word   = 0;
+    last_word = 0;
     rnnlm_.copyHiddenLayerToInput ();
-    if (rnnlm_.bptt > 0)
+    if (rnnlm_.bptt > 0) {
       for (a = 0; a < rnnlm_.bptt + rnnlm_.bptt_block; a++)
         rnnlm_.bptt_history[a] = 0;
+    }
     for (a = 0; a < MAX_NGRAM_ORDER; a++)
       rnnlm_.history[a] = 0;
     rnnlm_.netReset();
 
-    //Check the G2P tokens
+    // Check the G2P tokens
     for (size_t i = 0; i < words.size(); i++) {
-      word   = rnnlm_.searchVocab ((char*)words[i].c_str());
+      word = rnnlm_.searchVocab (const_cast<char*> (words[i].c_str()));
       /*
       vector<string> toks = tokenize_utf8_string (&words[i], &delim);
       cout << toks[0] << endl;
       vector<int>& tokens = rnnlm_.SearchJointVocab (toks[0]);
       float tscore = -999;
       for (int j = 0; j < tokens.size(); j++) {
-	cout << "  " << tokens[j] << "\t" 
-	     << rnnlm_.token_map[tokens[j]] << "\t";
-	rnnlm_.computeNet (last_word, tokens[j]);
-	float tval =  log10 (rnnlm_.neu2[rnnlm_.vocab[tokens[j]].class_index
-			     + rnnlm_.vocab_size].ac
-			     * rnnlm_.neu2[tokens[j]].ac);
-	if (tval > tscore) { 
-	  tscore = tval;
-	  word = tokens[j];
-	}
-	cout << tval << endl;
+        cout << "  " << tokens[j] << "\t"
+             << rnnlm_.token_map[tokens[j]] << "\t";
+        rnnlm_.computeNet (last_word, tokens[j]);
+        float tval =  log10 (rnnlm_.neu2[rnnlm_.vocab[tokens[j]].class_index
+                             + rnnlm_.vocab_size].ac
+                             * rnnlm_.neu2[tokens[j]].ac);
+        if (tval > tscore) {
+          tscore = tval;
+          word = tokens[j];
+        }
+        cout << tval << endl;
       }
       /////////////////////
       */
       result.words.push_back (rnnlm_.token_map[word]);
       rnnlm_.computeNet (last_word, word);
 
-      
+
       if (word != -1) {
         result.word_probs.push_back (
             log10 (rnnlm_.neu2[rnnlm_.vocab[word].class_index
                    + rnnlm_.vocab_size].ac
                    * rnnlm_.neu2[word].ac));
-        result.sent_prob += result.word_probs.back();
+        result.sent_prob += result.word_probs.back ();
       } else {
-        //cout << "-1\t0\tOOV" << endl;
+        // cout << "-1\t0\tOOV" << endl;
         result.word_probs.push_back (0.0);
       }
-      
+
       rnnlm_.copyHiddenLayerToInput ();
       if (last_word != -1)
         rnnlm_.neu0[last_word].ac = 0;
-      
+
       last_word = word;
       for (a = MAX_NGRAM_ORDER - 1; a > 0; a--)
         rnnlm_.history[a] = rnnlm_.history[a-1];
       rnnlm_.history[0] = last_word;
     }
-    
+
     return result;
   }
-  
+
  private:
-  CRnnLM rnnlm_; //The actual rnnlm
+  CRnnLM rnnlm_;  // The actual rnnlm
 };
 
-#endif // RNNLMPY_H__
+#endif  // SRC_INCLUDE_RNNLMPY_H_

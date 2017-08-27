@@ -214,7 +214,7 @@ custom g++ alternative [untested with v1.6.2])
 ```
  $ ./configure --with-openfst-libs=/home/osx/openfst-1.6.2gcc/lib \
           --with-openfst-includes=/home/osx/openfst-1.6.2gcc/include \
-	  CXX=g++-4.9
+          CXX=g++-4.9
  $ make -j 2 all
 ```
 
@@ -253,4 +253,12 @@ If you need to rebuild the configure script you can do so:
 #### phonetisaurus-g2pfst ####
 ```
  $ bin/phonetisaurus-g2pfst --help
+```
+
+### Misc: ###
+cpplint command:
+```
+ $ ./cpplint.py --filter=-whitespace/parens,-whitespace/braces,\
+      -legal/copyright,-build/namespaces,-runtime/references\
+      src/include/util.h
 ```

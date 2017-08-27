@@ -12,7 +12,7 @@ class G2PModelTrainer () :
     This wraps the alignment, joint n-gram training, and ARPA to
     WFST conversion steps into one command.
     """
-    
+
     def __init__ (self, lexicon_file, **kwargs) :
         self.lexicon_file = lexicon_file
         self.model_prefix = kwargs.get ("model_prefix", "model")
@@ -22,6 +22,7 @@ class G2PModelTrainer () :
         self.seq2_max = kwargs.get ("seq2_max", 2)
         self.seq1_del = kwargs.get ("seq1_del", False)
         self.seq2_del = kwargs.get ("seq2_del", False)
+        self.grow = kwargs.get ("grow", False)
         self.verbose = kwargs.get ("verbose", False)
         self.logger = self.setupLogger ()
         self.makeJointNgramCommand = self._setLMCommand (
@@ -40,7 +41,7 @@ class G2PModelTrainer () :
         Returns:
             Logger: A configured logger instance.
         """
-        
+
         level = logging.DEBUG if self.verbose else logging.INFO
         logging.basicConfig (
             level=level,
@@ -58,18 +59,18 @@ class G2PModelTrainer () :
         this simply checks if the default reserved characters,
         ['}', '|', '_'], are used present in the lexicon.
         """
-        
+
         validator = re.compile (ur"[\}\|_]")
-        
+
         with open (self.lexicon_file, "r") as ifp :
             for line in ifp :
                 if validator.search (line.decode ("utf8")) :
                     error = "Bad line contains reservered character:\n\t{0}"
                     error = error.format (line)
                     raise ValueError, error
-        
+
         return
-    
+
     def checkPhonetisaurusConfig (self) :
         """Run some basic checks before training.
 
@@ -96,18 +97,18 @@ class G2PModelTrainer () :
             "Checking lexicon for reserved characters: '}', '|', '_'..."
         )
         self.validateLexicon ()
-        
+
         path_prefix = os.path.join (self.dir_prefix, self.model_prefix)
-        
+
         self.corpus_path = u"{0}.corpus".format (path_prefix)
         self.arpa_path = u"{0}.o{1}.arpa".format (path_prefix, self.ngram_order)
         self.model_path = u"{0}.fst".format (path_prefix)
 
         for key,val in sorted (vars (self).iteritems ()) :
             self.logger.debug (u"{0}:  {1}".format (key, val))
-        
+
         return
-    
+
     def which (self, program) :
         """Basic 'which' implementation for python.
 
@@ -134,7 +135,7 @@ class G2PModelTrainer () :
     def _setLMCommand (self, lm) :
         """Configure the LM training command.
 
-        Configure the LM training command according to the LM toolkit 
+        Configure the LM training command according to the LM toolkit
         selected by the user.  Currently only mitlm is supported.
 
         Args:
@@ -150,18 +151,18 @@ class G2PModelTrainer () :
             return self._mitlm
         else :
             raise NotImplementedError, "Only mitlm is currently supported."
-        
+
 
     def _mitlm (self) :
         """mitlm estimate-ngram joint ngram training command.
 
-        Build the mitlm joint ngram training command using the 
+        Build the mitlm joint ngram training command using the
         estimate-ngram utility and provided arguments.
 
         Returns:
             list: The command in subprocess list format.
         """
-        
+
         command = [
             "estimate-ngram",
             "-o", str (self.ngram_order),
@@ -172,7 +173,7 @@ class G2PModelTrainer () :
         self.logger.debug (u" ".join (command))
 
         return command
-    
+
     def makeAlignerCommand (self) :
         """Build the aligner command from the provided arguments.
 
@@ -189,9 +190,10 @@ class G2PModelTrainer () :
             "--seq1_del={0}".format (str (self.seq1_del).lower ()),
             "--seq2_del={0}".format (str (self.seq2_del).lower ()),
             "--seq1_max={0}".format (str (self.seq1_max)),
-            "--seq2_max={0}".format (str (self.seq2_max))
+            "--seq2_max={0}".format (str (self.seq2_max)),
+            "--grow={0}".format (str (self.grow).lower ())
         ]
-        
+
         self.logger.debug (u" ".join (command))
 
         return command
@@ -214,17 +216,17 @@ class G2PModelTrainer () :
         self.logger.debug (u" ".join (command))
 
         return command
-    
+
     def AlignLexicon (self) :
         """Align the provided input pronunciation lexicon.
 
-        Align the provided input pronunciation lexicon according to the 
+        Align the provided input pronunciation lexicon according to the
         provided parameters.
-        
+
         Returns:
             bool: True on success, False on failure.
         """
-        
+
         aligner_command = self.makeAlignerCommand ()
 
         self.logger.info ("Aligning lexicon...")
@@ -241,7 +243,7 @@ class G2PModelTrainer () :
         except subprocess.CalledProcessError :
             self.logger.error ("Alignment failed.  Exiting.")
             sys.exit (1)
-        
+
         return
 
     def TrainNGramModel (self) :
@@ -280,7 +282,7 @@ class G2PModelTrainer () :
         Returns:
             bool: True on success, False on failure.
         """
-        
+
         arpa_to_fst_command = self.makeARPAToWFSTCommand ()
 
         self.logger.info ("Converting ARPA format joint n-gram "
@@ -303,7 +305,7 @@ class G2PModelTrainer () :
 
     def TrainG2PModel (self) :
         self.checkPhonetisaurusConfig ()
-        
+
         self.AlignLexicon ()
         self.TrainNGramModel ()
         self.ConvertARPAToWFST ()
@@ -312,9 +314,9 @@ class G2PModelTrainer () :
             "G2P training succeeded: \033[92m{0}\033[0m"\
             .format (self.model_path)
         )
-        
+
         return
-    
+
 if __name__ == "__main__" :
     import sys, argparse
 
@@ -340,6 +342,9 @@ if __name__ == "__main__" :
     parser.add_argument ("--seq2_max", "-s2m", help="Maximum subsequence "
                          "length for phonemic alignment chunks.",
                          type=int, default=2)
+    parser.add_argument ("--grow", "-g", help="Allow alignment to grow maxes "
+                         "for un-alignable entries.", default=False,
+                         action="store_true")
     parser.add_argument ("--lm", "-lm", help="LM toolkit to use.",
                          default="mitlm")
     parser.add_argument ("--verbose", "-v", help="Verbose mode.",
