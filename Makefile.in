@@ -15,6 +15,7 @@
 @SET_MAKE@
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -111,21 +112,61 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
-PROGRAMS = $(bin_PROGRAMS)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+am__installdirs = "$(DESTDIR)$(pyexecdir)" "$(DESTDIR)$(bindir)" \
+	"$(DESTDIR)$(bindir)"
+LTLIBRARIES = $(pyexec_LTLIBRARIES)
+am__DEPENDENCIES_1 =
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	$(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@nodist_Phonetisaurus_la_OBJECTS = Phonetisaurus_la-Phonetisaurus-binding.lo \
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	src/lib/Phonetisaurus_la-util.lo
+Phonetisaurus_la_OBJECTS = $(nodist_Phonetisaurus_la_OBJECTS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+Phonetisaurus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) \
+	$(Phonetisaurus_la_LDFLAGS) $(LDFLAGS) -o $@
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@am_Phonetisaurus_la_rpath = -rpath \
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	$(pyexecdir)
+PROGRAMS = $(bin_PROGRAMS)
 am_phonetisaurus_align_OBJECTS =  \
 	src/bin/phonetisaurus_align-phonetisaurus-align.$(OBJEXT) \
 	src/lib/phonetisaurus_align-util.$(OBJEXT) \
 	src/lib/phonetisaurus_align-LatticePruner.$(OBJEXT) \
 	src/lib/phonetisaurus_align-M2MFstAligner.$(OBJEXT)
 phonetisaurus_align_OBJECTS = $(am_phonetisaurus_align_OBJECTS)
-am__DEPENDENCIES_1 =
 phonetisaurus_align_DEPENDENCIES = $(am__DEPENDENCIES_1)
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
 phonetisaurus_align_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
@@ -168,33 +209,6 @@ rnnlm_DEPENDENCIES = $(am__DEPENDENCIES_1)
 rnnlm_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(rnnlm_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__uninstall_files_from_dir = { \
-  test -z "$$files" \
-    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
-    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
-         $(am__cd) "$$dir" && rm -f $$files; }; \
-  }
 SCRIPTS = $(bin_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -248,7 +262,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(phonetisaurus_align_SOURCES) \
+SOURCES = $(nodist_Phonetisaurus_la_SOURCES) \
+	$(phonetisaurus_align_SOURCES) \
 	$(phonetisaurus_arpa2wfst_SOURCES) \
 	$(phonetisaurus_g2pfst_SOURCES) \
 	$(phonetisaurus_g2prnn_SOURCES) $(rnnlm_SOURCES)
@@ -379,6 +394,16 @@ PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 POW_LIB = @POW_LIB@
+PYTHON = @PYTHON@
+PYTHON_CPPFLAGS = @PYTHON_CPPFLAGS@
+PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
+PYTHON_EXTRA_LDFLAGS = @PYTHON_EXTRA_LDFLAGS@
+PYTHON_EXTRA_LIBS = @PYTHON_EXTRA_LIBS@
+PYTHON_LIBS = @PYTHON_LIBS@
+PYTHON_PLATFORM = @PYTHON_PLATFORM@
+PYTHON_PREFIX = @PYTHON_PREFIX@
+PYTHON_SITE_PKG = @PYTHON_SITE_PKG@
+PYTHON_VERSION = @PYTHON_VERSION@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -427,9 +452,13 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
+pkgpyexecdir = @pkgpyexecdir@
+pkgpythondir = @pkgpythondir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
+pyexecdir = @pyexecdir@
+pythondir = @pythondir@
 runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
@@ -464,6 +493,12 @@ phonetisaurus_g2prnn_LDADD = $(OPENFST_LDFLAGS) $(am__append_2)
 rnnlm_SOURCES = src/bin/rnnlm.cc src/3rdparty/rnnlm/rnnlmlib.cpp src/3rdparty/rnnlm/rnnlmlib.h
 rnnlm_CXXFLAGS = $(OPENFST_CXXFLAGS) -I$(top_srcdir)/src/3rdparty/rnnlm -funroll-loops -ffast-math
 rnnlm_LDADD = $(OPENFST_LDFLAGS)
+@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@CLEANFILES = Phonetisaurus-binding.cc
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@pyexec_LTLIBRARIES = Phonetisaurus.la
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@nodist_Phonetisaurus_la_SOURCES = Phonetisaurus-binding.cc src/lib/util.cc src/include/util.h
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_CXXFLAGS = $(OPENFST_CXXFLAGS) $(PYTHON_CPPFLAGS) -I$(top_srcdir)/src/3rdparty/utfcpp -funroll-loops -ffast-math
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_LIBADD = $(OPENFST_LDFLAGS) $(PYTHON_LIBS)
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_LDFLAGS = -avoid-version -module
 all: all-am
 
 .SUFFIXES:
@@ -501,6 +536,52 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
+
+install-pyexecLTLIBRARIES: $(pyexec_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	@list='$(pyexec_LTLIBRARIES)'; test -n "$(pyexecdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pyexecdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pyexecdir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(pyexecdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(pyexecdir)"; \
+	}
+
+uninstall-pyexecLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pyexec_LTLIBRARIES)'; test -n "$(pyexecdir)" || list=; \
+	for p in $$list; do \
+	  $(am__strip_dir) \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(pyexecdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(pyexecdir)/$$f"; \
+	done
+
+clean-pyexecLTLIBRARIES:
+	-test -z "$(pyexec_LTLIBRARIES)" || rm -f $(pyexec_LTLIBRARIES)
+	@list='$(pyexec_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
+src/lib/$(am__dirstamp):
+	@$(MKDIR_P) src/lib
+	@: > src/lib/$(am__dirstamp)
+src/lib/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/lib/$(DEPDIR)
+	@: > src/lib/$(DEPDIR)/$(am__dirstamp)
+src/lib/Phonetisaurus_la-util.lo: src/lib/$(am__dirstamp) \
+	src/lib/$(DEPDIR)/$(am__dirstamp)
+
+Phonetisaurus.la: $(Phonetisaurus_la_OBJECTS) $(Phonetisaurus_la_DEPENDENCIES) $(EXTRA_Phonetisaurus_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(Phonetisaurus_la_LINK) $(am_Phonetisaurus_la_rpath) $(Phonetisaurus_la_OBJECTS) $(Phonetisaurus_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -558,12 +639,6 @@ src/bin/$(DEPDIR)/$(am__dirstamp):
 	@: > src/bin/$(DEPDIR)/$(am__dirstamp)
 src/bin/phonetisaurus_align-phonetisaurus-align.$(OBJEXT):  \
 	src/bin/$(am__dirstamp) src/bin/$(DEPDIR)/$(am__dirstamp)
-src/lib/$(am__dirstamp):
-	@$(MKDIR_P) src/lib
-	@: > src/lib/$(am__dirstamp)
-src/lib/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) src/lib/$(DEPDIR)
-	@: > src/lib/$(DEPDIR)/$(am__dirstamp)
 src/lib/phonetisaurus_align-util.$(OBJEXT): src/lib/$(am__dirstamp) \
 	src/lib/$(DEPDIR)/$(am__dirstamp)
 src/lib/phonetisaurus_align-LatticePruner.$(OBJEXT):  \
@@ -657,10 +732,12 @@ mostlyclean-compile:
 	-rm -f src/3rdparty/rnnlm/*.$(OBJEXT)
 	-rm -f src/bin/*.$(OBJEXT)
 	-rm -f src/lib/*.$(OBJEXT)
+	-rm -f src/lib/*.lo
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Po@am__quote@
@@ -668,6 +745,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/rnnlm-rnnlm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/Phonetisaurus_la-util.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_align-util.Po@am__quote@
@@ -698,6 +776,20 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
+Phonetisaurus_la-Phonetisaurus-binding.lo: Phonetisaurus-binding.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -MT Phonetisaurus_la-Phonetisaurus-binding.lo -MD -MP -MF $(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Tpo -c -o Phonetisaurus_la-Phonetisaurus-binding.lo `test -f 'Phonetisaurus-binding.cc' || echo '$(srcdir)/'`Phonetisaurus-binding.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Tpo $(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Phonetisaurus-binding.cc' object='Phonetisaurus_la-Phonetisaurus-binding.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o Phonetisaurus_la-Phonetisaurus-binding.lo `test -f 'Phonetisaurus-binding.cc' || echo '$(srcdir)/'`Phonetisaurus-binding.cc
+
+src/lib/Phonetisaurus_la-util.lo: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -MT src/lib/Phonetisaurus_la-util.lo -MD -MP -MF src/lib/$(DEPDIR)/Phonetisaurus_la-util.Tpo -c -o src/lib/Phonetisaurus_la-util.lo `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/Phonetisaurus_la-util.Tpo src/lib/$(DEPDIR)/Phonetisaurus_la-util.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/Phonetisaurus_la-util.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/Phonetisaurus_la-util.lo `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
 
 src/bin/phonetisaurus_align-phonetisaurus-align.o: src/bin/phonetisaurus-align.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_align-phonetisaurus-align.o -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Tpo -c -o src/bin/phonetisaurus_align-phonetisaurus-align.o `test -f 'src/bin/phonetisaurus-align.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-align.cc
@@ -910,6 +1002,7 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf src/lib/.libs src/lib/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt
@@ -1138,9 +1231,9 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) $(SCRIPTS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(SCRIPTS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(pyexecdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -1165,6 +1258,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -1181,11 +1275,12 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libtool \
+	clean-pyexecLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-libtool distclean-tags
@@ -1208,7 +1303,8 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS install-binSCRIPTS
+install-exec-am: install-binPROGRAMS install-binSCRIPTS \
+	install-pyexecLTLIBRARIES
 
 install-html: install-html-am
 
@@ -1233,7 +1329,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1250,30 +1346,36 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS
+uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
+	uninstall-pyexecLTLIBRARIES
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am am--refresh check check-am clean \
 	clean-binPROGRAMS clean-cscope clean-generic clean-libtool \
-	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-binPROGRAMS install-binSCRIPTS \
-	install-data install-data-am install-dvi install-dvi-am \
-	install-exec install-exec-am install-html install-html-am \
-	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-binSCRIPTS
+	clean-pyexecLTLIBRARIES cscope cscopelist-am ctags ctags-am \
+	dist dist-all dist-bzip2 dist-gzip dist-lzip dist-shar \
+	dist-tarZ dist-xz dist-zip distcheck distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distcleancheck distdir distuninstallcheck dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-binPROGRAMS install-binSCRIPTS install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-pyexecLTLIBRARIES \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-binSCRIPTS \
+	uninstall-pyexecLTLIBRARIES
 
 .PRECIOUS: Makefile
 
+
+@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus-binding.cc: $(top_srcdir)/src/phonetisaurus-module.py
+@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	$(PYTHON) -B $(top_srcdir)/src/phonetisaurus-module.py > Phonetisaurus-binding.cc
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
