@@ -43,14 +43,15 @@ bin_rnnlm_LDADD = $(OPENFST_LDFLAGS)
 if WANT_PYTHON
 if HAVE_PYTHON
 
-Phonetisaurus-binding.cc: $(top_srcdir)/src/phonetisaurus-module.py
-	$(PYTHON) -B $(top_srcdir)/src/phonetisaurus-module.py > Phonetisaurus-binding.cc
+python/Phonetisaurus-binding.cc: $(top_srcdir)/python/phonetisaurus-module.py
+	mkdir -p python
+	$(PYTHON) -B $(top_srcdir)/python/phonetisaurus-module.py > python/Phonetisaurus-binding.cc
 
-CLEANFILES = Phonetisaurus-binding.cc
+CLEANFILES = python/Phonetisaurus-binding.cc
 
 if HAVE_PYTHON_DEV
 pyexec_LTLIBRARIES = Phonetisaurus.la
-nodist_Phonetisaurus_la_SOURCES = Phonetisaurus-binding.cc src/lib/util.cc src/include/util.h
+nodist_Phonetisaurus_la_SOURCES = python/Phonetisaurus-binding.cc src/lib/util.cc src/include/util.h
 Phonetisaurus_la_CXXFLAGS = $(OPENFST_CXXFLAGS) $(PYTHON_CPPFLAGS) -I$(top_srcdir)/src/3rdparty/utfcpp -funroll-loops -ffast-math
 Phonetisaurus_la_LIBADD = $(OPENFST_LDFLAGS) $(PYTHON_LIBS)
 Phonetisaurus_la_LDFLAGS = -avoid-version -module
