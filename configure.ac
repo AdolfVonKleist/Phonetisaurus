@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
-AC_INIT([phonetisaurus], [0.8.1], [joe@spitch.ch])
+AC_INIT([phonetisaurus], [0.8.1], [phonetisaurus@gmail.com])
 AC_CONFIG_MACRO_DIR([.autoconf/m4])
 AC_CONFIG_AUX_DIR([.autoconf])
 AC_CONFIG_SRCDIR(configure.ac)
