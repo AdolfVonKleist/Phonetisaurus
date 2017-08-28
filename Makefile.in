@@ -147,7 +147,7 @@ am__DEPENDENCIES_1 =
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	$(am__DEPENDENCIES_1)
 am__dirstamp = $(am__leading_dot)dirstamp
-@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@nodist_Phonetisaurus_la_OBJECTS = Phonetisaurus_la-Phonetisaurus-binding.lo \
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@nodist_Phonetisaurus_la_OBJECTS = python/Phonetisaurus_la-Phonetisaurus-binding.lo \
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	src/lib/Phonetisaurus_la-util.lo
 Phonetisaurus_la_OBJECTS = $(nodist_Phonetisaurus_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -495,9 +495,9 @@ bin_phonetisaurus_g2prnn_LDADD = $(OPENFST_LDFLAGS) $(am__append_2)
 bin_rnnlm_SOURCES = src/bin/rnnlm.cc src/3rdparty/rnnlm/rnnlmlib.cpp src/3rdparty/rnnlm/rnnlmlib.h
 bin_rnnlm_CXXFLAGS = $(OPENFST_CXXFLAGS) -I$(top_srcdir)/src/3rdparty/rnnlm -funroll-loops -ffast-math
 bin_rnnlm_LDADD = $(OPENFST_LDFLAGS)
-@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@CLEANFILES = Phonetisaurus-binding.cc
+@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@CLEANFILES = python/Phonetisaurus-binding.cc
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@pyexec_LTLIBRARIES = Phonetisaurus.la
-@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@nodist_Phonetisaurus_la_SOURCES = Phonetisaurus-binding.cc src/lib/util.cc src/include/util.h
+@HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@nodist_Phonetisaurus_la_SOURCES = python/Phonetisaurus-binding.cc src/lib/util.cc src/include/util.h
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_CXXFLAGS = $(OPENFST_CXXFLAGS) $(PYTHON_CPPFLAGS) -I$(top_srcdir)/src/3rdparty/utfcpp -funroll-loops -ffast-math
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_LIBADD = $(OPENFST_LDFLAGS) $(PYTHON_LIBS)
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus_la_LDFLAGS = -avoid-version -module
@@ -573,6 +573,14 @@ clean-pyexecLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
+python/$(am__dirstamp):
+	@$(MKDIR_P) python
+	@: > python/$(am__dirstamp)
+python/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) python/$(DEPDIR)
+	@: > python/$(DEPDIR)/$(am__dirstamp)
+python/Phonetisaurus_la-Phonetisaurus-binding.lo:  \
+	python/$(am__dirstamp) python/$(DEPDIR)/$(am__dirstamp)
 src/lib/$(am__dirstamp):
 	@$(MKDIR_P) src/lib
 	@: > src/lib/$(am__dirstamp)
@@ -734,6 +742,8 @@ uninstall-binSCRIPTS:
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f python/*.$(OBJEXT)
+	-rm -f python/*.lo
 	-rm -f src/3rdparty/rnnlm/*.$(OBJEXT)
 	-rm -f src/bin/*.$(OBJEXT)
 	-rm -f src/lib/*.$(OBJEXT)
@@ -742,7 +752,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@python/$(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Po@am__quote@
@@ -782,12 +792,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-Phonetisaurus_la-Phonetisaurus-binding.lo: Phonetisaurus-binding.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -MT Phonetisaurus_la-Phonetisaurus-binding.lo -MD -MP -MF $(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Tpo -c -o Phonetisaurus_la-Phonetisaurus-binding.lo `test -f 'Phonetisaurus-binding.cc' || echo '$(srcdir)/'`Phonetisaurus-binding.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Tpo $(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Phonetisaurus-binding.cc' object='Phonetisaurus_la-Phonetisaurus-binding.lo' libtool=yes @AMDEPBACKSLASH@
+python/Phonetisaurus_la-Phonetisaurus-binding.lo: python/Phonetisaurus-binding.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -MT python/Phonetisaurus_la-Phonetisaurus-binding.lo -MD -MP -MF python/$(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Tpo -c -o python/Phonetisaurus_la-Phonetisaurus-binding.lo `test -f 'python/Phonetisaurus-binding.cc' || echo '$(srcdir)/'`python/Phonetisaurus-binding.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) python/$(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Tpo python/$(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='python/Phonetisaurus-binding.cc' object='python/Phonetisaurus_la-Phonetisaurus-binding.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o Phonetisaurus_la-Phonetisaurus-binding.lo `test -f 'Phonetisaurus-binding.cc' || echo '$(srcdir)/'`Phonetisaurus-binding.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o python/Phonetisaurus_la-Phonetisaurus-binding.lo `test -f 'python/Phonetisaurus-binding.cc' || echo '$(srcdir)/'`python/Phonetisaurus-binding.cc
 
 src/lib/Phonetisaurus_la-util.lo: src/lib/util.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -MT src/lib/Phonetisaurus_la-util.lo -MD -MP -MF src/lib/$(DEPDIR)/Phonetisaurus_la-util.Tpo -c -o src/lib/Phonetisaurus_la-util.lo `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
@@ -1008,6 +1018,7 @@ mostlyclean-libtool:
 clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf bin/.libs bin/_libs
+	-rm -rf python/.libs python/_libs
 	-rm -rf src/lib/.libs src/lib/_libs
 
 distclean-libtool:
@@ -1270,6 +1281,8 @@ distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f bin/$(am__dirstamp)
+	-rm -f python/$(DEPDIR)/$(am__dirstamp)
+	-rm -f python/$(am__dirstamp)
 	-rm -f src/3rdparty/rnnlm/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/3rdparty/rnnlm/$(am__dirstamp)
 	-rm -f src/bin/$(DEPDIR)/$(am__dirstamp)
@@ -1287,7 +1300,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf ./$(DEPDIR) src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
+	-rm -rf python/$(DEPDIR) src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-libtool distclean-tags
@@ -1336,7 +1349,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf ./$(DEPDIR) src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
+	-rm -rf python/$(DEPDIR) src/3rdparty/rnnlm/$(DEPDIR) src/bin/$(DEPDIR) src/lib/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -1381,8 +1394,9 @@ uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
 .PRECIOUS: Makefile
 
 
-@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@Phonetisaurus-binding.cc: $(top_srcdir)/src/phonetisaurus-module.py
-@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	$(PYTHON) -B $(top_srcdir)/src/phonetisaurus-module.py > Phonetisaurus-binding.cc
+@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@python/Phonetisaurus-binding.cc: $(top_srcdir)/python/phonetisaurus-module.py
+@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	mkdir -p python
+@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	$(PYTHON) -B $(top_srcdir)/python/phonetisaurus-module.py > python/Phonetisaurus-binding.cc
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
