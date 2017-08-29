@@ -531,8 +531,8 @@ EXTRA_DIST = \
         $(srcdir)/test/check-nbest-wer.py
 
 dist_bin_SCRIPTS = \
-	src/bin/phonetisaurus_apply         \
-	src/bin/phonetisaurus_train
+	src/bin/phonetisaurus-apply         \
+	src/bin/phonetisaurus-train
 
 AM_CPPFLAGS = -I$(top_srcdir)/src -DGIT_REVISION=\"$(GIT_REVISION)\" -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
 bin_phonetisaurus_align_SOURCES = src/bin/phonetisaurus-align.cc src/include/PhonetisaurusRex.h src/lib/util.cc src/include/util.h src/lib/LatticePruner.cc src/include/LatticePruner.h src/lib/M2MFstAligner.cc src/include/M2MFstAligner.h
