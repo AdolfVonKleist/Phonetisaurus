@@ -107,7 +107,7 @@ am__aclocal_m4_deps = $(top_srcdir)/.autoconf/m4/libtool.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(am__DIST_COMMON)
+	$(am__configure_deps) $(dist_bin_SCRIPTS) $(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
@@ -211,7 +211,7 @@ bin_rnnlm_DEPENDENCIES = $(am__DEPENDENCIES_1)
 bin_rnnlm_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(bin_rnnlm_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SCRIPTS = $(bin_SCRIPTS)
+SCRIPTS = $(dist_bin_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -472,8 +472,65 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I .autoconf/m4
-bin_SCRIPTS = \
-	src/bin/phonetisaurus_apply    \
+EXTRA_DIST = \
+	$(srcdir)/LICENSE						  \
+	$(srcdir)/README.md						  \
+	$(srcdir)/docs/doxygen.cfg					  \
+	$(srcdir)/docs/mainpage.dox					  \
+	$(srcdir)/src/3rdparty/rnnlm/COPYRIGHT.txt			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8/checked.h			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8/core.h			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8/unchecked.h			  \
+	$(srcdir)/src/3rdparty/utfcpp/utf8.h				  \
+	$(srcdir)/src/configure						  \
+	$(srcdir)/src/lib/feature-reader.cc				  \
+	$(srcdir)/src/include/RnnLMPy.h					  \
+	$(srcdir)/python/phonetisaurus-module.py			  \
+	$(srcdir)/python/script/phoneticize.py				  \
+	$(srcdir)/python/script/demo.html				  \
+	$(srcdir)/python/script/words.list				  \
+	$(srcdir)/python/script/g2pserver.py				  \
+	$(srcdir)/python/phonetisaurus/__init__.py			  \
+	$(srcdir)/python/pybindgen/__init__.py				  \
+	$(srcdir)/python/pybindgen/cppclass_typehandlers.py		  \
+	$(srcdir)/python/pybindgen/cppexception.py			  \
+	$(srcdir)/python/pybindgen/cppmethod.py				  \
+	$(srcdir)/python/pybindgen/enum.py				  \
+	$(srcdir)/python/pybindgen/wscript				  \
+	$(srcdir)/python/pybindgen/cppclass.py				  \
+	$(srcdir)/python/pybindgen/cppclass_container.py		  \
+	$(srcdir)/python/pybindgen/settings.py				  \
+	$(srcdir)/python/pybindgen/function.py				  \
+	$(srcdir)/python/pybindgen/utils.py				  \
+	$(srcdir)/python/pybindgen/module.py				  \
+	$(srcdir)/python/pybindgen/typehandlers/__init__.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/codesink.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/ctypeparser/__init__.py	  \
+	$(srcdir)/python/pybindgen/typehandlers/ctypeparser/tokenizer.py  \
+	$(srcdir)/python/pybindgen/typehandlers/stringtype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/pyobjecttype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/inttype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/doubletype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/voidtype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/floattype.py		  \
+	$(srcdir)/python/pybindgen/typehandlers/base.py			  \
+	$(srcdir)/python/pybindgen/typehandlers/booltype.py		  \
+	$(srcdir)/python/pybindgen/cppattribute.py			  \
+	$(srcdir)/python/pybindgen/gccxmlparser.py			  \
+	$(srcdir)/python/pybindgen/overloading.py			  \
+	$(srcdir)/python/pybindgen/pytypeobject.py			  \
+	$(srcdir)/python/pybindgen/container.py				  \
+	$(srcdir)/python/pybindgen/converter_functions.py		  \
+	$(srcdir)/python/pybindgen/version.py				  \
+	$(srcdir)/python/pybindgen/wrapper_registry.py			  \
+	$(srcdir)/python/setup.py					  \
+        $(srcdir)/test/g014b2b/g014b2b.ref				  \
+        $(srcdir)/test/g014b2b/g014b2b.train				  \
+        $(srcdir)/test/g014b2b/g014b2b.words				  \
+        $(srcdir)/test/check-nbest-wer.py
+
+dist_bin_SCRIPTS = \
+	src/bin/phonetisaurus_apply         \
 	src/bin/phonetisaurus_train
 
 AM_CPPFLAGS = -I$(top_srcdir)/src -DGIT_REVISION=\"$(GIT_REVISION)\" -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
@@ -704,9 +761,9 @@ src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.$(OBJEXT):  \
 bin/rnnlm$(EXEEXT): $(bin_rnnlm_OBJECTS) $(bin_rnnlm_DEPENDENCIES) $(EXTRA_bin_rnnlm_DEPENDENCIES) bin/$(am__dirstamp)
 	@rm -f bin/rnnlm$(EXEEXT)
 	$(AM_V_CXXLD)$(bin_rnnlm_LINK) $(bin_rnnlm_OBJECTS) $(bin_rnnlm_LDADD) $(LIBS)
-install-binSCRIPTS: $(bin_SCRIPTS)
+install-dist_binSCRIPTS: $(dist_bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
-	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
+	@list='$(dist_bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
 	if test -n "$$list"; then \
 	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
 	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
@@ -733,9 +790,9 @@ install-binSCRIPTS: $(bin_SCRIPTS)
 	     } \
 	; done
 
-uninstall-binSCRIPTS:
+uninstall-dist_binSCRIPTS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || exit 0; \
+	@list='$(dist_bin_SCRIPTS)'; test -n "$(bindir)" || exit 0; \
 	files=`for p in $$list; do echo "$$p"; done | \
 	       sed -e 's,.*/,,;$(transform)'`; \
 	dir='$(DESTDIR)$(bindir)'; $(am__uninstall_files_from_dir)
@@ -1323,7 +1380,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS install-binSCRIPTS \
+install-exec-am: install-binPROGRAMS install-dist_binSCRIPTS \
 	install-pyexecLTLIBRARIES
 
 install-html: install-html-am
@@ -1366,7 +1423,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
+uninstall-am: uninstall-binPROGRAMS uninstall-dist_binSCRIPTS \
 	uninstall-pyexecLTLIBRARIES
 
 .MAKE: install-am install-strip
@@ -1379,17 +1436,17 @@ uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am html html-am info info-am install install-am \
-	install-binPROGRAMS install-binSCRIPTS install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-pyexecLTLIBRARIES \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS uninstall-binSCRIPTS \
-	uninstall-pyexecLTLIBRARIES
+	install-binPROGRAMS install-data install-data-am \
+	install-dist_binSCRIPTS install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am \
+	install-pyexecLTLIBRARIES install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-dist_binSCRIPTS uninstall-pyexecLTLIBRARIES
 
 .PRECIOUS: Makefile
 
