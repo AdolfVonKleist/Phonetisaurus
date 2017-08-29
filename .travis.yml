@@ -4,6 +4,29 @@ branches:
   only:
     - master
 
+sudo: required
+dist: trusty
+group: edge
+
+osx_image: xcode8
+
+os:
+  - osx
+
+compiler:
+  - gcc
+  - clang
+
+env:
+  - CROSSCOMPILE=native
+
+addons:
+  apt:
+    packages:
+      - zlib1g-dev
+      - wget
+      - python-dev
+
 matrix:
   include:
     - os: linux
@@ -13,11 +36,15 @@ matrix:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9','zlib1g-dev','wget','python-dev']
       env:
-        - COMPILER=g++-4.9
+        - CXXCOMPILER=g++-4.9
 
 before_install:
-  - wget https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/openfst_1.6.2_amd64-trusty.deb
-  - sudo dpkg -i openfst_1.6.2_amd64-trusty.deb
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew tap homebrew/science ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openfst ; fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then wget https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/openfst_1.6.2_amd64-trusty.deb ; fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sudo dpkg -i openfst_1.6.2_amd64-trusty.deb ; fi
+  - if [ ! -z "$CXXCOMPILER" ]; then export CXX="$CXXCOMPILER"; fi
 
 script:
-  cd src && ./configure --enable-python && make CXX=$COMPILER -j2 && bin/phonetisaurus-g2pfst --help && cd ../python && cp ../src/.libs/Phonetisaurus.so . && python setup.py build
+  cd src && ./configure --enable-python && make -j2 && bin/phonetisaurus-g2pfst --help && cd ../python && cp ../src/.libs/Phonetisaurus.so . && python setup.py build
