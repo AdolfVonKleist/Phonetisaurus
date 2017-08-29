@@ -61,8 +61,8 @@ EXTRA_DIST=               	                       			  \
 
 
 dist_bin_SCRIPTS =                          \
-	src/bin/phonetisaurus_apply         \
-	src/bin/phonetisaurus_train
+	src/bin/phonetisaurus-apply         \
+	src/bin/phonetisaurus-train
 
 bin_PROGRAMS =                         \
 	bin/phonetisaurus-align	       \
