@@ -95,7 +95,7 @@ $ cat cmudict.dict \
 
 Train a complete model with default parameters using the wrapper script:
 ```
-$ phonetisaurus_train --lexicon cmudict.formatted.dict --seq2_del
+$ phonetisaurus-train --lexicon cmudict.formatted.dict --seq2_del
 INFO:phonetisaurus-train:2017-07-09 16:35:31:  Checking command configuration...
 INFO:phonetisaurus-train:2017-07-09 16:35:31:  Checking lexicon for reserved characters: '}', '|', '_'...
 INFO:phonetisaurus-train:2017-07-09 16:35:31:  Aligning lexicon...
@@ -106,7 +106,7 @@ INFO:phonetisaurus-train:2017-07-09 16:37:59:  G2P training succeeded: train/mod
 
 Generate pronunciations for a word list using the wrapper script:
 ```
-$ phonetisaurus_apply --model train/model.fst --word_list test.wlist
+$ phonetisaurus-apply --model train/model.fst --word_list test.wlist
 test  T EH1 S T
 jumbotron  JH AH1 M B OW0 T R AA0 N
 excellent  EH1 K S AH0 L AH0 N T
@@ -117,7 +117,7 @@ Generate pronunciations for a word list using the wrapper script.
 Filter against a reference lexicon, add n-best, and run in verbose mode,
 and generate :
 ```
-$ phonetisaurus_apply --model train/model.fst --word_list test.wlist -n 2 -g -v -l cmudict.formatted.dict
+$ phonetisaurus-apply --model train/model.fst --word_list test.wlist -n 2 -g -v -l cmudict.formatted.dict
 DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  Checking command configuration...
 DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  beam:  10000
 DEBUG:phonetisaurus-apply:2017-07-09 16:48:22:  greedy:  True
@@ -143,7 +143,7 @@ Generate pronunciations using the alternative % of total probability mass constr
 and print the resulting scores as human readable, normalized probabilities rather than
 raw negative log scores:
 ```
-phonetisaurus_apply --model train/model.fst --word_list Phonetisaurus/script/words.list -v -a -p 0.85 -pr
+phonetisaurus-apply --model train/model.fst --word_list Phonetisaurus/script/words.list -v -a -p 0.85 -pr
 DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  Checking command configuration...
 DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  accumulate:  True
 DEBUG:phonetisaurus-apply:2017-07-30 11:55:58:  beam:  10000
