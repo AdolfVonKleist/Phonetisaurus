@@ -49,18 +49,21 @@ $ source ~/.bashrc
 Checkout the latest Phonetisaurus from master
 ```
 $ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
-$ cd Phonetisaurus/src
+$ cd Phonetisaurus
 $ ./configure
 $ make
 $ sudo make install
 ```
 
-Compile the python bindings if you want to (you can also make _just_ the 
-binding if you only want to decode in python with an existing model):
+or, if you want to compile with python bindings
 ```
-$ make phonetisaurus-binding
-$ sudo make install-binding-lib
-$ cd ..
+$ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
+$ cd Phonetisaurus
+$ ./configure --enable-python
+$ make
+$ sudo make install
+$ cd python
+$ cp ../.libs/Phonetisaurus.so .
 $ sudo python setup.py install
 $ cd
 ```
@@ -221,10 +224,7 @@ custom g++ alternative [untested with v1.6.2])
 #### Rebuild configure ####
 If you need to rebuild the configure script you can do so:
 ```
- $ cd .autoconf
- $ autoconf -o ../configure
- $ cd ../
- $ make -j2 all
+ $ autoreconf -i
 ```
 
 ### Install [Linux]: ###
