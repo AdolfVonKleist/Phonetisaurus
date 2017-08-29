@@ -161,5 +161,18 @@ AC_ARG_ENABLE(openmp,
         esac], [enable_openmp=false])
 AM_CONDITIONAL(WANT_OPENMP, test x"$enable_openmp" = xtrue)
 
+saved_cppflags="${CPPFLAGS}"
+CPPFLAGS=
+AC_CHECK_HEADERS([utf8.h], [utfcpp_headers_found=1], [utfcpp_headers_found=0], [])
+if [[ $utfcpp_headers_found -eq 1 ]]; then
+    UTFCPP_CXXFLAGS="$CPPFLAGS"
+else
+    UTFCPP_CXXFLAGS="-I \${top_srcdir}/src/3rdparty/utfcpp"
+fi
+CPPFLAGS="${saved_cppflags}"
+AC_SUBST([UTFCPP_CXXFLAGS])
+AM_CONDITIONAL(UTFCPP, [test x"$utfcpp_headers_found" = x1])
+
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
