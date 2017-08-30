@@ -90,10 +90,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = bin/phonetisaurus-align$(EXEEXT) \
-	bin/phonetisaurus-arpa2wfst$(EXEEXT) \
-	bin/phonetisaurus-g2pfst$(EXEEXT) \
-	bin/phonetisaurus-g2prnn$(EXEEXT) bin/rnnlm$(EXEEXT)
+bin_PROGRAMS = phonetisaurus-align$(EXEEXT) \
+	phonetisaurus-arpa2wfst$(EXEEXT) phonetisaurus-g2pfst$(EXEEXT) \
+	phonetisaurus-g2prnn$(EXEEXT) rnnlm$(EXEEXT)
 @OPENMP_TRUE@@WANT_OPENMP_TRUE@am__append_1 = $(OPENMP_CXXFLAGS)
 @OPENMP_TRUE@@WANT_OPENMP_TRUE@am__append_2 = $(OPENMP_LDFLAGS)
 subdir = .
@@ -161,55 +160,54 @@ Phonetisaurus_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@am_Phonetisaurus_la_rpath = -rpath \
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@	$(pyexecdir)
 PROGRAMS = $(bin_PROGRAMS)
-am_bin_phonetisaurus_align_OBJECTS =  \
-	src/bin/bin_phonetisaurus_align-phonetisaurus-align.$(OBJEXT) \
-	src/lib/bin_phonetisaurus_align-util.$(OBJEXT) \
-	src/lib/bin_phonetisaurus_align-LatticePruner.$(OBJEXT) \
-	src/lib/bin_phonetisaurus_align-M2MFstAligner.$(OBJEXT)
-bin_phonetisaurus_align_OBJECTS =  \
-	$(am_bin_phonetisaurus_align_OBJECTS)
-bin_phonetisaurus_align_DEPENDENCIES = $(am__DEPENDENCIES_1)
-bin_phonetisaurus_align_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+am_phonetisaurus_align_OBJECTS =  \
+	src/bin/phonetisaurus_align-phonetisaurus-align.$(OBJEXT) \
+	src/lib/phonetisaurus_align-util.$(OBJEXT) \
+	src/lib/phonetisaurus_align-LatticePruner.$(OBJEXT) \
+	src/lib/phonetisaurus_align-M2MFstAligner.$(OBJEXT)
+phonetisaurus_align_OBJECTS = $(am_phonetisaurus_align_OBJECTS)
+phonetisaurus_align_DEPENDENCIES = $(am__DEPENDENCIES_1)
+phonetisaurus_align_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
-	$(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_bin_phonetisaurus_arpa2wfst_OBJECTS = src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.$(OBJEXT) \
-	src/lib/bin_phonetisaurus_arpa2wfst-util.$(OBJEXT)
-bin_phonetisaurus_arpa2wfst_OBJECTS =  \
-	$(am_bin_phonetisaurus_arpa2wfst_OBJECTS)
-bin_phonetisaurus_arpa2wfst_DEPENDENCIES = $(am__DEPENDENCIES_1)
-bin_phonetisaurus_arpa2wfst_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+am_phonetisaurus_arpa2wfst_OBJECTS = src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.$(OBJEXT) \
+	src/lib/phonetisaurus_arpa2wfst-util.$(OBJEXT)
+phonetisaurus_arpa2wfst_OBJECTS =  \
+	$(am_phonetisaurus_arpa2wfst_OBJECTS)
+phonetisaurus_arpa2wfst_DEPENDENCIES = $(am__DEPENDENCIES_1)
+phonetisaurus_arpa2wfst_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
-	$(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_bin_phonetisaurus_g2pfst_OBJECTS = src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.$(OBJEXT) \
-	src/lib/bin_phonetisaurus_g2pfst-util.$(OBJEXT)
-bin_phonetisaurus_g2pfst_OBJECTS =  \
-	$(am_bin_phonetisaurus_g2pfst_OBJECTS)
-bin_phonetisaurus_g2pfst_DEPENDENCIES = $(am__DEPENDENCIES_1)
-bin_phonetisaurus_g2pfst_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
-	$(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_bin_phonetisaurus_g2prnn_OBJECTS = src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.$(OBJEXT) \
-	src/lib/bin_phonetisaurus_g2prnn-util.$(OBJEXT) \
-	src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.$(OBJEXT)
-bin_phonetisaurus_g2prnn_OBJECTS =  \
-	$(am_bin_phonetisaurus_g2prnn_OBJECTS)
+am_phonetisaurus_g2pfst_OBJECTS =  \
+	src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.$(OBJEXT) \
+	src/lib/phonetisaurus_g2pfst-util.$(OBJEXT)
+phonetisaurus_g2pfst_OBJECTS = $(am_phonetisaurus_g2pfst_OBJECTS)
+phonetisaurus_g2pfst_DEPENDENCIES = $(am__DEPENDENCIES_1)
+phonetisaurus_g2pfst_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
+am_phonetisaurus_g2prnn_OBJECTS =  \
+	src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.$(OBJEXT) \
+	src/lib/phonetisaurus_g2prnn-util.$(OBJEXT) \
+	src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.$(OBJEXT)
+phonetisaurus_g2prnn_OBJECTS = $(am_phonetisaurus_g2prnn_OBJECTS)
 @OPENMP_TRUE@@WANT_OPENMP_TRUE@am__DEPENDENCIES_2 =  \
 @OPENMP_TRUE@@WANT_OPENMP_TRUE@	$(am__DEPENDENCIES_1)
-bin_phonetisaurus_g2prnn_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+phonetisaurus_g2prnn_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_2)
-bin_phonetisaurus_g2prnn_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+phonetisaurus_g2prnn_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
-	$(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_bin_rnnlm_OBJECTS = src/bin/bin_rnnlm-rnnlm.$(OBJEXT) \
-	src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.$(OBJEXT)
-bin_rnnlm_OBJECTS = $(am_bin_rnnlm_OBJECTS)
-bin_rnnlm_DEPENDENCIES = $(am__DEPENDENCIES_1)
-bin_rnnlm_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(bin_rnnlm_CXXFLAGS) \
+am_rnnlm_OBJECTS = src/bin/rnnlm-rnnlm.$(OBJEXT) \
+	src/3rdparty/rnnlm/rnnlm-rnnlmlib.$(OBJEXT)
+rnnlm_OBJECTS = $(am_rnnlm_OBJECTS)
+rnnlm_DEPENDENCIES = $(am__DEPENDENCIES_1)
+rnnlm_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(rnnlm_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SCRIPTS = $(dist_bin_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -265,14 +263,14 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(nodist_Phonetisaurus_la_SOURCES) \
-	$(bin_phonetisaurus_align_SOURCES) \
-	$(bin_phonetisaurus_arpa2wfst_SOURCES) \
-	$(bin_phonetisaurus_g2pfst_SOURCES) \
-	$(bin_phonetisaurus_g2prnn_SOURCES) $(bin_rnnlm_SOURCES)
-DIST_SOURCES = $(bin_phonetisaurus_align_SOURCES) \
-	$(bin_phonetisaurus_arpa2wfst_SOURCES) \
-	$(bin_phonetisaurus_g2pfst_SOURCES) \
-	$(bin_phonetisaurus_g2prnn_SOURCES) $(bin_rnnlm_SOURCES)
+	$(phonetisaurus_align_SOURCES) \
+	$(phonetisaurus_arpa2wfst_SOURCES) \
+	$(phonetisaurus_g2pfst_SOURCES) \
+	$(phonetisaurus_g2prnn_SOURCES) $(rnnlm_SOURCES)
+DIST_SOURCES = $(phonetisaurus_align_SOURCES) \
+	$(phonetisaurus_arpa2wfst_SOURCES) \
+	$(phonetisaurus_g2pfst_SOURCES) \
+	$(phonetisaurus_g2prnn_SOURCES) $(rnnlm_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -531,27 +529,27 @@ EXTRA_DIST = \
         $(srcdir)/test/check-nbest-wer.py
 
 dist_bin_SCRIPTS = \
-	src/bin/phonetisaurus-apply         \
-	src/bin/phonetisaurus-train
+	src/scripts/phonetisaurus-apply     \
+	src/scripts/phonetisaurus-train
 
 AM_CPPFLAGS = -I$(top_srcdir)/src -DGIT_REVISION=\"$(GIT_REVISION)\" -std=c++0x -Wall -Wno-sign-compare -Wno-unused-local-typedefs
-bin_phonetisaurus_align_SOURCES = src/bin/phonetisaurus-align.cc src/include/PhonetisaurusRex.h src/lib/util.cc src/include/util.h src/lib/LatticePruner.cc src/include/LatticePruner.h src/lib/M2MFstAligner.cc src/include/M2MFstAligner.h
-bin_phonetisaurus_align_CXXFLAGS = $(OPENFST_CXXFLAGS) $(UTFCPP_CXXFLAGS)
-bin_phonetisaurus_align_LDADD = $(OPENFST_LDFLAGS)
-bin_phonetisaurus_arpa2wfst_SOURCES = src/bin/phonetisaurus-arpa2wfst.cc src/include/ARPA2WFST.h src/lib/util.cc src/include/util.h
-bin_phonetisaurus_arpa2wfst_CXXFLAGS = $(OPENFST_CXXFLAGS) $(UTFCPP_CXXFLAGS)
-bin_phonetisaurus_arpa2wfst_LDADD = $(OPENFST_LDFLAGS)
-bin_phonetisaurus_g2pfst_SOURCES = src/bin/phonetisaurus-g2pfst.cc src/include/PhonetisaurusScript.h src/include/PhonetisaurusRex.h src/lib/util.cc src/include/util.h
-bin_phonetisaurus_g2pfst_CXXFLAGS = $(OPENFST_CXXFLAGS) $(UTFCPP_CXXFLAGS) -funroll-loops -ffast-math
-bin_phonetisaurus_g2pfst_LDADD = $(OPENFST_LDFLAGS)
-bin_phonetisaurus_g2prnn_SOURCES = src/bin/phonetisaurus-g2prnn.cc src/include/LegacyRnnLMHash.h src/include/LegacyRnnLMDecodable.h src/include/LegacyRnnLMReader.h src/include/RnnLMDecoder.h src/lib/util.cc src/include/util.h src/3rdparty/rnnlm/rnnlmlib.cpp src/3rdparty/rnnlm/rnnlmlib.h
-bin_phonetisaurus_g2prnn_CXXFLAGS = $(OPENFST_CXXFLAGS) \
-	$(UTFCPP_CXXFLAGS) -I$(top_srcdir)/src/3rdparty/rnnlm \
-	-funroll-loops -ffast-math $(am__append_1)
-bin_phonetisaurus_g2prnn_LDADD = $(OPENFST_LDFLAGS) $(am__append_2)
-bin_rnnlm_SOURCES = src/bin/rnnlm.cc src/3rdparty/rnnlm/rnnlmlib.cpp src/3rdparty/rnnlm/rnnlmlib.h
-bin_rnnlm_CXXFLAGS = $(OPENFST_CXXFLAGS) -I$(top_srcdir)/src/3rdparty/rnnlm -funroll-loops -ffast-math
-bin_rnnlm_LDADD = $(OPENFST_LDFLAGS)
+phonetisaurus_align_SOURCES = src/bin/phonetisaurus-align.cc src/include/PhonetisaurusRex.h src/lib/util.cc src/include/util.h src/lib/LatticePruner.cc src/include/LatticePruner.h src/lib/M2MFstAligner.cc src/include/M2MFstAligner.h
+phonetisaurus_align_CXXFLAGS = $(OPENFST_CXXFLAGS) $(UTFCPP_CXXFLAGS)
+phonetisaurus_align_LDADD = $(OPENFST_LDFLAGS)
+phonetisaurus_arpa2wfst_SOURCES = src/bin/phonetisaurus-arpa2wfst.cc src/include/ARPA2WFST.h src/lib/util.cc src/include/util.h
+phonetisaurus_arpa2wfst_CXXFLAGS = $(OPENFST_CXXFLAGS) $(UTFCPP_CXXFLAGS)
+phonetisaurus_arpa2wfst_LDADD = $(OPENFST_LDFLAGS)
+phonetisaurus_g2pfst_SOURCES = src/bin/phonetisaurus-g2pfst.cc src/include/PhonetisaurusScript.h src/include/PhonetisaurusRex.h src/lib/util.cc src/include/util.h
+phonetisaurus_g2pfst_CXXFLAGS = $(OPENFST_CXXFLAGS) $(UTFCPP_CXXFLAGS) -funroll-loops -ffast-math
+phonetisaurus_g2pfst_LDADD = $(OPENFST_LDFLAGS)
+phonetisaurus_g2prnn_SOURCES = src/bin/phonetisaurus-g2prnn.cc src/include/LegacyRnnLMHash.h src/include/LegacyRnnLMDecodable.h src/include/LegacyRnnLMReader.h src/include/RnnLMDecoder.h src/lib/util.cc src/include/util.h src/3rdparty/rnnlm/rnnlmlib.cpp src/3rdparty/rnnlm/rnnlmlib.h
+phonetisaurus_g2prnn_CXXFLAGS = $(OPENFST_CXXFLAGS) $(UTFCPP_CXXFLAGS) \
+	-I$(top_srcdir)/src/3rdparty/rnnlm -funroll-loops -ffast-math \
+	$(am__append_1)
+phonetisaurus_g2prnn_LDADD = $(OPENFST_LDFLAGS) $(am__append_2)
+rnnlm_SOURCES = src/bin/rnnlm.cc src/3rdparty/rnnlm/rnnlmlib.cpp src/3rdparty/rnnlm/rnnlmlib.h
+rnnlm_CXXFLAGS = $(OPENFST_CXXFLAGS) -I$(top_srcdir)/src/3rdparty/rnnlm -funroll-loops -ffast-math
+rnnlm_LDADD = $(OPENFST_LDFLAGS)
 @HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@CLEANFILES = python/Phonetisaurus-binding.cc
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@pyexec_LTLIBRARIES = Phonetisaurus.la
 @HAVE_PYTHON_DEV_TRUE@@HAVE_PYTHON_TRUE@@WANT_PYTHON_TRUE@nodist_Phonetisaurus_la_SOURCES = python/Phonetisaurus-binding.cc src/lib/util.cc src/include/util.h
@@ -704,63 +702,60 @@ src/bin/$(am__dirstamp):
 src/bin/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/bin/$(DEPDIR)
 	@: > src/bin/$(DEPDIR)/$(am__dirstamp)
-src/bin/bin_phonetisaurus_align-phonetisaurus-align.$(OBJEXT):  \
+src/bin/phonetisaurus_align-phonetisaurus-align.$(OBJEXT):  \
 	src/bin/$(am__dirstamp) src/bin/$(DEPDIR)/$(am__dirstamp)
-src/lib/bin_phonetisaurus_align-util.$(OBJEXT):  \
+src/lib/phonetisaurus_align-util.$(OBJEXT): src/lib/$(am__dirstamp) \
+	src/lib/$(DEPDIR)/$(am__dirstamp)
+src/lib/phonetisaurus_align-LatticePruner.$(OBJEXT):  \
 	src/lib/$(am__dirstamp) src/lib/$(DEPDIR)/$(am__dirstamp)
-src/lib/bin_phonetisaurus_align-LatticePruner.$(OBJEXT):  \
-	src/lib/$(am__dirstamp) src/lib/$(DEPDIR)/$(am__dirstamp)
-src/lib/bin_phonetisaurus_align-M2MFstAligner.$(OBJEXT):  \
-	src/lib/$(am__dirstamp) src/lib/$(DEPDIR)/$(am__dirstamp)
-bin/$(am__dirstamp):
-	@$(MKDIR_P) bin
-	@: > bin/$(am__dirstamp)
-
-bin/phonetisaurus-align$(EXEEXT): $(bin_phonetisaurus_align_OBJECTS) $(bin_phonetisaurus_align_DEPENDENCIES) $(EXTRA_bin_phonetisaurus_align_DEPENDENCIES) bin/$(am__dirstamp)
-	@rm -f bin/phonetisaurus-align$(EXEEXT)
-	$(AM_V_CXXLD)$(bin_phonetisaurus_align_LINK) $(bin_phonetisaurus_align_OBJECTS) $(bin_phonetisaurus_align_LDADD) $(LIBS)
-src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.$(OBJEXT):  \
-	src/bin/$(am__dirstamp) src/bin/$(DEPDIR)/$(am__dirstamp)
-src/lib/bin_phonetisaurus_arpa2wfst-util.$(OBJEXT):  \
+src/lib/phonetisaurus_align-M2MFstAligner.$(OBJEXT):  \
 	src/lib/$(am__dirstamp) src/lib/$(DEPDIR)/$(am__dirstamp)
 
-bin/phonetisaurus-arpa2wfst$(EXEEXT): $(bin_phonetisaurus_arpa2wfst_OBJECTS) $(bin_phonetisaurus_arpa2wfst_DEPENDENCIES) $(EXTRA_bin_phonetisaurus_arpa2wfst_DEPENDENCIES) bin/$(am__dirstamp)
-	@rm -f bin/phonetisaurus-arpa2wfst$(EXEEXT)
-	$(AM_V_CXXLD)$(bin_phonetisaurus_arpa2wfst_LINK) $(bin_phonetisaurus_arpa2wfst_OBJECTS) $(bin_phonetisaurus_arpa2wfst_LDADD) $(LIBS)
-src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.$(OBJEXT):  \
+phonetisaurus-align$(EXEEXT): $(phonetisaurus_align_OBJECTS) $(phonetisaurus_align_DEPENDENCIES) $(EXTRA_phonetisaurus_align_DEPENDENCIES) 
+	@rm -f phonetisaurus-align$(EXEEXT)
+	$(AM_V_CXXLD)$(phonetisaurus_align_LINK) $(phonetisaurus_align_OBJECTS) $(phonetisaurus_align_LDADD) $(LIBS)
+src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.$(OBJEXT):  \
 	src/bin/$(am__dirstamp) src/bin/$(DEPDIR)/$(am__dirstamp)
-src/lib/bin_phonetisaurus_g2pfst-util.$(OBJEXT):  \
+src/lib/phonetisaurus_arpa2wfst-util.$(OBJEXT):  \
 	src/lib/$(am__dirstamp) src/lib/$(DEPDIR)/$(am__dirstamp)
 
-bin/phonetisaurus-g2pfst$(EXEEXT): $(bin_phonetisaurus_g2pfst_OBJECTS) $(bin_phonetisaurus_g2pfst_DEPENDENCIES) $(EXTRA_bin_phonetisaurus_g2pfst_DEPENDENCIES) bin/$(am__dirstamp)
-	@rm -f bin/phonetisaurus-g2pfst$(EXEEXT)
-	$(AM_V_CXXLD)$(bin_phonetisaurus_g2pfst_LINK) $(bin_phonetisaurus_g2pfst_OBJECTS) $(bin_phonetisaurus_g2pfst_LDADD) $(LIBS)
-src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.$(OBJEXT):  \
+phonetisaurus-arpa2wfst$(EXEEXT): $(phonetisaurus_arpa2wfst_OBJECTS) $(phonetisaurus_arpa2wfst_DEPENDENCIES) $(EXTRA_phonetisaurus_arpa2wfst_DEPENDENCIES) 
+	@rm -f phonetisaurus-arpa2wfst$(EXEEXT)
+	$(AM_V_CXXLD)$(phonetisaurus_arpa2wfst_LINK) $(phonetisaurus_arpa2wfst_OBJECTS) $(phonetisaurus_arpa2wfst_LDADD) $(LIBS)
+src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.$(OBJEXT):  \
 	src/bin/$(am__dirstamp) src/bin/$(DEPDIR)/$(am__dirstamp)
-src/lib/bin_phonetisaurus_g2prnn-util.$(OBJEXT):  \
-	src/lib/$(am__dirstamp) src/lib/$(DEPDIR)/$(am__dirstamp)
+src/lib/phonetisaurus_g2pfst-util.$(OBJEXT): src/lib/$(am__dirstamp) \
+	src/lib/$(DEPDIR)/$(am__dirstamp)
+
+phonetisaurus-g2pfst$(EXEEXT): $(phonetisaurus_g2pfst_OBJECTS) $(phonetisaurus_g2pfst_DEPENDENCIES) $(EXTRA_phonetisaurus_g2pfst_DEPENDENCIES) 
+	@rm -f phonetisaurus-g2pfst$(EXEEXT)
+	$(AM_V_CXXLD)$(phonetisaurus_g2pfst_LINK) $(phonetisaurus_g2pfst_OBJECTS) $(phonetisaurus_g2pfst_LDADD) $(LIBS)
+src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.$(OBJEXT):  \
+	src/bin/$(am__dirstamp) src/bin/$(DEPDIR)/$(am__dirstamp)
+src/lib/phonetisaurus_g2prnn-util.$(OBJEXT): src/lib/$(am__dirstamp) \
+	src/lib/$(DEPDIR)/$(am__dirstamp)
 src/3rdparty/rnnlm/$(am__dirstamp):
 	@$(MKDIR_P) src/3rdparty/rnnlm
 	@: > src/3rdparty/rnnlm/$(am__dirstamp)
 src/3rdparty/rnnlm/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/3rdparty/rnnlm/$(DEPDIR)
 	@: > src/3rdparty/rnnlm/$(DEPDIR)/$(am__dirstamp)
-src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.$(OBJEXT):  \
+src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.$(OBJEXT):  \
 	src/3rdparty/rnnlm/$(am__dirstamp) \
 	src/3rdparty/rnnlm/$(DEPDIR)/$(am__dirstamp)
 
-bin/phonetisaurus-g2prnn$(EXEEXT): $(bin_phonetisaurus_g2prnn_OBJECTS) $(bin_phonetisaurus_g2prnn_DEPENDENCIES) $(EXTRA_bin_phonetisaurus_g2prnn_DEPENDENCIES) bin/$(am__dirstamp)
-	@rm -f bin/phonetisaurus-g2prnn$(EXEEXT)
-	$(AM_V_CXXLD)$(bin_phonetisaurus_g2prnn_LINK) $(bin_phonetisaurus_g2prnn_OBJECTS) $(bin_phonetisaurus_g2prnn_LDADD) $(LIBS)
-src/bin/bin_rnnlm-rnnlm.$(OBJEXT): src/bin/$(am__dirstamp) \
+phonetisaurus-g2prnn$(EXEEXT): $(phonetisaurus_g2prnn_OBJECTS) $(phonetisaurus_g2prnn_DEPENDENCIES) $(EXTRA_phonetisaurus_g2prnn_DEPENDENCIES) 
+	@rm -f phonetisaurus-g2prnn$(EXEEXT)
+	$(AM_V_CXXLD)$(phonetisaurus_g2prnn_LINK) $(phonetisaurus_g2prnn_OBJECTS) $(phonetisaurus_g2prnn_LDADD) $(LIBS)
+src/bin/rnnlm-rnnlm.$(OBJEXT): src/bin/$(am__dirstamp) \
 	src/bin/$(DEPDIR)/$(am__dirstamp)
-src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.$(OBJEXT):  \
+src/3rdparty/rnnlm/rnnlm-rnnlmlib.$(OBJEXT):  \
 	src/3rdparty/rnnlm/$(am__dirstamp) \
 	src/3rdparty/rnnlm/$(DEPDIR)/$(am__dirstamp)
 
-bin/rnnlm$(EXEEXT): $(bin_rnnlm_OBJECTS) $(bin_rnnlm_DEPENDENCIES) $(EXTRA_bin_rnnlm_DEPENDENCIES) bin/$(am__dirstamp)
-	@rm -f bin/rnnlm$(EXEEXT)
-	$(AM_V_CXXLD)$(bin_rnnlm_LINK) $(bin_rnnlm_OBJECTS) $(bin_rnnlm_LDADD) $(LIBS)
+rnnlm$(EXEEXT): $(rnnlm_OBJECTS) $(rnnlm_DEPENDENCIES) $(EXTRA_rnnlm_DEPENDENCIES) 
+	@rm -f rnnlm$(EXEEXT)
+	$(AM_V_CXXLD)$(rnnlm_LINK) $(rnnlm_OBJECTS) $(rnnlm_LDADD) $(LIBS)
 install-dist_binSCRIPTS: $(dist_bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	@list='$(dist_bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
@@ -810,20 +805,20 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@python/$(DEPDIR)/Phonetisaurus_la-Phonetisaurus-binding.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/bin_rnnlm-rnnlm.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/bin/$(DEPDIR)/rnnlm-rnnlm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/Phonetisaurus_la-util.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/bin_phonetisaurus_align-LatticePruner.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/bin_phonetisaurus_align-M2MFstAligner.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/bin_phonetisaurus_align-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/bin_phonetisaurus_g2pfst-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/bin_phonetisaurus_g2prnn-util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_align-util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_arpa2wfst-util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_g2pfst-util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/lib/$(DEPDIR)/phonetisaurus_g2prnn-util.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -863,187 +858,187 @@ src/lib/Phonetisaurus_la-util.lo: src/lib/util.cc
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(Phonetisaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/Phonetisaurus_la-util.lo `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
 
-src/bin/bin_phonetisaurus_align-phonetisaurus-align.o: src/bin/phonetisaurus-align.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_align-phonetisaurus-align.o -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Tpo -c -o src/bin/bin_phonetisaurus_align-phonetisaurus-align.o `test -f 'src/bin/phonetisaurus-align.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-align.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-align.cc' object='src/bin/bin_phonetisaurus_align-phonetisaurus-align.o' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_align-phonetisaurus-align.o: src/bin/phonetisaurus-align.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_align-phonetisaurus-align.o -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Tpo -c -o src/bin/phonetisaurus_align-phonetisaurus-align.o `test -f 'src/bin/phonetisaurus-align.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-align.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Tpo src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-align.cc' object='src/bin/phonetisaurus_align-phonetisaurus-align.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_align-phonetisaurus-align.o `test -f 'src/bin/phonetisaurus-align.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-align.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_align-phonetisaurus-align.o `test -f 'src/bin/phonetisaurus-align.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-align.cc
 
-src/bin/bin_phonetisaurus_align-phonetisaurus-align.obj: src/bin/phonetisaurus-align.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_align-phonetisaurus-align.obj -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Tpo -c -o src/bin/bin_phonetisaurus_align-phonetisaurus-align.obj `if test -f 'src/bin/phonetisaurus-align.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-align.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-align.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_align-phonetisaurus-align.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-align.cc' object='src/bin/bin_phonetisaurus_align-phonetisaurus-align.obj' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_align-phonetisaurus-align.obj: src/bin/phonetisaurus-align.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_align-phonetisaurus-align.obj -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Tpo -c -o src/bin/phonetisaurus_align-phonetisaurus-align.obj `if test -f 'src/bin/phonetisaurus-align.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-align.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-align.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Tpo src/bin/$(DEPDIR)/phonetisaurus_align-phonetisaurus-align.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-align.cc' object='src/bin/phonetisaurus_align-phonetisaurus-align.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_align-phonetisaurus-align.obj `if test -f 'src/bin/phonetisaurus-align.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-align.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-align.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_align-phonetisaurus-align.obj `if test -f 'src/bin/phonetisaurus-align.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-align.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-align.cc'; fi`
 
-src/lib/bin_phonetisaurus_align-util.o: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_align-util.o -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_align-util.Tpo -c -o src/lib/bin_phonetisaurus_align-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_align-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_align-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_align-util.o' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_align-util.o: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_align-util.o -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_align-util.Tpo -c -o src/lib/phonetisaurus_align-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_align-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_align-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_align-util.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_align-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_align-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
 
-src/lib/bin_phonetisaurus_align-util.obj: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_align-util.obj -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_align-util.Tpo -c -o src/lib/bin_phonetisaurus_align-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_align-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_align-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_align-util.obj' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_align-util.obj: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_align-util.obj -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_align-util.Tpo -c -o src/lib/phonetisaurus_align-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_align-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_align-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_align-util.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_align-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_align-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
 
-src/lib/bin_phonetisaurus_align-LatticePruner.o: src/lib/LatticePruner.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_align-LatticePruner.o -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_align-LatticePruner.Tpo -c -o src/lib/bin_phonetisaurus_align-LatticePruner.o `test -f 'src/lib/LatticePruner.cc' || echo '$(srcdir)/'`src/lib/LatticePruner.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_align-LatticePruner.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_align-LatticePruner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/LatticePruner.cc' object='src/lib/bin_phonetisaurus_align-LatticePruner.o' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_align-LatticePruner.o: src/lib/LatticePruner.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_align-LatticePruner.o -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Tpo -c -o src/lib/phonetisaurus_align-LatticePruner.o `test -f 'src/lib/LatticePruner.cc' || echo '$(srcdir)/'`src/lib/LatticePruner.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Tpo src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/LatticePruner.cc' object='src/lib/phonetisaurus_align-LatticePruner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_align-LatticePruner.o `test -f 'src/lib/LatticePruner.cc' || echo '$(srcdir)/'`src/lib/LatticePruner.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_align-LatticePruner.o `test -f 'src/lib/LatticePruner.cc' || echo '$(srcdir)/'`src/lib/LatticePruner.cc
 
-src/lib/bin_phonetisaurus_align-LatticePruner.obj: src/lib/LatticePruner.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_align-LatticePruner.obj -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_align-LatticePruner.Tpo -c -o src/lib/bin_phonetisaurus_align-LatticePruner.obj `if test -f 'src/lib/LatticePruner.cc'; then $(CYGPATH_W) 'src/lib/LatticePruner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/LatticePruner.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_align-LatticePruner.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_align-LatticePruner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/LatticePruner.cc' object='src/lib/bin_phonetisaurus_align-LatticePruner.obj' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_align-LatticePruner.obj: src/lib/LatticePruner.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_align-LatticePruner.obj -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Tpo -c -o src/lib/phonetisaurus_align-LatticePruner.obj `if test -f 'src/lib/LatticePruner.cc'; then $(CYGPATH_W) 'src/lib/LatticePruner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/LatticePruner.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Tpo src/lib/$(DEPDIR)/phonetisaurus_align-LatticePruner.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/LatticePruner.cc' object='src/lib/phonetisaurus_align-LatticePruner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_align-LatticePruner.obj `if test -f 'src/lib/LatticePruner.cc'; then $(CYGPATH_W) 'src/lib/LatticePruner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/LatticePruner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_align-LatticePruner.obj `if test -f 'src/lib/LatticePruner.cc'; then $(CYGPATH_W) 'src/lib/LatticePruner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/LatticePruner.cc'; fi`
 
-src/lib/bin_phonetisaurus_align-M2MFstAligner.o: src/lib/M2MFstAligner.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_align-M2MFstAligner.o -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_align-M2MFstAligner.Tpo -c -o src/lib/bin_phonetisaurus_align-M2MFstAligner.o `test -f 'src/lib/M2MFstAligner.cc' || echo '$(srcdir)/'`src/lib/M2MFstAligner.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_align-M2MFstAligner.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_align-M2MFstAligner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/M2MFstAligner.cc' object='src/lib/bin_phonetisaurus_align-M2MFstAligner.o' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_align-M2MFstAligner.o: src/lib/M2MFstAligner.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_align-M2MFstAligner.o -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Tpo -c -o src/lib/phonetisaurus_align-M2MFstAligner.o `test -f 'src/lib/M2MFstAligner.cc' || echo '$(srcdir)/'`src/lib/M2MFstAligner.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Tpo src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/M2MFstAligner.cc' object='src/lib/phonetisaurus_align-M2MFstAligner.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_align-M2MFstAligner.o `test -f 'src/lib/M2MFstAligner.cc' || echo '$(srcdir)/'`src/lib/M2MFstAligner.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_align-M2MFstAligner.o `test -f 'src/lib/M2MFstAligner.cc' || echo '$(srcdir)/'`src/lib/M2MFstAligner.cc
 
-src/lib/bin_phonetisaurus_align-M2MFstAligner.obj: src/lib/M2MFstAligner.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_align-M2MFstAligner.obj -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_align-M2MFstAligner.Tpo -c -o src/lib/bin_phonetisaurus_align-M2MFstAligner.obj `if test -f 'src/lib/M2MFstAligner.cc'; then $(CYGPATH_W) 'src/lib/M2MFstAligner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/M2MFstAligner.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_align-M2MFstAligner.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_align-M2MFstAligner.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/M2MFstAligner.cc' object='src/lib/bin_phonetisaurus_align-M2MFstAligner.obj' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_align-M2MFstAligner.obj: src/lib/M2MFstAligner.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_align-M2MFstAligner.obj -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Tpo -c -o src/lib/phonetisaurus_align-M2MFstAligner.obj `if test -f 'src/lib/M2MFstAligner.cc'; then $(CYGPATH_W) 'src/lib/M2MFstAligner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/M2MFstAligner.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Tpo src/lib/$(DEPDIR)/phonetisaurus_align-M2MFstAligner.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/M2MFstAligner.cc' object='src/lib/phonetisaurus_align-M2MFstAligner.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_align-M2MFstAligner.obj `if test -f 'src/lib/M2MFstAligner.cc'; then $(CYGPATH_W) 'src/lib/M2MFstAligner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/M2MFstAligner.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_align_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_align-M2MFstAligner.obj `if test -f 'src/lib/M2MFstAligner.cc'; then $(CYGPATH_W) 'src/lib/M2MFstAligner.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/M2MFstAligner.cc'; fi`
 
-src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o: src/bin/phonetisaurus-arpa2wfst.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo -c -o src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o `test -f 'src/bin/phonetisaurus-arpa2wfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-arpa2wfst.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-arpa2wfst.cc' object='src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o: src/bin/phonetisaurus-arpa2wfst.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo -c -o src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o `test -f 'src/bin/phonetisaurus-arpa2wfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-arpa2wfst.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo src/bin/$(DEPDIR)/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-arpa2wfst.cc' object='src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o `test -f 'src/bin/phonetisaurus-arpa2wfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-arpa2wfst.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.o `test -f 'src/bin/phonetisaurus-arpa2wfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-arpa2wfst.cc
 
-src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj: src/bin/phonetisaurus-arpa2wfst.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo -c -o src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj `if test -f 'src/bin/phonetisaurus-arpa2wfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-arpa2wfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-arpa2wfst.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-arpa2wfst.cc' object='src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj: src/bin/phonetisaurus-arpa2wfst.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo -c -o src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj `if test -f 'src/bin/phonetisaurus-arpa2wfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-arpa2wfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-arpa2wfst.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Tpo src/bin/$(DEPDIR)/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-arpa2wfst.cc' object='src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj `if test -f 'src/bin/phonetisaurus-arpa2wfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-arpa2wfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-arpa2wfst.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_arpa2wfst-phonetisaurus-arpa2wfst.obj `if test -f 'src/bin/phonetisaurus-arpa2wfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-arpa2wfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-arpa2wfst.cc'; fi`
 
-src/lib/bin_phonetisaurus_arpa2wfst-util.o: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_arpa2wfst-util.o -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-util.Tpo -c -o src/lib/bin_phonetisaurus_arpa2wfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_arpa2wfst-util.o' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_arpa2wfst-util.o: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_arpa2wfst-util.o -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_arpa2wfst-util.Tpo -c -o src/lib/phonetisaurus_arpa2wfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_arpa2wfst-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_arpa2wfst-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_arpa2wfst-util.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_arpa2wfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_arpa2wfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
 
-src/lib/bin_phonetisaurus_arpa2wfst-util.obj: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_arpa2wfst-util.obj -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-util.Tpo -c -o src/lib/bin_phonetisaurus_arpa2wfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_arpa2wfst-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_arpa2wfst-util.obj' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_arpa2wfst-util.obj: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_arpa2wfst-util.obj -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_arpa2wfst-util.Tpo -c -o src/lib/phonetisaurus_arpa2wfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_arpa2wfst-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_arpa2wfst-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_arpa2wfst-util.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_arpa2wfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_arpa2wfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_arpa2wfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
 
-src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.o: src/bin/phonetisaurus-g2pfst.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.o -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo -c -o src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.o `test -f 'src/bin/phonetisaurus-g2pfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2pfst.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2pfst.cc' object='src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.o' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.o: src/bin/phonetisaurus-g2pfst.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.o -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo -c -o src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.o `test -f 'src/bin/phonetisaurus-g2pfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2pfst.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2pfst.cc' object='src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.o `test -f 'src/bin/phonetisaurus-g2pfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2pfst.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.o `test -f 'src/bin/phonetisaurus-g2pfst.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2pfst.cc
 
-src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj: src/bin/phonetisaurus-g2pfst.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo -c -o src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj `if test -f 'src/bin/phonetisaurus-g2pfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2pfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2pfst.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2pfst.cc' object='src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj: src/bin/phonetisaurus-g2pfst.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo -c -o src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj `if test -f 'src/bin/phonetisaurus-g2pfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2pfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2pfst.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Tpo src/bin/$(DEPDIR)/phonetisaurus_g2pfst-phonetisaurus-g2pfst.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2pfst.cc' object='src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj `if test -f 'src/bin/phonetisaurus-g2pfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2pfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2pfst.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_g2pfst-phonetisaurus-g2pfst.obj `if test -f 'src/bin/phonetisaurus-g2pfst.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2pfst.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2pfst.cc'; fi`
 
-src/lib/bin_phonetisaurus_g2pfst-util.o: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_g2pfst-util.o -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_g2pfst-util.Tpo -c -o src/lib/bin_phonetisaurus_g2pfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_g2pfst-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_g2pfst-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_g2pfst-util.o' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_g2pfst-util.o: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_g2pfst-util.o -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_g2pfst-util.Tpo -c -o src/lib/phonetisaurus_g2pfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_g2pfst-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_g2pfst-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_g2pfst-util.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_g2pfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_g2pfst-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
 
-src/lib/bin_phonetisaurus_g2pfst-util.obj: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_g2pfst-util.obj -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_g2pfst-util.Tpo -c -o src/lib/bin_phonetisaurus_g2pfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_g2pfst-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_g2pfst-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_g2pfst-util.obj' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_g2pfst-util.obj: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_g2pfst-util.obj -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_g2pfst-util.Tpo -c -o src/lib/phonetisaurus_g2pfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_g2pfst-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_g2pfst-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_g2pfst-util.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_g2pfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2pfst_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_g2pfst-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
 
-src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.o: src/bin/phonetisaurus-g2prnn.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.o -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo -c -o src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.o `test -f 'src/bin/phonetisaurus-g2prnn.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2prnn.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2prnn.cc' object='src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.o' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.o: src/bin/phonetisaurus-g2prnn.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.o -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo -c -o src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.o `test -f 'src/bin/phonetisaurus-g2prnn.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2prnn.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2prnn.cc' object='src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.o `test -f 'src/bin/phonetisaurus-g2prnn.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2prnn.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.o `test -f 'src/bin/phonetisaurus-g2prnn.cc' || echo '$(srcdir)/'`src/bin/phonetisaurus-g2prnn.cc
 
-src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj: src/bin/phonetisaurus-g2prnn.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj -MD -MP -MF src/bin/$(DEPDIR)/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo -c -o src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj `if test -f 'src/bin/phonetisaurus-g2prnn.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2prnn.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2prnn.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo src/bin/$(DEPDIR)/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2prnn.cc' object='src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj' libtool=no @AMDEPBACKSLASH@
+src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj: src/bin/phonetisaurus-g2prnn.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj -MD -MP -MF src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo -c -o src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj `if test -f 'src/bin/phonetisaurus-g2prnn.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2prnn.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2prnn.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Tpo src/bin/$(DEPDIR)/phonetisaurus_g2prnn-phonetisaurus-g2prnn.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/phonetisaurus-g2prnn.cc' object='src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj `if test -f 'src/bin/phonetisaurus-g2prnn.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2prnn.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2prnn.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/phonetisaurus_g2prnn-phonetisaurus-g2prnn.obj `if test -f 'src/bin/phonetisaurus-g2prnn.cc'; then $(CYGPATH_W) 'src/bin/phonetisaurus-g2prnn.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/phonetisaurus-g2prnn.cc'; fi`
 
-src/lib/bin_phonetisaurus_g2prnn-util.o: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_g2prnn-util.o -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_g2prnn-util.Tpo -c -o src/lib/bin_phonetisaurus_g2prnn-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_g2prnn-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_g2prnn-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_g2prnn-util.o' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_g2prnn-util.o: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_g2prnn-util.o -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_g2prnn-util.Tpo -c -o src/lib/phonetisaurus_g2prnn-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_g2prnn-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_g2prnn-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_g2prnn-util.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_g2prnn-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_g2prnn-util.o `test -f 'src/lib/util.cc' || echo '$(srcdir)/'`src/lib/util.cc
 
-src/lib/bin_phonetisaurus_g2prnn-util.obj: src/lib/util.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/lib/bin_phonetisaurus_g2prnn-util.obj -MD -MP -MF src/lib/$(DEPDIR)/bin_phonetisaurus_g2prnn-util.Tpo -c -o src/lib/bin_phonetisaurus_g2prnn-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/bin_phonetisaurus_g2prnn-util.Tpo src/lib/$(DEPDIR)/bin_phonetisaurus_g2prnn-util.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/bin_phonetisaurus_g2prnn-util.obj' libtool=no @AMDEPBACKSLASH@
+src/lib/phonetisaurus_g2prnn-util.obj: src/lib/util.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/lib/phonetisaurus_g2prnn-util.obj -MD -MP -MF src/lib/$(DEPDIR)/phonetisaurus_g2prnn-util.Tpo -c -o src/lib/phonetisaurus_g2prnn-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/lib/$(DEPDIR)/phonetisaurus_g2prnn-util.Tpo src/lib/$(DEPDIR)/phonetisaurus_g2prnn-util.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/lib/util.cc' object='src/lib/phonetisaurus_g2prnn-util.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/bin_phonetisaurus_g2prnn-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/lib/phonetisaurus_g2prnn-util.obj `if test -f 'src/lib/util.cc'; then $(CYGPATH_W) 'src/lib/util.cc'; else $(CYGPATH_W) '$(srcdir)/src/lib/util.cc'; fi`
 
-src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.o: src/3rdparty/rnnlm/rnnlmlib.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.o -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.o' libtool=no @AMDEPBACKSLASH@
+src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.o: src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.o -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
 
-src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.obj: src/3rdparty/rnnlm/rnnlmlib.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.obj -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/bin_phonetisaurus_g2prnn-rnnlmlib.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.obj' libtool=no @AMDEPBACKSLASH@
+src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.obj: src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.obj -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/phonetisaurus_g2prnn-rnnlmlib.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/bin_phonetisaurus_g2prnn-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(phonetisaurus_g2prnn_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/phonetisaurus_g2prnn-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
 
-src/bin/bin_rnnlm-rnnlm.o: src/bin/rnnlm.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_rnnlm-rnnlm.o -MD -MP -MF src/bin/$(DEPDIR)/bin_rnnlm-rnnlm.Tpo -c -o src/bin/bin_rnnlm-rnnlm.o `test -f 'src/bin/rnnlm.cc' || echo '$(srcdir)/'`src/bin/rnnlm.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_rnnlm-rnnlm.Tpo src/bin/$(DEPDIR)/bin_rnnlm-rnnlm.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/rnnlm.cc' object='src/bin/bin_rnnlm-rnnlm.o' libtool=no @AMDEPBACKSLASH@
+src/bin/rnnlm-rnnlm.o: src/bin/rnnlm.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/bin/rnnlm-rnnlm.o -MD -MP -MF src/bin/$(DEPDIR)/rnnlm-rnnlm.Tpo -c -o src/bin/rnnlm-rnnlm.o `test -f 'src/bin/rnnlm.cc' || echo '$(srcdir)/'`src/bin/rnnlm.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/rnnlm-rnnlm.Tpo src/bin/$(DEPDIR)/rnnlm-rnnlm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/rnnlm.cc' object='src/bin/rnnlm-rnnlm.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_rnnlm-rnnlm.o `test -f 'src/bin/rnnlm.cc' || echo '$(srcdir)/'`src/bin/rnnlm.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/rnnlm-rnnlm.o `test -f 'src/bin/rnnlm.cc' || echo '$(srcdir)/'`src/bin/rnnlm.cc
 
-src/bin/bin_rnnlm-rnnlm.obj: src/bin/rnnlm.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/bin/bin_rnnlm-rnnlm.obj -MD -MP -MF src/bin/$(DEPDIR)/bin_rnnlm-rnnlm.Tpo -c -o src/bin/bin_rnnlm-rnnlm.obj `if test -f 'src/bin/rnnlm.cc'; then $(CYGPATH_W) 'src/bin/rnnlm.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/rnnlm.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/bin_rnnlm-rnnlm.Tpo src/bin/$(DEPDIR)/bin_rnnlm-rnnlm.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/rnnlm.cc' object='src/bin/bin_rnnlm-rnnlm.obj' libtool=no @AMDEPBACKSLASH@
+src/bin/rnnlm-rnnlm.obj: src/bin/rnnlm.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/bin/rnnlm-rnnlm.obj -MD -MP -MF src/bin/$(DEPDIR)/rnnlm-rnnlm.Tpo -c -o src/bin/rnnlm-rnnlm.obj `if test -f 'src/bin/rnnlm.cc'; then $(CYGPATH_W) 'src/bin/rnnlm.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/rnnlm.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/bin/$(DEPDIR)/rnnlm-rnnlm.Tpo src/bin/$(DEPDIR)/rnnlm-rnnlm.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/bin/rnnlm.cc' object='src/bin/rnnlm-rnnlm.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/bin_rnnlm-rnnlm.obj `if test -f 'src/bin/rnnlm.cc'; then $(CYGPATH_W) 'src/bin/rnnlm.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/rnnlm.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/bin/rnnlm-rnnlm.obj `if test -f 'src/bin/rnnlm.cc'; then $(CYGPATH_W) 'src/bin/rnnlm.cc'; else $(CYGPATH_W) '$(srcdir)/src/bin/rnnlm.cc'; fi`
 
-src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.o: src/3rdparty/rnnlm/rnnlmlib.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.o -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.o' libtool=no @AMDEPBACKSLASH@
+src/3rdparty/rnnlm/rnnlm-rnnlmlib.o: src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/rnnlm-rnnlmlib.o -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/rnnlm-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/rnnlm-rnnlmlib.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/rnnlm-rnnlmlib.o `test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp' || echo '$(srcdir)/'`src/3rdparty/rnnlm/rnnlmlib.cpp
 
-src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.obj: src/3rdparty/rnnlm/rnnlmlib.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.obj -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/bin_rnnlm-rnnlmlib.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.obj' libtool=no @AMDEPBACKSLASH@
+src/3rdparty/rnnlm/rnnlm-rnnlmlib.obj: src/3rdparty/rnnlm/rnnlmlib.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -MT src/3rdparty/rnnlm/rnnlm-rnnlmlib.obj -MD -MP -MF src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Tpo -c -o src/3rdparty/rnnlm/rnnlm-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Tpo src/3rdparty/rnnlm/$(DEPDIR)/rnnlm-rnnlmlib.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/3rdparty/rnnlm/rnnlmlib.cpp' object='src/3rdparty/rnnlm/rnnlm-rnnlmlib.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bin_rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/bin_rnnlm-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rnnlm_CXXFLAGS) $(CXXFLAGS) -c -o src/3rdparty/rnnlm/rnnlm-rnnlmlib.obj `if test -f 'src/3rdparty/rnnlm/rnnlmlib.cpp'; then $(CYGPATH_W) 'src/3rdparty/rnnlm/rnnlmlib.cpp'; else $(CYGPATH_W) '$(srcdir)/src/3rdparty/rnnlm/rnnlmlib.cpp'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1074,7 +1069,6 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-	-rm -rf bin/.libs bin/_libs
 	-rm -rf python/.libs python/_libs
 	-rm -rf src/lib/.libs src/lib/_libs
 
@@ -1337,7 +1331,6 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-rm -f bin/$(am__dirstamp)
 	-rm -f python/$(DEPDIR)/$(am__dirstamp)
 	-rm -f python/$(am__dirstamp)
 	-rm -f src/3rdparty/rnnlm/$(DEPDIR)/$(am__dirstamp)
