@@ -315,9 +315,6 @@ if __name__ == "__main__" :
                          default=False, action="store_true")
     args = parser.parse_args ()
 
-    # If pmass is set, override nbest default
-    if args.pmass > 0.0 : args.nbest = 100
-    
     tester = G2PModelTester (
         args.model,
         **{key:val for key,val in args.__dict__.iteritems ()
