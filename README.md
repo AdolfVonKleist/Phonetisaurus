@@ -32,8 +32,8 @@ $ sudo apt-get install gfortran
 Next grab and install OpenFst-1.6.2 (10m-15m):
 ```
 $ wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
-$ tar -xvzf openfst-1.6.1.tar.gz
-$ cd openfst-1.6.1
+$ tar -xvzf openfst-1.6.2.tar.gz
+$ cd openfst-1.6.2
 # Minimal configure, compatible with current defaults for Kaldi
 $ ./configure --enable-static --enable-shared --enable-far --enable-ngram-fsts
 $ make -j 4
