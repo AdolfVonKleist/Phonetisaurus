@@ -65,7 +65,7 @@ class G2PModelTester () :
         with open (self.lexicon_file, "r") as ifp :
             for line in ifp :
                 line = line.decode ("utf8").strip ()
-                word, pron = re.split (ur"\t", line)
+                word, pron = re.split (u"\\t", line)
                 _lexicon [word].append (pron)
 
         return _lexicon
