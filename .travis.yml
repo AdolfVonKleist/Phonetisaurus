@@ -28,6 +28,11 @@ addons:
       - python-dev
 
 matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
+    - os: osx
+      compiler: clang
   include:
     - os: linux
       compiler: gcc
@@ -40,7 +45,6 @@ matrix:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew tap homebrew/science ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openfst ; fi
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then wget https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/openfst_1.6.2_amd64-trusty.deb ; fi
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sudo dpkg -i openfst_1.6.2_amd64-trusty.deb ; fi
