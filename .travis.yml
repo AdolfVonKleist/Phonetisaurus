@@ -28,6 +28,11 @@ addons:
       - python-dev
 
 matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
+    - os: osx
+      compiler: clang
   include:
     - os: linux
       compiler: gcc
