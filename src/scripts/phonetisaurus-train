@@ -60,14 +60,20 @@ class G2PModelTrainer () :
         ['}', '|', '_'], are used present in the lexicon.
         """
 
-        validator = re.compile (ur"[\}\|_]")
+        validator_pattern = u"[\\}\\|_]" # python2: unicode, python3: str
+        validator = re.compile (validator_pattern)
 
         with open (self.lexicon_file, "r") as ifp :
             for line in ifp :
-                if validator.search (line.decode ("utf8")) :
+                # in python 2, line will be byte
+                # in python 3, line will be str
+                if(type(line) is not type(validator_pattern)):
+                    # in python 2, convert byte to unicode
+                    line=line.decode("utf8")
+                if validator.search (line) :
                     error = "Bad line contains reservered character:\n\t{0}"
                     error = error.format (line)
-                    raise ValueError, error
+                    raise ValueError(error)
 
         return
 
@@ -86,8 +92,12 @@ class G2PModelTrainer () :
                         "phonetisaurus-align",
                         "phonetisaurus-arpa2wfst"] :
             if not self.which (program) :
-                raise EnvironmentError, "Phonetisaurus command, '{0}', "\
-                    "not found in path.".format (program)
+                raise EnvironmentError(
+                    ", ".join([
+                        "Phonetisaurus command, '{0}'",
+                        "not found in path."
+                    ]).format (program)
+                )
 
         if not os.path.isdir (self.dir_prefix) :
             self.logger.debug ("Directory does not exist.  Trying to create.")
@@ -104,7 +114,14 @@ class G2PModelTrainer () :
         self.arpa_path = u"{0}.o{1}.arpa".format (path_prefix, self.ngram_order)
         self.model_path = u"{0}.fst".format (path_prefix)
 
-        for key,val in sorted (vars (self).iteritems ()) :
+        #for key,val in sorted (vars (self).iteritems ()) : # python2
+        #for key,val in sorted (vars (self).items ()) : # python3
+        #for key,val in sorted (six.iteritems(vars(self))) : # python2 or 3
+        if 'iteritems' in dir(vars(self)):
+            items = vars(self).iteritems()
+        else:
+            items = vars(self).items()
+        for key,val in sorted(items):
             self.logger.debug (u"{0}:  {1}".format (key, val))
 
         return
@@ -146,11 +163,15 @@ class G2PModelTrainer () :
         """
         if lm == "mitlm" :
             if self.which ("estimate-ngram") == None :
-                raise EnvironmentError, "mitlm binary 'estimate-ngram' not "\
-                    "found in path."
+                raise EnvironmentError(
+                    " ".join([
+                        "mitlm binary 'estimate-ngram' not ",
+                        "found in path."
+                    ])
+                )
             return self._mitlm
         else :
-            raise NotImplementedError, "Only mitlm is currently supported."
+            raise NotImplementedError("Only mitlm is currently supported.")
 
 
     def _mitlm (self) :
