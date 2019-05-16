@@ -59,6 +59,7 @@ or, if you want to compile with python bindings
 ```
 $ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
 $ cd Phonetisaurus
+$ sudo pip install pybindgen
 $ ./configure --enable-python
 $ make
 $ sudo make install
@@ -67,6 +68,21 @@ $ cp ../.libs/Phonetisaurus.so .
 $ sudo python setup.py install
 $ cd
 ```
+
+or, if you want to compile with python3 bindings
+```
+$ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
+$ cd Phonetisaurus
+$ sudo pip3 install pybindgen
+$ PYTHON=python3 ./configure --enable-python
+$ make
+$ sudo make install
+$ cd python
+$ cp ../.libs/Phonetisaurus.so .
+$ sudo python3 setup.py install
+$ cd
+```
+
 
 Grab and install mitlm to build a quick test model with the cmudict (5m):
 ```
@@ -85,10 +101,10 @@ $ cd example
 $ wget https://raw.githubusercontent.com/cmusphinx/cmudict/master/cmudict.dict
 # Clean it up a bit and reformat:
 $ cat cmudict.dict \
-  | perl -pe 's/\([0-9]+\)//; 
-              s/\s+/ /g; s/^\s+//; 
-              s/\s+$//; @_ = split (/\s+/); 
-              $w = shift (@_); 
+  | perl -pe 's/\([0-9]+\)//;
+              s/\s+/ /g; s/^\s+//;
+              s/\s+$//; @_ = split (/\s+/);
+              $w = shift (@_);
               $_ = $w."\t".join (" ", @_)."\n";' \
   > cmudict.formatted.dict
 ```
