@@ -209,7 +209,7 @@ class RnnLMDecoder {
                      const string& gdelim, const string& skip) {
     RawResults raw_results = DecodeRaw (word, beam, kMax, nbest, thresh);
     SimpleResult simple_result;
-    stringstream word_ss;
+    std::stringstream word_ss;
     for (int i = 0; i < word.size (); i++)
       if (i != word.size () - 1)
         word_ss << word [i];
@@ -217,7 +217,7 @@ class RnnLMDecoder {
 
     for (int i = 0; i < raw_results.size (); i++) {
       const vector<Chunk>& result = raw_results [i];
-      stringstream pronunciation_ss;
+      std::stringstream pronunciation_ss;
       for (vector<Chunk>::const_iterator it = result.begin ();
            it != result.end (); ++it) {
         vector<string> chunk_vec = \

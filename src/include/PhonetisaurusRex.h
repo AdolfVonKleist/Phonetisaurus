@@ -46,9 +46,9 @@
 using namespace fst;
 
 struct VectorIntHash {
-  size_t operator () (const vector<int>& v) const {
+  size_t operator () (const std::vector<int>& v) const {
     size_t result = 0;
-    hash<int> hash_fn;
+    std::hash<int> hash_fn;
 
     for (size_t i = 0; i < v.size(); i++)
       result ^= hash_fn (v[i]) + 0x9e3779b9 + (result << 6)
@@ -57,7 +57,7 @@ struct VectorIntHash {
   }
 };
 
-inline bool operator==(const vector<int>& x, const vector<int>& y) {
+inline bool operator==(const std::vector<int>& x, const std::vector<int>& y) {
   if (x.size() != y.size())
     return false;
   for (size_t i = 0; i < x.size(); i++)
@@ -66,9 +66,9 @@ inline bool operator==(const vector<int>& x, const vector<int>& y) {
   return true;
 }
 
-typedef unordered_map<int, vector<int> > SymbolMap12M;
-typedef unordered_map<vector<int>, int, VectorIntHash> SymbolMapM21;
-typedef unordered_set<int> VetoSet;
+typedef std::unordered_map<int, std::vector<int> > SymbolMap12M;
+typedef std::unordered_map<std::vector<int>, int, VectorIntHash> SymbolMapM21;
+typedef std::unordered_set<int> VetoSet;
 
 int LoadClusters (const SymbolTable* syms, SymbolMap12M* clusters,
                   SymbolMapM21* invclusters) {
@@ -77,12 +77,12 @@ int LoadClusters (const SymbolTable* syms, SymbolMap12M* clusters,
     the alignment process. This information is encoded in
     the input symbols table.
   */
-  string tie = syms->Find (1);
+  std::string tie = syms->Find (1);
   size_t max_len = 1;
   for (size_t i = 2; i < syms->NumSymbols(); i++) {
-    string sym = syms->Find (i);
-    vector<int> cluster;
-    if (sym.find(tie) != string::npos) {
+    std::string sym = syms->Find (i);
+    std::vector<int> cluster;
+    if (sym.find(tie) != std::string::npos) {
       char* tmpstring = const_cast<char *> (sym.c_str());
       char* p = strtok (tmpstring, tie.c_str());
       while (p) {
@@ -90,20 +90,20 @@ int LoadClusters (const SymbolTable* syms, SymbolMap12M* clusters,
         p = strtok (NULL, tie.c_str());
       }
 
-      clusters->insert(pair<int, vector<int> >(i, cluster));
-      invclusters->insert(pair<vector<int>, int>(cluster, i));
+      clusters->insert(std::pair<int, std::vector<int> >(i, cluster));
+      invclusters->insert(std::pair<std::vector<int>, int>(cluster, i));
       max_len = (cluster.size() > max_len) ? cluster.size() : max_len;
     } else {
       cluster.push_back (i);
-      clusters->insert(pair<int, vector<int> >(i, cluster));
-      invclusters->insert(pair<vector<int>, int>(cluster, i));
+      clusters->insert(std::pair<int, std::vector<int> >(i, cluster));
+      invclusters->insert(std::pair<std::vector<int>, int>(cluster, i));
     }
   }
   return max_len;
 }
 
 template <class Arc>
-void Entry2FSA (const vector<int>& word, VectorFst<Arc>* fsa, size_t maxlen,
+void Entry2FSA (const std::vector<int>& word, VectorFst<Arc>* fsa, size_t maxlen,
                 const SymbolMapM21& invmap, bool superfinal = false) {
   fsa->AddState ();
   fsa->SetStart (0);
@@ -114,7 +114,7 @@ void Entry2FSA (const vector<int>& word, VectorFst<Arc>* fsa, size_t maxlen,
     j++;
 
     while (j <= maxlen && i + j <= (size_t)word.size()) {
-      vector<int> subv (&word[i], &word[i+j]);
+      std::vector<int> subv (&word[i], &word[i+j]);
       SymbolMapM21::const_iterator invmap_iter = invmap.find (subv);
       if (invmap_iter != invmap.end())
         fsa->AddArc (i, Arc (invmap_iter->second, invmap_iter->second,
@@ -138,26 +138,26 @@ void Entry2FSA (const vector<int>& word, VectorFst<Arc>* fsa, size_t maxlen,
 struct Path {
   Path () : PathWeight (0.0) {}
   float PathWeight;
-  vector<float> PathWeights;
-  vector<int> ILabels;
+  std::vector<float> PathWeights;
+  std::vector<int> ILabels;
   // The original vector of olabels
-  vector<int> OLabels;
+  std::vector<int> OLabels;
   // The hash-key vector of olabels
   // This one is filtered so we only
   // store unique pronunciations in the final
   // n-best list.  For example, epsilon labels are
   // removed, and any tied token subsequences are
   // expanded so the path is a list of monophones.
-  vector<int> unique_olabels;
+  std::vector<int> unique_olabels;
 };
-typedef unordered_map<vector<int>, Path, VectorIntHash>::iterator piter;
+typedef std::unordered_map<std::vector<int>, Path, VectorIntHash>::iterator piter;
 
 template <class Arc>
 class IdentityPathFilter {
  public:
   IdentityPathFilter () {}
-  unordered_map<vector<int>, Path, VectorIntHash> path_map;
-  vector<vector<int> > ordered_paths;
+  std::unordered_map<std::vector<int>, Path, VectorIntHash> path_map;
+  std::vector<std::vector<int> > ordered_paths;
 
   void Extend (Path* path, const Arc& arc) {
     // Skip any completely empty arcs
@@ -180,8 +180,8 @@ class M2MPathFilter {
  public:
   M2MPathFilter (const SymbolMap12M& label_map, const VetoSet& veto_set)
     : label_map_(label_map), veto_set_(veto_set) { }
-  unordered_map<vector<int>, Path, VectorIntHash> path_map;
-  vector<vector<int> > ordered_paths;
+  std::unordered_map<std::vector<int>, Path, VectorIntHash> path_map;
+  std::vector<std::vector<int> > ordered_paths;
 
   void Extend (Path* path, const Arc& arc) {
     if (arc.ilabel == 0 && arc.olabel == 0
@@ -190,7 +190,7 @@ class M2MPathFilter {
 
     SymbolMap12M::const_iterator iter = label_map_.find (arc.olabel);
     if (iter != label_map_.end()) {
-      const vector<int>& tokens = iter->second;
+      const std::vector<int>& tokens = iter->second;
       for (int i = 0; i < tokens.size(); i++)
         if (veto_set_.find (tokens[i]) == veto_set_.end())
           path->unique_olabels.push_back (tokens[i]);
@@ -211,7 +211,7 @@ class M2MPathFilter {
 template<class Arc, class RevArc, class PathFilter>
 void NShortestPathSpecialized (const Fst<RevArc> &ifst,
                                MutableFst<Arc> *ofst,
-                   const vector<typename Arc::Weight> &distance,
+                   const std::vector<typename Arc::Weight> &distance,
                    size_t beam,
                    size_t nbest,
                    PathFilter* path_filter,
@@ -221,7 +221,7 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
                    typename Arc::StateId state_threshold = kNoStateId) {
   typedef typename Arc::StateId StateId;
   typedef typename Arc::Weight Weight;
-  typedef pair<StateId, Weight> Pair;
+  typedef std::pair<StateId, Weight> Pair;
 
   if (nbest <= 0) return;
   if ((Weight::Properties () & (kPath | kSemiring)) != (kPath | kSemiring)) {
@@ -239,18 +239,18 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
   // characterized by a pair (s,w).  The vector 'pairs' maps each
   // state in 'ofst' to the corresponding pair maps states in OFST to
   // the corresponding pair (s,w).
-  vector<Pair> pairs;
+  std::vector<Pair> pairs;
   // The supefinal state is denoted by -1, 'compare' knows that the
   // distance from 'superfinal' to the final state is 'Weight::One()',
   // hence 'distance[superfinal]' is not needed.
   StateId superfinal = -1;
   fst::internal::ShortestPathCompare<StateId, Weight>
     compare(pairs, distance, superfinal, delta);
-  vector<StateId> heap;
+  std::vector<StateId> heap;
   // 'r[s + 1]', 's' state in 'fst', is the number of states in 'ofst'
   // which corresponding pair contains 's' ,i.e. , it is number of
   // paths computed so far to 's'. Valid for 's == -1' (superfinal).
-  vector<int> r;
+  std::vector<int> r;
   NaturalLess<Weight> less;
   if (ifst.Start () == kNoStateId ||
       distance.size () <= ifst.Start () ||
@@ -308,7 +308,7 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
       piter pit = path_filter->path_map.find (one_path.unique_olabels);
       if (pit == path_filter->path_map.end ()) {
         path_filter->path_map.insert(
-          pair<vector<int>, Path> (one_path.unique_olabels, one_path));
+          std::pair<std::vector<int>, Path> (one_path.unique_olabels, one_path));
         path_filter->ordered_paths.push_back (one_path.unique_olabels);
 
         if (path_filter->ordered_paths.size () >= nbest)
@@ -360,7 +360,7 @@ void NShortestPathSpecialized (const Fst<RevArc> &ifst,
 
 template<class Arc, class Queue, class ArcFilter, class PathFilter>
 void ShortestPathSpecialized(const Fst<Arc> &ifst, MutableFst<Arc> *ofst,
-                  vector<typename Arc::Weight> *distance,
+                  std::vector<typename Arc::Weight> *distance,
                   PathFilter* path_filter,
                   size_t beam,
                   const ShortestPathOptions<Arc, Queue, ArcFilter> &opts,

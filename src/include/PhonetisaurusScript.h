@@ -49,18 +49,18 @@
 */
 struct PathData {
   PathData () {}
-  PathData (float PathWeight_, const vector<float>& PathWeights_,
-       const vector<int>& ILabels_, const vector<int>& OLabels_,
-       const vector<int>& Uniques_)
+  PathData (float PathWeight_, const std::vector<float>& PathWeights_,
+       const std::vector<int>& ILabels_, const std::vector<int>& OLabels_,
+       const std::vector<int>& Uniques_)
     : PathWeight (PathWeight_), PathWeights (PathWeights_),
       ILabels (ILabels_), OLabels (OLabels_), Uniques(Uniques_) {}
 
   float PathWeight;
-  vector<float> PathWeights;
-  vector<int>   ILabels;
-  vector<int>   OLabels;
+  std::vector<float> PathWeights;
+  std::vector<int>   ILabels;
+  std::vector<int>   OLabels;
   // Contains only 'interesting' phone labels
-  vector<int>   Uniques;
+  std::vector<int>   Uniques;
 };
 
 /*! \class PhonetisaurusScript
@@ -72,7 +72,7 @@ struct PathData {
 */
 class PhonetisaurusScript {
  public:
-  explicit PhonetisaurusScript (string model) : delim_("") {
+  explicit PhonetisaurusScript (std::string model) : delim_("") {
     struct stat buffer;
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
@@ -94,7 +94,7 @@ class PhonetisaurusScript {
     veto_set_.insert (2);
   }
 
-  PhonetisaurusScript (string model, string delim) : delim_(delim) {
+  PhonetisaurusScript (std::string model, std::string delim) : delim_(delim) {
     struct stat buffer;
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
@@ -116,14 +116,14 @@ class PhonetisaurusScript {
   }
 
   // The actual phoneticizer routine
-  vector<PathData> Phoneticize (const string& word, int nbest = 1,
+  std::vector<PathData> Phoneticize (const std::string& word, int nbest = 1,
                       int beam = 10000, float threshold = 99,
                       bool write_fsts = false,
                       bool accumulate = false,
                       double pmass = 99.0) {
     VectorFst<StdArc>* fst = new VectorFst<StdArc> ();
-    vector<int> entry = tokenize2ints (
-                          const_cast<string*> (&word),
+    std::vector<int> entry = tokenize2ints (
+                          const_cast<std::string*> (&word),
                           &delim_, isyms_
                         );
     Entry2FSA (entry, fst, imax_, invimap_);
@@ -140,7 +140,7 @@ class PhonetisaurusScript {
     StdArc::Weight weight_threshold = threshold;
     StdArc::StateId state_threshold = kNoStateId;
     AnyArcFilter<StdArc> arc_filter;
-    vector<StdArc::Weight> distance;
+    std::vector<StdArc::Weight> distance;
 
     VectorFst<StdArc>* ifst = new VectorFst<StdArc>();
     Compose(*fst, model_, ifst);
@@ -162,11 +162,11 @@ class PhonetisaurusScript {
     ShortestPathSpecialized (*ifst, &ofst, &distance,
                              &path_filter, beam, opts, accumulate);
 
-    vector<PathData> paths;
+    std::vector<PathData> paths;
     float total = 99.0;
     if (pmass < 99.0) {
       for (size_t i = 0; i < path_filter.ordered_paths.size(); i++) {
-        const vector<int>& u = path_filter.ordered_paths [i];
+        const std::vector<int>& u = path_filter.ordered_paths [i];
         const Path& orig = path_filter.path_map [u];
         total = Plus (LogWeight (total), LogWeight (orig.PathWeight)).Value ();
       }
@@ -174,7 +174,7 @@ class PhonetisaurusScript {
 
     LogWeight nbest_pmass = 99.0;
     for (size_t i = 0; i < path_filter.ordered_paths.size(); i++) {
-      const vector<int>& u = path_filter.ordered_paths [i];
+      const std::vector<int>& u = path_filter.ordered_paths [i];
       const Path& orig = path_filter.path_map [u];
       float pweight = orig.PathWeight;
       if (pmass < 99.0) {
@@ -204,19 +204,19 @@ class PhonetisaurusScript {
   }
 
   // Helper functions for the bindings
-  string FindIsym (int symbol_id) {
+  std::string FindIsym (int symbol_id) {
     return isyms_->Find (symbol_id);
   }
 
-  int FindIsym (const string& symbol) {
+  int FindIsym (const std::string& symbol) {
     return isyms_->Find (symbol);
   }
 
-  string FindOsym (int symbol_id) {
+  std::string FindOsym (int symbol_id) {
     return osyms_->Find (symbol_id);
   }
 
-  int FindOsym (const string& symbol) {
+  int FindOsym (const std::string& symbol) {
     return osyms_->Find (symbol);
   }
 
@@ -230,6 +230,6 @@ class PhonetisaurusScript {
   int imax_;
   int omax_;
   VetoSet veto_set_;
-  string delim_;
+  std::string delim_;
 };
 #endif  // SRC_INCLUDE_PHONETISAURUSSCRIPT_H_

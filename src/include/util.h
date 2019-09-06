@@ -41,18 +41,18 @@
 using namespace fst;
 
 typedef struct LabelDatum {int max, tot, lhs, rhs; bool lhsE, rhsE;} LabelDatum;
-typedef unordered_map<LogArc::Label, LabelDatum> LabelData;
+typedef std::unordered_map<LogArc::Label, LabelDatum> LabelData;
 
-string vec2str (vector<string> vec, string sep);
+std::string vec2str (std::vector<std::string> vec, std::string sep);
 
-string itoas (int i);
+std::string itoas (int i);
 
-vector<string> tokenize_utf8_string (string* utf8_string, string* delimiter);
+std::vector<std::string> tokenize_utf8_string (std::string* utf8_string, std::string* delimiter);
 
-vector<string> tokenize_entry (string* testword, string* sep,
+std::vector<std::string> tokenize_entry (std::string* testword, std::string* sep,
                                SymbolTable* syms);
 
-vector<int> tokenize2ints (string* word, string* sep, const SymbolTable* syms);
+std::vector<int> tokenize2ints (std::string* word, std::string* sep, const SymbolTable* syms);
 
 timespec get_time( );
 

@@ -35,37 +35,37 @@
 #include <iomanip>
 using namespace fst;
 
-typedef unordered_map<int, vector<PathData> > RMAP;
+typedef std::unordered_map<int, std::vector<PathData> > RMAP;
 
-void PrintPathData (const vector<PathData>& results, string FLAGS_word,
+void PrintPathData (const std::vector<PathData>& results, std::string FLAGS_word,
 		    const SymbolTable* osyms, bool print_scores = true,
 		    bool nlog_probs = true) {
   for (int i = 0; i < results.size (); i++) {
-    cout << FLAGS_word << "\t";
+    std::cout << FLAGS_word << "\t";
     if (print_scores == true) {
       if (nlog_probs == true) 
-	cout << results [i].PathWeight << "\t";
+	std::cout << results [i].PathWeight << "\t";
       else
-	cout << std::setprecision (3) << exp (-results [i].PathWeight) << "\t";
+	std::cout << std::setprecision (3) << exp (-results [i].PathWeight) << "\t";
     }
     
     for (int j = 0; j < results [i].Uniques.size (); j++) {
-      cout << osyms->Find (results [i].Uniques [j]);
+      std::cout << osyms->Find (results [i].Uniques [j]);
       if (j < results [i].Uniques.size () - 1)
-	cout << " ";
+	std::cout << " ";
     }
-    cout << endl;
+    std::cout << std::endl;
   }    
 }
 
-void EvaluateWordlist (PhonetisaurusScript& decoder, vector<string> corpus,
+void EvaluateWordlist (PhonetisaurusScript& decoder, std::vector<std::string> corpus,
 		       int FLAGS_beam, int FLAGS_nbest, bool FLAGS_reverse,
-		       string FLAGS_skip, double FLAGS_thresh, string FLAGS_gsep,
+		       std::string FLAGS_skip, double FLAGS_thresh, std::string FLAGS_gsep,
 		       bool FLAGS_write_fsts, bool FLAGS_print_scores,
 		       bool FLAGS_accumulate, double FLAGS_pmass,
 		       bool FLAGS_nlog_probs) {
   for (int i = 0; i < corpus.size (); i++) {
-    vector<PathData> results = decoder.Phoneticize (corpus [i], FLAGS_nbest,
+    std::vector<PathData> results = decoder.Phoneticize (corpus [i], FLAGS_nbest,
 						    FLAGS_beam, FLAGS_thresh,
 						    FLAGS_write_fsts,
 						    FLAGS_accumulate, FLAGS_pmass);
@@ -93,25 +93,25 @@ DEFINE_bool (accumulate, false, "Accumulate weights for unique output prons.");
 DEFINE_bool (nlog_probs, true, "Default scores vals are negative logs. "
 	     "Otherwise exp (-val).");
 int main (int argc, char* argv []) {
-  cerr << "GitRevision: " << GIT_REVISION << endl;
-  string usage = "phonetisaurus-g2pfst - joint N-gram decoder.\n\n Usage: ";
-  set_new_handler (FailedNewHandler);
+  std::cerr << "GitRevision: " << GIT_REVISION << std::endl;
+  std::string usage = "phonetisaurus-g2pfst - joint N-gram decoder.\n\n Usage: ";
+  std::set_new_handler (FailedNewHandler);
   PhonetisaurusSetFlags (usage.c_str(), &argc, &argv, false);
 
   if (FLAGS_model.compare ("") == 0) {
-    cerr << "You must supply an FST model to --model" << endl;
+    std::cerr << "You must supply an FST model to --model" << std::endl;
     exit (1);
   } else {
     std::ifstream model_ifp (FLAGS_model);
     if (!model_ifp.good ()) {
-      cout << "Failed to open --model file '"
-	   << FLAGS_model << "'" << endl;
+      std::cout << "Failed to open --model file '"
+	   << FLAGS_model << "'" << std::endl;
       exit (1);
     }
   }
 
   if (FLAGS_pmass < 0.0 || FLAGS_pmass > 1) {
-    cout << "--pmass must be a float value between 0.0 and 1.0." << endl;
+    std::cout << "--pmass must be a float value between 0.0 and 1.0." << std::endl;
     exit (1);
   }
   if (FLAGS_pmass == 0.0)
@@ -123,8 +123,8 @@ int main (int argc, char* argv []) {
   if (FLAGS_wordlist.compare ("") != 0) {
     std::ifstream wordlist_ifp (FLAGS_wordlist);
     if (!wordlist_ifp.good ()) {
-      cout << "Failed to open --wordlist file '"
-	   << FLAGS_wordlist << "'" << endl;
+      std::cout << "Failed to open --wordlist file '"
+	   << FLAGS_wordlist << "'" << std::endl;
       exit (1);
     } else {
       use_wordlist = true;
@@ -132,12 +132,12 @@ int main (int argc, char* argv []) {
   }
 
   if (FLAGS_wordlist.compare ("") == 0 && FLAGS_word.compare ("") == 0) {
-    cout << "Either --wordlist or --word must be set!" << endl;
+    std::cout << "Either --wordlist or --word must be set!" << std::endl;
     exit (1);
   }
 
   if (use_wordlist == true) {
-    vector<string> corpus;
+    std::vector<std::string> corpus;
     LoadWordList (FLAGS_wordlist, &corpus);
     
     PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
@@ -149,7 +149,7 @@ int main (int argc, char* argv []) {
 	  );
   } else {
     PhonetisaurusScript decoder (FLAGS_model, FLAGS_gsep);
-    vector<PathData> results = decoder.Phoneticize (
+    std::vector<PathData> results = decoder.Phoneticize (
 		         FLAGS_word, FLAGS_nbest, FLAGS_beam, FLAGS_thresh,
 			 FLAGS_write_fsts, FLAGS_accumulate, FLAGS_pmass
 		       );

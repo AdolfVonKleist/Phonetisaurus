@@ -9,6 +9,12 @@
 #include <omp.h>
 #endif
 using namespace fst;
+using std::vector;
+using std::string;
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::unordered_map;
 
 typedef LegacyRnnLMDecodable<Token, LegacyRnnLMHash> Decodable;
 typedef unordered_map<int, SimpleResult> RMAP;
@@ -124,7 +130,7 @@ int main (int argc, char* argv []) {
   cerr << "GitRevision: " << GIT_REVISION << endl;
   string usage = "phonetisaurus-g2prnn --rnnlm=test.rnnlm " \
     "--wordlist=test.words --nbest=5\n\n Usage: ";
-  set_new_handler (FailedNewHandler);
+  std::set_new_handler (FailedNewHandler);
   PhonetisaurusSetFlags (usage.c_str (), &argc, &argv, false);
 
   if (FLAGS_rnnlm.compare ("") == 0) {

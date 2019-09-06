@@ -58,19 +58,19 @@ class ARPA2WFST {
   */
 
  public:
-  ifstream   arpa_lm_fp;
-  string     arpa_lm_file;
-  string     line;
+  std::ifstream   arpa_lm_fp;
+  std::string     arpa_lm_file;
+  std::string     line;
   size_t     max_order;
   size_t     current_order;
 
   // Default values
-  string     eps;      // epsilon symbol
-  string     sb;       // sentence begin tag
-  string     se;       // sentence end tag
-  string     split;    // delimiter separating input/output in G2P ARPA file
-  string     skip;     // graphemic null
-  string     tie;      // tie for clusters
+  std::string     eps;      // epsilon symbol
+  std::string     sb;       // sentence begin tag
+  std::string     se;       // sentence end tag
+  std::string     split;    // delimiter separating input/output in G2P ARPA file
+  std::string     skip;     // graphemic null
+  std::string     tie;      // tie for clusters
 
   // WFST stuff
   VectorFst<StdArc>  arpafst;
@@ -78,8 +78,8 @@ class ARPA2WFST {
   SymbolTable*   isyms;
   SymbolTable*   osyms;
 
-  ARPA2WFST (string lm, string eps, string sb, string se,
-             string split, string skip, string tie)
+  ARPA2WFST (std::string lm, std::string eps, std::string sb, std::string se,
+             std::string split, std::string skip, std::string tie)
       : eps (eps), sb (sb), se (se), split (split), skip (skip), tie (tie) {
     arpa_lm_fp.open (lm.c_str ());
     arpa_lm_file  = lm;
@@ -155,11 +155,11 @@ class ARPA2WFST {
         if (current_order > 0 && line.compare ("") != 0 \
             && line.compare (0, 1, "\\") != 0) {
           // Split the input using '\s+' as a delimiter
-          vector<string> ngram;
-          istringstream iss (line);
-          copy (istream_iterator<string>(iss),
-                istream_iterator<string>(),
-                back_inserter<vector<string> >(ngram));
+          std::vector<std::string> ngram;
+	  std::istringstream iss (line);
+          copy (std::istream_iterator<std::string>(iss),
+                std::istream_iterator<std::string>(),
+                std::back_inserter<std::vector<std::string> >(ngram));
           double prob = atof (ngram.front ().c_str ());
           ngram.erase (ngram.begin ());
           double bow  = 0.0;
@@ -189,23 +189,23 @@ class ARPA2WFST {
               _make_arc (ngram.front (), eps, eps, bow);
             }
           }else if (current_order < max_order) {
-            string isym = ngram.back ();
-            string s_st = _join (ngram.begin (), ngram.end () - 1);
+            std::string isym = ngram.back ();
+            std::string s_st = _join (ngram.begin (), ngram.end () - 1);
             if (isym.compare (se) == 0) {
               _make_final (s_st, prob);
             }else{
-              string e_st = _join (ngram.begin (), ngram.end ());
-              string b_st = _join (ngram.begin () + 1, ngram.end ());
+              std::string e_st = _join (ngram.begin (), ngram.end ());
+              std::string b_st = _join (ngram.begin () + 1, ngram.end ());
               _make_arc (s_st, e_st, isym, prob);
               _make_arc (e_st, b_st, eps, bow);
             }
           }else if (current_order == max_order) {
-            string isym = ngram.back ();
-            string s_st = _join (ngram.begin (), ngram.end () - 1);
+            std::string isym = ngram.back ();
+            std::string s_st = _join (ngram.begin (), ngram.end () - 1);
             if (isym.compare (se) == 0) {
               _make_final (s_st, prob);
             }else{
-              string e_st = _join (ngram.begin() + 1, ngram.end ());
+              std::string e_st = _join (ngram.begin() + 1, ngram.end ());
               _make_arc (s_st, e_st, isym, prob);
             }
           }
@@ -213,11 +213,11 @@ class ARPA2WFST {
           for (size_t i = 0; i < line.size (); i++)
             if (line.compare (i, 1, "=") == 0)
               line.at (i) = ' ';
-          vector<string> parts;
-          istringstream iss (line);
-          copy (istream_iterator<string>(iss),
-                istream_iterator<string>(),
-                back_inserter<vector<string> >(parts));
+          std::vector<std::string> parts;
+	  std::istringstream iss (line);
+	  std::copy (std::istream_iterator<std::string>(iss),
+		     std::istream_iterator<std::string>(),
+		     std::back_inserter<std::vector<std::string> >(parts));
           // Make sure there is at least one n-gram for max order!
           if (atoi (parts [2].c_str()) > 0)
             max_order = (size_t)atoi (parts [1].c_str ()) > max_order \
@@ -244,8 +244,8 @@ class ARPA2WFST {
       _patch_labels (osyms, false);
       arpafst.SetInputSymbols (isyms);
       arpafst.SetOutputSymbols (osyms);
-    }else{
-      cout << "Unable to open file: " << arpa_lm_file << endl;
+    } else {
+      std::cout << "Unable to open file: " << arpa_lm_file << std::endl;
     }
   }
 
@@ -271,7 +271,7 @@ class ARPA2WFST {
     return val;
   }
 
-  void _make_arc (string istate, string ostate, string isym, double weight) {
+  void _make_arc (std::string istate, std::string ostate, std::string isym, double weight) {
     // Build up an arc for the WFST.  Weights default to the Log semiring.
     int is_id = ssyms->Find (istate);
     int os_id = ssyms->Find (ostate);
@@ -285,7 +285,7 @@ class ARPA2WFST {
     }
     weight = log10_2tropical (weight);
 
-    vector<string> io = tokenize_utf8_string (&isym, &split);
+    std::vector<std::string> io = tokenize_utf8_string (&isym, &split);
     if (io.size () == 2) {
       /*
       Keep everything as it is: helpful for rescoring and reranking.
@@ -306,7 +306,7 @@ class ARPA2WFST {
     return;
   }
 
-  void _make_final (string fstate, double weight) {
+  void _make_final (std::string fstate, double weight) {
     /*
     Make a state final, and convert the input weight as needed.
     */
@@ -322,11 +322,11 @@ class ARPA2WFST {
     return;
   }
 
-  string _join (vector<string>::iterator start,
-                vector<string>::iterator end) {
+  std::string _join (std::vector<std::string>::iterator start,
+                std::vector<std::string>::iterator end) {
     // Join the elements of a string vector into a single string
-    stringstream ss;
-    for (vector<string>::iterator it = start; it < end; it++) {
+    std::stringstream ss;
+    for (std::vector<std::string>::iterator it = start; it < end; it++) {
       if (it != start)
         ss << ",";
       ss << *it;
@@ -349,8 +349,8 @@ class ARPA2WFST {
 
     */
     for (unsigned int i = 3; i < syms->NumSymbols(); i++) {
-      string sym = syms->Find (i);
-      vector<string> parts  = tokenize_utf8_string (&sym, &tie);
+      std::string sym = syms->Find (i);
+      std::vector<std::string> parts  = tokenize_utf8_string (&sym, &tie);
       if (parts.size() > 1) {
         for (unsigned int j = 0; j < parts.size (); j++) {
           if (syms->Find (parts [j]) == -1) {

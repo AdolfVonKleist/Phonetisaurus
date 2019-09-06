@@ -31,8 +31,8 @@
 using namespace fst;
 
 
-string vec2str( vector<string> vec, string sep ){
-  string ss;
+std::string vec2str( std::vector<std::string> vec, std::string sep ){
+  std::string ss;
   for(size_t i = 0; i < vec.size(); ++i){
     if(i != 0)
       ss += sep;
@@ -41,13 +41,13 @@ string vec2str( vector<string> vec, string sep ){
   return ss;
 }
 
-string itoas( int i ){
+std::string itoas( int i ){
   std::stringstream ostring;
   ostring << i;
   return ostring.str();
 }
 
-vector<string> tokenize_utf8_string (string* utf8_string, string* delimiter) {
+std::vector<std::string> tokenize_utf8_string (std::string* utf8_string, std::string* delimiter) {
   /*
      Support for tokenizing a utf-8 string. Adapted to also 
      support a delimiter. Note that leading, trailing or multiple 
@@ -63,7 +63,7 @@ vector<string> tokenize_utf8_string (string* utf8_string, string* delimiter) {
   char* str_i = str;                           // string iterator
   char* str_j = str;
   char* end   = str + strlen (str) + 1;        // end iterator
-  vector<string> string_vec;
+  std::vector<std::string> string_vec;
   if (delimiter->compare ("") != 0)
     string_vec.push_back ("");
 
@@ -90,33 +90,33 @@ vector<string> tokenize_utf8_string (string* utf8_string, string* delimiter) {
 }
 
 
-vector<string> tokenize_entry (string* testword, string* sep, 
+std::vector<std::string> tokenize_entry (std::string* testword, std::string* sep, 
 			       SymbolTable* syms) {
-  vector<string> tokens = tokenize_utf8_string (testword, sep);
-  vector<string> entry;
+  std::vector<std::string> tokens = tokenize_utf8_string (testword, sep);
+  std::vector<std::string> entry;
   for (unsigned int i=0; i<tokens.size (); i++) {
     if (syms->Find (tokens.at (i)) != -1) {
       entry.push_back (tokens.at (i));
     }else{
-      cerr << "Symbol: '" << tokens.at (i)
-           << "' not found in input symbols table." << endl
-           << "Mapping to null..." << endl;
+      std::cerr << "Symbol: '" << tokens.at (i)
+           << "' not found in input symbols table." << std::endl
+           << "Mapping to null..." << std::endl;
     }
   }
 
   return entry;
 }
 
-vector<int> tokenize2ints (string* testword, string* sep, 
+std::vector<int> tokenize2ints (std::string* testword, std::string* sep, 
 			   const SymbolTable* syms) {
-  vector<string> tokens = tokenize_utf8_string (testword, sep);
-  vector<int> entry;
+  std::vector<std::string> tokens = tokenize_utf8_string (testword, sep);
+  std::vector<int> entry;
   for (unsigned int i=0; i<tokens.size(); i++) {
     int label = syms->Find (tokens[i]);
     if (label == -1)
-      cerr << "Symbol: '" << tokens[i]
-           << "' not found in input symbols table." << endl
-           << "Mapping to null..." << endl;
+      std::cerr << "Symbol: '" << tokens[i]
+           << "' not found in input symbols table." << std::endl
+           << "Mapping to null..." << std::endl;
     else
       entry.push_back (label);
   }
@@ -163,19 +163,19 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
 #else
   int index = 1;
   for (; index < *argc; ++index) {
-    string argval = (*argv)[index];
+    std::string argval = (*argv)[index];
 
     if (argval[0] != '-' || argval == "-")
       break;
     while (argval[0] == '-')
       argval = argval.substr(1);  // remove initial '-'s
 
-    string arg = argval;
-    string val = "";
+    std::string arg = argval;
+    std::string val = "";
     
     // split argval (arg=val) into arg and val
     size_t pos = argval.find("=");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       arg = argval.substr(0, pos);
       val = argval.substr(pos + 1);
     }
@@ -185,8 +185,8 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
       FlagRegister<bool>::GetRegister();
     if (bool_register->SetFlag(arg, val)) 
       continue;
-    FlagRegister<string> *string_register =
-      FlagRegister<string>::GetRegister();
+    FlagRegister<std::string> *string_register =
+      FlagRegister<std::string>::GetRegister();
     if (string_register->SetFlag(arg, val))
       continue;
     FlagRegister<int32> *int32_register =
@@ -208,13 +208,13 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
   if (FLAGS_help) {
     //Just show program flags - NOT general OpenFst flags
     // There are too many and they are just confusing.
-    std::set< pair<string, string> > usage_set;
+    std::set< std::pair<std::string, std::string> > usage_set;
 
-    cout << usage << "\n";
+    std::cout << usage << "\n";
 
     FlagRegister<bool> *bool_register = FlagRegister<bool>::GetRegister();
     bool_register->GetUsage(&usage_set);
-    FlagRegister<string> *string_register = FlagRegister<string>::GetRegister();
+    FlagRegister<std::string> *string_register = FlagRegister<std::string>::GetRegister();
     string_register->GetUsage(&usage_set);
     FlagRegister<int32> *int32_register = FlagRegister<int32>::GetRegister();
     int32_register->GetUsage(&usage_set);
@@ -223,12 +223,12 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
     FlagRegister<double> *double_register = FlagRegister<double>::GetRegister();
     double_register->GetUsage(&usage_set);
 
-    for (std::set< pair<string, string> >::const_iterator it =
+    for (std::set< std::pair<std::string, std::string> >::const_iterator it =
            usage_set.begin();
          it != usage_set.end();
          ++it) {
-      const string &file = it->first;
-      const string &usage = it->second;
+      const std::string &file = it->first;
+      const std::string &usage = it->second;
       
       //if (file.compare ("flags.cc") == 0 || file.compare ("fst.cc") == 0 
       if (file.compare ("fst.cc") == 0 \
@@ -237,11 +237,11 @@ void PhonetisaurusSetFlags (const char* usage, int* argc, char*** argv,
         continue;
       
       //Else print out the args - they are from the actual program
-      cout << usage << endl;
+      std::cout << usage << std::endl;
     }
     //Fake this
-    cout << "  --help: type = bool, default = false" << endl;
-    cout << "  show usage information" << endl;
+    std::cout << "  --help: type = bool, default = false" << std::endl;
+    std::cout << "  show usage information" << std::endl;
     exit (0);
   }
 #endif

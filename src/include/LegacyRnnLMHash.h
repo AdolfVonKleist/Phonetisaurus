@@ -36,7 +36,7 @@ class LegacyRnnLMHash {
     vocab_hash_.resize (100000000);
   }
 
-  LegacyRnnLMHash (int class_size, const string g_delim, const string gp_delim)
+  LegacyRnnLMHash (int class_size, const std::string g_delim, const std::string gp_delim)
     : class_size_ (class_size), g_delim_(g_delim.c_str ()),
       gp_delim_(gp_delim.c_str ()) {
     vocab_hash_.resize (100000000);
@@ -61,7 +61,7 @@ class LegacyRnnLMHash {
     return hash;
   }
 
-  void MapToken (string& token) {
+  void MapToken (std::string& token) {
     std::vector<std::string> gp;
     std::vector<std::string> graphs;
     // std::vector<std::string> phones;
