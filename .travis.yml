@@ -43,7 +43,7 @@ before_install:
   - if [ ! -z "$CXXCOMPILER" ]; then export CXX="$CXXCOMPILER"; fi
 
 install:
-  - $PIP install --user pybindgen
+  - pip install --user pybindgen
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./configure --enable-python && make -j2 && ( ./phonetisaurus-g2pfst --help || echo ) && cd python && cp ../.libs/Phonetisaurus.so . && python setup.py build ; fi
