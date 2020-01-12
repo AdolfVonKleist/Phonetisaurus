@@ -8,14 +8,11 @@ sudo: required
 dist: trusty
 group: edge
 
-osx_image: xcode8
-
 os:
   - linux
 
 compiler:
   - gcc
-  - clang
 
 env:
   - CROSSCOMPILE=native
@@ -28,18 +25,13 @@ addons:
       - python-dev
 
 matrix:
-  exclude:
-    - os: osx
-      compiler: gcc
-    - os: osx
-      compiler: clang
   include:
     - os: linux
       compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-4.9','zlib1g-dev','wget','python-dev']
+          packages: ['g++-4.9','zlib1g-dev','wget','python-dev', 'python-pip']
       env:
         - CXXCOMPILER=g++-4.9
 
@@ -49,6 +41,9 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then wget https://github.com/AdolfVonKleist/packages/raw/master/Ubuntu-14.04/debs/openfst_1.6.2_amd64-trusty.deb ; fi
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then sudo dpkg -i openfst_1.6.2_amd64-trusty.deb ; fi
   - if [ ! -z "$CXXCOMPILER" ]; then export CXX="$CXXCOMPILER"; fi
+
+install:
+  - $PIP install --user pybindgen
 
 script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./configure --enable-python && make -j2 && ( ./phonetisaurus-g2pfst --help || echo ) && cd python && cp ../.libs/Phonetisaurus.so . && python setup.py build ; fi
