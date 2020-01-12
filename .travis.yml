@@ -11,7 +11,7 @@ group: edge
 osx_image: xcode8
 
 os:
-  - osx
+  - linux
 
 compiler:
   - gcc
