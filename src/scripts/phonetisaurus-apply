@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- mode: python; coding: utf-8 -*-
+
 from __future__ import print_function
+from __future__ import unicode_literals
+
 import os, logging, subprocess, time, re
 from datetime import datetime
 from collections import defaultdict
@@ -13,7 +16,7 @@ class G2PModelTester () :
     This wraps the alignment, joint n-gram training, and ARPA to
     WFST conversion steps into one command.
     """
-    
+
     def __init__ (self, model, **kwargs) :
         self.model = model
         self.lexicon_file = kwargs.get ("lexicon", None)
@@ -39,7 +42,7 @@ class G2PModelTester () :
         Returns:
             Logger: A configured logger instance.
         """
-        
+
         level = logging.DEBUG if self.verbose else logging.INFO
         logging.basicConfig (
             level=level,
@@ -56,7 +59,7 @@ class G2PModelTester () :
         Load the reference lexicon from a file, and store it
         in a defaultdict (list).
         """
-        
+
         _lexicon = defaultdict (list)
         if not self.lexicon_file :
             return _lexicon
@@ -64,12 +67,16 @@ class G2PModelTester () :
         self.logger.debug ("Loading lexicon from file...")
         with open (self.lexicon_file, "r") as ifp :
             for line in ifp :
-                line = line.decode ("utf8").strip ()
-                word, pron = re.split (ur"\t", line, 1)
+                # py2py3 compatbility,
+                if sys.version_info[0] < 3:
+                    line = line.decode("utf8").strip ()
+                else:
+                    line = line.strip ()
+                word, pron = re.split (r"\t", line, 1)
                 _lexicon [word].append (pron)
 
         return _lexicon
-    
+
     def checkPhonetisaurusConfig (self) :
         """Run some basic checks before training.
 
@@ -83,20 +90,20 @@ class G2PModelTester () :
         self.logger.debug ("Checking command configuration...")
         for program in ["phonetisaurus-g2pfst"] :
             if not self.which (program) :
-                raise EnvironmentError, "Phonetisaurus command, '{0}', "\
-                    "not found in path.".format (program)
+                raise EnvironmentError("Phonetisaurus command, '{0}', "\
+                    "not found in path.".format (program))
 
         if self.lexicon_file and not os.path.exists (self.lexicon_file) :
             self.logger.error ("Could not find provided lexicon file.")
             sys.exit (1)
-            
-        for key,val in sorted (vars (self).iteritems ()) :
+
+        for key,val in sorted (vars (self).items ()) :
             self.logger.debug (u"{0}:  {1}".format (key, val))
-            
+
         self.lexicon = self._loadLexicon ()
-        
+
         return
-    
+
     def which (self, program) :
         """Basic 'which' implementation for python.
 
@@ -146,14 +153,14 @@ class G2PModelTester () :
             u"--nlog_probs={0}".format (str(not self.probs).lower ()),
             u"--wordlist={0}".format (word_list)
         ]
-        
+
         self.logger.debug (u" ".join (command))
 
         return command
 
     def runG2PCommand (self, word_list_file) :
         """Generate and run the actual G2P command.
-        
+
         Generate and run the actual G2P command.  Each synthesized
         entry will be yielded back on-the-fly via the subprocess
         stdout readline method.
@@ -162,7 +169,7 @@ class G2PModelTester () :
             word_list_file (str): The input word list.
         """
         g2p_command = self.makeG2PCommand (word_list_file)
-        
+
         self.logger.debug ("Applying G2P model...")
 
         with open (os.devnull, "w") as devnull :
@@ -171,15 +178,15 @@ class G2PModelTester () :
                 stdout=subprocess.PIPE,
                 stderr=devnull if not self.verbose else None
             )
-            
-            for line in iter (proc.stdout.readline, "") :
-                parts = re.split (ur"\t", line.decode ("utf8").strip ())
+
+            for line in proc.stdout :
+                parts = re.split (r"\t", line.decode ("utf8").strip ())
                 if not len (parts) == 3 :
                     self.logger.warning (
                         u"No pronunciation for word: '{0}'".format (parts [0])
                     )
                     continue
-                
+
                 yield parts
 
         return
@@ -201,14 +208,18 @@ class G2PModelTester () :
                 )
             else :
                 line = u"{0}\t{1}".format (word, pron)
-            print (line.encode ("utf8"))
-        
+            # py2py3 compatbility,
+            if sys.version_info[0] < 3:
+                print (line.encode ("utf8"))
+            else :
+                print (line)
+
         return
 
     def applyG2PWithLexicon (self, word_list_file) :
         """Apply the G2P model to a word list, combined with lexicon.
 
-        Apply the G2P model to a word list, but combine this with 
+        Apply the G2P model to a word list, but combine this with
         a reference lexicon.  Words for which a reference entry exists
         will not be sent to the G2P, unless the additional '--greedy'
         flag is set to True.
@@ -217,13 +228,17 @@ class G2PModelTester () :
             word_list_file (str): The input word list.
         """
         target_lexicon = defaultdict (list)
-        tmpwordlist = tempfile.NamedTemporaryFile (delete=False)
+        tmpwordlist = tempfile.NamedTemporaryFile(mode='w', delete=False)
 
         #First, find any words in the target list for which we already
         # have a canonical pronunciation in the reference lexicon.
         with open (word_list_file, "r") as ifp :
             for word in ifp :
-                word = word.decode ("utf8").strip ()
+                # py2py3 compatbility,
+                if sys.version_info[0] < 3:
+                    word = word.decode ("utf8").strip ()
+                else:
+                    word = word.strip () # already in 'utf8'.
                 if word in self.lexicon :
                     target_lexicon [word] = [(0.0,pron)
                                              for pron in self.lexicon [word]]
@@ -232,7 +247,11 @@ class G2PModelTester () :
                     if self.greedy :
                         print (word.encode ("utf8"), file=tmpwordlist)
                 else :
-                    print (word.encode ("utf8"), file=tmpwordlist)
+                    # py2py3 compatbility,
+                    if sys.version_info[0] < 3:
+                        print (word.encode ("utf8"), file=tmpwordlist)
+                    else:
+                        print (word, file=tmpwordlist)
         tmpwordlist.close ()
 
         #Second, iterate through the G2P output, and filter against
@@ -253,11 +272,15 @@ class G2PModelTester () :
                     )
                 else :
                     line = u"{0}\t{1}".format (word, pron)
-                print (line.encode ("utf8"))
-        
+                # py2py3 compatbility,
+                if sys.version_info[0] < 3:
+                    print (line.encode ("utf8"))
+                else :
+                    print (line)
+
         os.unlink (tmpwordlist.name)
         return
-    
+
     def ApplyG2PModel (self, word_list_file) :
         """Apply the G2P model to a word list.
 
@@ -267,23 +290,23 @@ class G2PModelTester () :
             word_list_file (str): The input word list.
         """
         self.checkPhonetisaurusConfig ()
-        
+
         if not os.path.exists (word_list_file) \
            or not os.path.isfile (word_list_file) :
-            raise IOError, "Word list file not found."
+            raise IOError("Word list file not found.")
 
         if len (self.lexicon) == 0 :
             self.applyG2POnly (word_list_file)
         else :
             self.applyG2PWithLexicon (word_list_file)
-        
+
         return
-    
+
 if __name__ == "__main__" :
     import sys, argparse
 
     example = "{0} --model train/model.fst --word test".format (sys.argv [0])
-    
+
     parser  = argparse.ArgumentParser (description=example)
     parser.add_argument ("--model", "-m", help="Phonetisaurus G2P fst model.",
                          required=True)
@@ -310,14 +333,14 @@ if __name__ == "__main__" :
                          action="store_true")
     parser.add_argument ("--word_list", "-wl", help="Input word or word list to apply "
                         "G2P model to.", type=str)
-    
+
     parser.add_argument ("--verbose", "-v", help="Verbose mode.",
                          default=False, action="store_true")
     args = parser.parse_args ()
 
     tester = G2PModelTester (
         args.model,
-        **{key:val for key,val in args.__dict__.iteritems ()
+        **{key:val for key,val in args.__dict__.items ()
            if not key in ["model","word_list"]}
     )
 
