@@ -68,7 +68,7 @@ AC_CHECK_TYPES([ptrdiff_t])
 # Checks for library functions.
 AC_FUNC_STRTOD
 AC_CHECK_FUNCS([memmove strchr strrchr strspn])
-
+AC_CHECK_MATH_FUNC(exp10)
 
 AC_ARG_WITH([openfst-includes],
 	[AS_HELP_STRING([--with-openfst-includes],

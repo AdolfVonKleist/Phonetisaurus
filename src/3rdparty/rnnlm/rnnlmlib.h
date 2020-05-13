@@ -12,7 +12,7 @@
 #define _RNNLMLIB_H_
 
 #define MAX_STRING 100
-#ifdef __APPLE__
+#ifndef HAVE_EXP10
 #define exp10(n) pow((double)10,(4-n))
 #endif 
 
