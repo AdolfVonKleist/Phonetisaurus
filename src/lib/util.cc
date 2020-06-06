@@ -27,6 +27,7 @@
  OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 */
+using namespace std;
 #include <include/util.h>
 using namespace fst;
 

@@ -29,6 +29,7 @@
    OF THE POSSIBILITY OF SUCH DAMAGE.
 *
 */
+using namespace std;
 #include <include/ARPA2WFST.h>
 #include <include/util.h>
 

@@ -1,4 +1,5 @@
 #include <fst/fstlib.h>
+using namespace std;
 #include <include/LegacyRnnLMHash.h>
 #include <include/LegacyRnnLMDecodable.h>
 #include <include/LegacyRnnLMReader.h>
