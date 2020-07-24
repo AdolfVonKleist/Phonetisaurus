@@ -10,6 +10,7 @@ setup (
     author       = 'Josef Novak',
     author_email = 'josef.robert.novak@gmail.com',
     license      = 'BSD',
+    packages=find_packages(),
     data_files   = [
         ('.', ['Phonetisaurus.so'])
     ],
