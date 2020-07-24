@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from setuptools import setup
+from setuptools import setup, find_packages
 import glob
 #Install phonetisaurus 
 setup (
