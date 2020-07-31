@@ -30,6 +30,7 @@
 *
 */
 #include <fst/fstlib.h>
+using namespace std;
 #include <include/PhonetisaurusScript.h>
 #include <include/util.h>
 #include <iomanip>
