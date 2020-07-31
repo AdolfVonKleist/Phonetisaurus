@@ -164,7 +164,7 @@ void compileNBestFarArchive (M2MFstAligner* aligner,
   bool   set_syms = false; //Have we set the isyms successfully yet??
   //Build us a FarWriter to compile the archive
   FarWriter<StdArc> *far_writer = \
-    FarWriter<StdArc>::Create (far_name, FAR_DEFAULT);
+    FarWriter<StdArc>::Create (far_name);
   //Build us a lattice pruner
   LatticePruner pruner (aligner->penalties, threshold, nbest, fb, penalize);
 
