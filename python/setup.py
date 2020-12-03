@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from setuptools import setup
+from setuptools import setup, find_packages
 import glob
 #Install phonetisaurus 
 setup (
@@ -10,8 +10,9 @@ setup (
     author       = 'Josef Novak',
     author_email = 'josef.robert.novak@gmail.com',
     license      = 'BSD',
+    packages=find_packages(),
     data_files   = [
-        ('Phonetisaurus.so')
+        ('.', ['Phonetisaurus.so'])
     ],
     include_package_data = True,
     install_requires = ["argparse", "bottle"],
