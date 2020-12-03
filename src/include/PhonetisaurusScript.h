@@ -71,19 +71,8 @@ struct PathData {
     for various scripting languages.
 */
 class PhonetisaurusScript {
- public:
-  explicit PhonetisaurusScript (string model) : delim_("") {
-    struct stat buffer;
-    if (!(stat (model.c_str(), &buffer) == 0))
-      throw std::exception();
-
-    // this is solving the memory leak problem
-    VectorFst<StdArc>* model_temp;
-    model_temp = (VectorFst<StdArc>::Read(model));
-    model_ = *model_temp;
-    delete model_temp;
-
-    // model_ = *(VectorFst<StdArc>::Read(model));
+ private:
+  void normalizeModel() {
     ArcSort (&model_, ILabelCompare<StdArc> ());
     isyms_ = model_.InputSymbols ();
     osyms_ = model_.OutputSymbols ();
@@ -93,26 +82,25 @@ class PhonetisaurusScript {
     veto_set_.insert (1);
     veto_set_.insert (2);
   }
+ public:
+  explicit PhonetisaurusScript (const VectorFst<StdArc> model, string delim="") : delim_(delim) {
+    model_ = model;
+    normalizeModel();
+  }
 
-  PhonetisaurusScript (string model, string delim) : delim_(delim) {
+  explicit PhonetisaurusScript(string model, string delim="") : delim_(delim) {
     struct stat buffer;
     if (!(stat (model.c_str(), &buffer) == 0))
       throw std::exception();
 
     // this is solving the memory leak problem
-    VectorFst<StdArc>* model_temp;
+    VectorFst<StdArc>* model_temp{nullptr};
     model_temp = (VectorFst<StdArc>::Read(model));
+    if(!model_temp) { throw std::exception(); }
     model_ = *model_temp;
     delete model_temp;
-    // model_ = *(VectorFst<StdArc>::Read(model));
-    ArcSort (&model_, ILabelCompare<StdArc> ());
-    isyms_ = model_.InputSymbols ();
-    osyms_ = model_.OutputSymbols ();
-    imax_  = LoadClusters (isyms_, &imap_, &invimap_);
-    omax_  = LoadClusters (osyms_, &omap_, &invomap_);
-    veto_set_.insert (0);
-    veto_set_.insert (1);
-    veto_set_.insert (2);
+
+    normalizeModel();
   }
 
   // The actual phoneticizer routine
