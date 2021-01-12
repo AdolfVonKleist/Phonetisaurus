@@ -271,6 +271,23 @@ If you need to rebuild the configure script you can do so:
  $ bin/phonetisaurus-g2pfst --help
 ```
 
+### Docker: ###
+
+Docker images are hosted on: https://hub.docker.com/r/phonetisaurus/phonetisaurus
+
+The images can be used in one of 3 ways:
+
+  * directly, to process files on your computer without needing to install/compile anything (apart from docker)
+  * as a base image for another project (using the `FROM` statement)
+  * to copy portions of the binaries or libraries into a new image (using the `COPY --from=` statement) - most of the files are in `/usr/local/bin` and `/usr/local/lib`
+
+To use the program directly, you need to mount the local folder with the required files (eg. models, word lists, etc) into the Docker container under the `/work` path, as this is the default workdir in the image. Then you can call the programs directly after the name of the image, for example:
+```
+docker run --rm -it -v $PWD:/work phonetisaurus/phonetisaurus "phonetisaurus-apply -m model.fst -wl test.wlist"
+```
+
+You can also use the `bash` program to simply enter the interactive shell and run everything from there.
+
 ### Misc: ###
 cpplint command:
 ```
