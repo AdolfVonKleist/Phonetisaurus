@@ -3,11 +3,13 @@
 
 This repository contains scripts suitable for training, evaluating and using grapheme-to-phoneme
 models for speech recognition using the OpenFst framework.  The current build requires OpenFst
-version 1.6.0 or later, and the examples below use version 1.6.2.
+version 1.6.0 or later, and the examples below use version 1.7.2.
 
 The repository includes C++ binaries suitable for training, compiling, and evaluating G2P models.
 It also some simple python bindings which may be used to extract individual
 multigram scores, alignments, and to dump the raw lattices in .fst format for each word.
+
+The python scripts and bindings were tested most recently with python v3.8.5.
 
 Standalone distributions related to previous INTERSPEECH papers, as well as the complete, exported
 final version of the old google-code repository are available via ```git-lfs``` in a separate
@@ -17,8 +19,8 @@ repository:
 #### Contact: ####
   * phonetisaurus@gmail.com
 
-#### Scratch Build for OpenFst v1.6.2 and Ubuntu 14.04/16.04 ####
-This build was tested via AWS EC2 with a fresh Ubuntu 14.04 and 16.04 base, and m4.large instance.
+#### Scratch Build for OpenFst v1.7.2 and Ubuntu 20.04 ####
+This build was tested via AWS EC2 with a fresh Ubuntu 20.04 base, and m4.large instance.
 
 ```
 $ sudo apt-get update
@@ -29,60 +31,64 @@ $ sudo apt-get install python-setuptools python-dev
 # mitlm (to build a quick play model)
 $ sudo apt-get install gfortran
 ```
-Next grab and install OpenFst-1.6.2 (10m-15m):
+
+Create a work directory of your choice:
 ```
-$ wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.6.2.tar.gz
-$ tar -xvzf openfst-1.6.2.tar.gz
-$ cd openfst-1.6.2
+$ mkdir g2p
+$ cd g2p/
+```
+
+Next grab and install OpenFst-1.7.2:
+```
+$ wget http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-1.7.2.tar.gz
+$ tar -xvzf openfst-1.7.2.tar.gz
+$ cd openfst-1.7.2
 # Minimal configure, compatible with current defaults for Kaldi
 $ ./configure --enable-static --enable-shared --enable-far --enable-ngram-fsts
-$ make -j 4
+$ make -j 
 # Now wait a while...
 $ sudo make install
-$ cd
-# Extend your LD_LIBRARY_PATH .bashrc:
+# Extend your LD_LIBRARY_PATH .bashrc (assumes OpenFst installed to default location):
 $ echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib:/usr/local/lib/fst' \
      >> ~/.bashrc
 $ source ~/.bashrc
+$ cd ..
 ```
 
-Checkout the latest Phonetisaurus from master
+Checkout the latest Phonetisaurus from master and compile without bindings:
 ```
 $ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
 $ cd Phonetisaurus
+# if OpenFst is installed in the default location:
 $ ./configure
+# if OpenFst is installed in a special location:
+$ ./configure \
+      --with-openfst-includes=${OFST_PATH}/openfst-1.7.2/include \
+      --with-openfst-libs=${OFST_PATH}/openfst-1.7.2/lib
 $ make
 $ sudo make install
+$ cd ..
 ```
 
-or, if you want to compile with python bindings
-```
-$ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
-$ cd Phonetisaurus
-$ sudo pip install pybindgen
-$ ./configure --enable-python
-$ make
-$ sudo make install
-$ cd python
-$ cp ../.libs/Phonetisaurus.so .
-$ sudo python setup.py install
-$ cd
-```
-
-or, if you want to compile with python3 bindings
+Checkout the latest Phonetisaurus from master and compile with python3 bindings:
 ```
 $ git clone https://github.com/AdolfVonKleist/Phonetisaurus.git
 $ cd Phonetisaurus
 $ sudo pip3 install pybindgen
+# if OpenFst is installed in the default location:
 $ PYTHON=python3 ./configure --enable-python
+# if OpenFst is installed in a special location:
+$ PYTHON=python3 ./configure \
+      --with-openfst-includes=${OFST_PATH}/openfst-1.7.2/include \
+      --with-openfst-libs=${OFST_PATH}/openfst-1.7.2/lib \
+      --enable-python
 $ make
 $ sudo make install
 $ cd python
 $ cp ../.libs/Phonetisaurus.so .
 $ sudo python3 setup.py install
-$ cd
+$ cd ../..
 ```
-
 
 Grab and install mitlm to build a quick test model with the cmudict (5m):
 ```
@@ -91,7 +97,7 @@ $ cd mitlm/
 $ ./autogen.sh
 $ make
 $ sudo make install
-$ cd
+$ cd ..
 ```
 
 Grab a copy of the latest version of CMUdict and clean it up a bit:
@@ -109,7 +115,8 @@ $ cat cmudict.dict \
   > cmudict.formatted.dict
 ```
 
-Train a complete model with default parameters using the wrapper script:
+Train a complete model with default parameters using the wrapper script.
+NOTE: this assumes the tool was compiled with the python3 bindings:
 ```
 $ phonetisaurus-train --lexicon cmudict.formatted.dict --seq2_del
 INFO:phonetisaurus-train:2017-07-09 16:35:31:  Checking command configuration...
