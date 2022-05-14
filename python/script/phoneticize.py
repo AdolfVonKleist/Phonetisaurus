@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import phonetisaurus
-from itertools import izip
 
 def Phoneticize (model, args) :
     """Python wrapper function for g2p bindings.
@@ -29,7 +28,7 @@ def Phoneticize (model, args) :
         print ("-------")
 
         #Should always be equal length
-        for ilab, olab, weight in izip (result.ILabels,
+        for ilab, olab, weight in zip (result.ILabels,
                                         result.OLabels,
                                         result.PathWeights) :
             print ("{0}:{1}:{2:0.2f}".format (
@@ -84,5 +83,5 @@ if __name__ == "__main__" :
                 word = word.decode ("utf8").strip ()
                 args.token = word
                 Phoneticize (model, args)
-                print "-----------------------"
-                print ""
+                print("-----------------------")
+                print("")
