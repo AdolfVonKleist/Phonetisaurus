@@ -12,7 +12,7 @@ multigram scores, alignments, and to dump the raw lattices in .fst format for ea
 The python scripts and bindings were tested most recently with python v3.8.5.
 
 Standalone distributions related to previous INTERSPEECH papers, as well as the complete, exported
-final version of the old google-code repository are available via ```git-lfs``` in a separate
+final version of the old google-code repository are available via `git-lfs` in a separate
 repository:
   * https://github.com/AdolfVonKleist/phonetisaurus-downloads
 
