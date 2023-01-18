@@ -45,7 +45,7 @@ $ tar -xvzf openfst-1.7.2.tar.gz
 $ cd openfst-1.7.2
 # Minimal configure, compatible with current defaults for Kaldi
 $ ./configure --enable-static --enable-shared --enable-far --enable-ngram-fsts
-$ make -j 
+$ make -j
 # Now wait a while...
 $ sudo make install
 # Extend your LD_LIBRARY_PATH .bashrc (assumes OpenFst installed to default location):
