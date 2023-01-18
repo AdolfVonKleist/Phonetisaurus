@@ -352,7 +352,7 @@ void M2MFstAligner::Sequences2FST (VectorFst<LogArc>* fst, int s1m, int s2m,
     In practice joint maximization seems to give the best results anyway, so it
     probably doesn't matter.
 
-    Note: this also performs the initizization routine.  It performs a UNIFORM
+    Note: this also performs the initialization routine.  It performs a UNIFORM
     initialization meaning that every non-null alignment sequence is eventually
     initialized to 1/Num(unique_alignments). It might be more appropriate to
     consider subsequence length here, but for now we stick to the m2m-aligner

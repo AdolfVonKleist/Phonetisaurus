@@ -85,7 +85,7 @@ void LatticePruner::prune_fst( VectorFst<StdArc>* fst ){
 VectorFst<StdArc> LatticePruner::_nbest_prune( VectorFst<StdArc>* fst ){
   /* 
      This is just a destructive wrapper for the OpenFst ShortestPath 
-     implementation.  I wish they'd implement desctructive versions of
+     implementation.  I wish they'd implement destructive versions of
      all the algos in the library...
   */
   VectorFst<StdArc> sfst;
