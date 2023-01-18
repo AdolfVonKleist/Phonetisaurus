@@ -253,8 +253,8 @@ DEFINE_string (delim, "\t", "Delimiter separating entry one and entry two in the
 DEFINE_string (eps, "<eps>", "Epsilon symbol." );
 DEFINE_string (skip, "_", "Skip token used to represent null transitions.  Distinct from epsilon." );
 DEFINE_string (ofile, "", "Output file to write the aligned dictionary to." );
-DEFINE_string (s1_char_delim, "",  "Sequence one input delimeter." );
-DEFINE_string (s2_char_delim, " ",  "Sequence two input delimeter." );
+DEFINE_string (s1_char_delim, "",  "Sequence one input delimiter." );
+DEFINE_string (s2_char_delim, " ",  "Sequence two input delimiter." );
 DEFINE_string (model_file, "", "FST-format alignment model to load." );
 DEFINE_string (write_model, "", "Write out the alignment model in OpenFst format to filename." );
 DEFINE_double (thresh, 1e-10, "Delta threshold for EM training termination." );

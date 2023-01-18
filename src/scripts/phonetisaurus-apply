@@ -67,7 +67,7 @@ class G2PModelTester () :
         self.logger.debug ("Loading lexicon from file...")
         with open (self.lexicon_file, "r") as ifp :
             for line in ifp :
-                # py2py3 compatbility,
+                # py2py3 compatibility,
                 if sys.version_info[0] < 3:
                     line = line.decode("utf8").strip ()
                 else:
@@ -208,7 +208,7 @@ class G2PModelTester () :
                 )
             else :
                 line = u"{0}\t{1}".format (word, pron)
-            # py2py3 compatbility,
+            # py2py3 compatibility,
             if sys.version_info[0] < 3:
                 print (line.encode ("utf8"))
             else :
@@ -234,7 +234,7 @@ class G2PModelTester () :
         # have a canonical pronunciation in the reference lexicon.
         with open (word_list_file, "r") as ifp :
             for word in ifp :
-                # py2py3 compatbility,
+                # py2py3 compatibility,
                 if sys.version_info[0] < 3:
                     word = word.decode ("utf8").strip ()
                 else:
@@ -247,7 +247,7 @@ class G2PModelTester () :
                     if self.greedy :
                         print (word.encode ("utf8"), file=tmpwordlist)
                 else :
-                    # py2py3 compatbility,
+                    # py2py3 compatibility,
                     if sys.version_info[0] < 3:
                         print (word.encode ("utf8"), file=tmpwordlist)
                     else:
@@ -272,7 +272,7 @@ class G2PModelTester () :
                     )
                 else :
                     line = u"{0}\t{1}".format (word, pron)
-                # py2py3 compatbility,
+                # py2py3 compatibility,
                 if sys.version_info[0] < 3:
                     print (line.encode ("utf8"))
                 else :

@@ -38,7 +38,7 @@ class Token {
     history.resize (tok->history.size (), 0);
 
     // Would it be more efficient to perform the hash
-    //  by iterating back throug the parent tokens?
+    //  by iterating back through the parent tokens?
     for (int i = tok->history.size () - 1; i > 0; i--)
       history [i] = tok->history [i - 1];
     history [0] = tok->word;

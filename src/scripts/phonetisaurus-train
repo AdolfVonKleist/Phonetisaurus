@@ -71,7 +71,7 @@ class G2PModelTrainer () :
                     # in python 2, convert byte to unicode
                     line=line.decode("utf8")
                 if validator.search (line) :
-                    error = "Bad line contains reservered character:\n\t{0}"
+                    error = "Bad line contains reserved character:\n\t{0}"
                     error = error.format (line)
                     raise ValueError(error)
 

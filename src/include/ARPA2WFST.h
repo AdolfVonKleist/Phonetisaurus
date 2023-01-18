@@ -109,7 +109,7 @@ class ARPA2WFST {
     /*
     Convert an ARPA format Statistical Language Model to WFST format suitable
     for use with phonetisaurus-g2p.  In this implementation we adopt the Google
-    convention where the the sentence-begin (<s>) and sentence-end (</s>) tokens
+    convention where the sentence-begin (<s>) and sentence-end (</s>) tokens
     are represented *implicitly*, without arcs, and the model has multiple final
     states.
 
@@ -339,7 +339,7 @@ class ARPA2WFST {
     /*
     Patch all labels.  In some edge cases it is possible
     to end up grapheme subsequences: e.g. 'QU' where one or
-    both tokens is only mapped to the multi-subsequence.  In thise
+    both tokens is only mapped to the multi-subsequence.  In this
     case the independent 'Q' and/or 'U' token will never appear
     in isolation.
     This bit resolves this by:
