@@ -108,8 +108,7 @@ $ wget https://raw.githubusercontent.com/cmusphinx/cmudict/master/cmudict.dict
 # Clean it up a bit and reformat:
 $ cat cmudict.dict \
   | perl -pe 's/\([0-9]+\)//;
-              s/\s+/ /g; s/^\s+//;
-              s/\s+$//; @_ = split (/\s+/);
+              @_ = split;
               $w = shift (@_);
               $_ = $w."\t".join (" ", @_)."\n";' \
   > cmudict.formatted.dict
