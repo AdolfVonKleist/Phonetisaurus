@@ -84,5 +84,5 @@ if __name__ == "__main__" :
                 word = word.decode ("utf8").strip ()
                 args.token = word
                 Phoneticize (model, args)
-                print "-----------------------"
-                print ""
+                print ("-----------------------")
+                
